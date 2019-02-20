@@ -1,0 +1,38 @@
+{
+    "name": "dhl/sdk-api-bcs",
+    "description": "DHL business customer shipping API",
+    "keywords": [
+        "php",
+        "sdk"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rico Sonntag",
+            "email": "rico.sonntag@netresearch.de"
+        }
+    ],
+    "require": {
+        "php": "^7.0.0",
+        "ext-soap": "*",
+        "psr/log": "^1.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dhl\\Sdk\\Paket\\Bcs\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dhl\\Sdk\\Paket\\Bcs\\Test\\": "test/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
+    }
+}
