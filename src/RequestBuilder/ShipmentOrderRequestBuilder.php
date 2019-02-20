@@ -9,6 +9,8 @@ namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\BankType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CommunicationType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CountryType;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ExportDocPosition;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ExportDocumentType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\Ident;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\NameType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\NativeAddressType;
@@ -79,7 +81,7 @@ class ShipmentOrderRequestBuilder
      * Set shipper account (required).
      *
      * @param string $accountNumber
-     * @param string|null $returnAccountNumber
+     * @param string|null $returnAccountNumber Provide if return label should included with response.
      * @return ShipmentOrderRequestBuilder
      */
     public function setShipperAccount(
@@ -172,6 +174,62 @@ class ShipmentOrderRequestBuilder
         $this->data['shipper']['bankData']['bic'] = $bic;
         $this->data['shipper']['bankData']['accountReference'] = $accountReference;
         $this->data['shipper']['bankData']['notes'] = $notes;
+
+        return $this;
+    }
+
+
+    /**
+     * Set return address (optional).
+     *
+     * Return address will be discarded if no return billing number is given.
+     *
+     * @param string $country
+     * @param string $postalCode
+     * @param string $city
+     * @param string $streetName
+     * @param string $streetNumber
+     * @param string $company
+     * @param string|null $name
+     * @param string|null $nameAddition
+     * @param string|null $email
+     * @param string|null $phone
+     * @param string|null $contactPerson
+     * @param string|null $state
+     * @param string|null $dispatchingInformation
+     * @param string[] $addressAddition
+     * @return ShipmentOrderRequestBuilder
+     */
+    public function setReturnAddress(
+        string $country,
+        string $postalCode,
+        string $city,
+        string $streetName,
+        string $streetNumber,
+        string $company,
+        string $name = null,
+        string $nameAddition = null,
+        string $email = null,
+        string $phone = null,
+        string $contactPerson = null,
+        string $state = null,
+        string $dispatchingInformation = null,
+        array $addressAddition = []
+    ): ShipmentOrderRequestBuilder {
+        $this->data['return']['address']['country'] = $country;
+        $this->data['return']['address']['postalCode'] = $postalCode;
+        $this->data['return']['address']['city'] = $city;
+        $this->data['return']['address']['streetName'] = $streetName;
+        $this->data['return']['address']['streetNumber'] = $streetNumber;
+        $this->data['return']['address']['company'] = $company;
+        $this->data['return']['address']['name'] = $name;
+        $this->data['return']['address']['nameAddition'] = $nameAddition;
+        $this->data['return']['address']['email'] = $email;
+        $this->data['return']['address']['phone'] = $phone;
+        $this->data['return']['address']['contactPerson'] = $contactPerson;
+        $this->data['return']['address']['state'] = $state;
+        $this->data['return']['address']['dispatchingInformation'] = $dispatchingInformation;
+        $this->data['return']['address']['addressAddition'] = $addressAddition;
 
         return $this;
     }
@@ -722,6 +780,83 @@ class ShipmentOrderRequestBuilder
     }
 
     /**
+     * Set customs details for international shipments.
+     *
+     * @param string $exportType
+     * @param string $placeOfCommital
+     * @param float $additionalFee
+     * @param string|null $exportTypeDescription
+     * @param string|null $termsOfTrade
+     * @param string|null $invoiceNumber
+     * @param string|null $permitNumber
+     * @param string|null $attestationNumber
+     * @param bool|null $electronicExportNotification
+     * @return $this
+     */
+    public function setCustomsDetails(
+        string $exportType,
+        string $placeOfCommital,
+        float $additionalFee,
+        string $exportTypeDescription = null,
+        string $termsOfTrade = null,
+        string $invoiceNumber = null,
+        string $permitNumber = null,
+        string $attestationNumber = null,
+        bool $electronicExportNotification = null
+    ) {
+        if (!isset($this->data['customsDetails']['items'])) {
+            $this->data['customsDetails']['items'] = [];
+        }
+
+        $this->data['customsDetails']['exportType'] = $exportType;
+        $this->data['customsDetails']['exportTypeDescription'] = $exportTypeDescription;
+        $this->data['customsDetails']['placeOfCommital'] = $placeOfCommital;
+        $this->data['customsDetails']['additionalFee'] = $additionalFee;
+        $this->data['customsDetails']['termsOfTrade'] = $termsOfTrade;
+        $this->data['customsDetails']['invoiceNumber'] = $invoiceNumber;
+        $this->data['customsDetails']['permitNumber'] = $permitNumber;
+        $this->data['customsDetails']['attestationNumber'] = $attestationNumber;
+        $this->data['customsDetails']['electronicExportNotification'] = $electronicExportNotification;
+
+        return $this;
+    }
+
+    /**
+     * Add a package item's customs details (optional).
+     *
+     * @param int $qty
+     * @param string $description
+     * @param float $value Customs value in EUR
+     * @param float $weight Weight in kg
+     * @param string $hsCode
+     * @param string $countryOfOrigin
+     * @return ShipmentOrderRequestBuilder
+     */
+    public function addExportItem(
+        int $qty,
+        string $description,
+        float $value,
+        float $weight,
+        string $hsCode,
+        string $countryOfOrigin
+    ): ShipmentOrderRequestBuilder {
+        if (!isset($this->data['customsDetails']['items'])) {
+            $this->data['customsDetails']['items'] = [];
+        }
+
+        $this->data['customsDetails']['items'][]= [
+            'qty' => $qty,
+            'description' => $description,
+            'weight' => $weight,
+            'value' => $value,
+            'hsCode' => $hsCode,
+            'countryOfOrigin' => $countryOfOrigin,
+        ];
+
+        return $this;
+    }
+
+    /**
      * Create the shipment request and reset the builder data.
      *
      * @return object
@@ -997,6 +1132,68 @@ class ShipmentOrderRequestBuilder
 
         $shipment = new Shipment($shipmentDetails, $receiver, $shipper);
         $shipment->setShipperReference($shipperReference);
+
+        if (isset($this->data['return']['address'], $this->data['shipper']['returnAccount'])) {
+            // only add return receiver if account number was provided
+            $returnCountry = new CountryType($this->data['return']['address']['country']);
+
+            $returnName = new NameType($this->data['return']['address']['company']);
+            $returnName->setName2($this->data['return']['address']['name']);
+            $returnName->setName3($this->data['return']['address']['nameAddition']);
+
+            $returnCommunication = new CommunicationType();
+            $returnCommunication->setContactPerson($this->data['return']['address']['contactPerson']);
+            $returnCommunication->setEmail($this->data['return']['address']['email']);
+            $returnCommunication->setPhone($this->data['return']['address']['phone']);
+
+            $returnAddress = new NativeAddressType(
+                $this->data['return']['address']['streetName'],
+                $this->data['return']['address']['streetNumber'],
+                $this->data['return']['address']['postalCode'],
+                $this->data['return']['address']['city']
+            );
+            $returnAddress->setAddressAddition($this->data['return']['address']['addressAddition']);
+            $returnAddress->setDispatchingInformation($this->data['return']['address']['dispatchingInformation']);
+            $returnAddress->setProvince($this->data['return']['address']['state']);
+            $returnAddress->setOrigin($returnCountry);
+
+            $returnReceiver = new ShipperType($returnName, $returnAddress);
+            $returnReceiver->setCommunication($returnCommunication);
+
+            $shipment->setReturnReceiver($returnReceiver);
+        }
+
+        if (isset($this->data['customsDetails'])) {
+            $exportDocument = new ExportDocumentType(
+                $this->data['customsDetails']['exportType'],
+                $this->data['customsDetails']['placeOfCommital'],
+                $this->data['customsDetails']['additionalFee']
+            );
+            $exportDocument->setExportTypeDescription($this->data['customsDetails']['exportTypeDescription']);
+            $exportDocument->setTermsOfTrade($this->data['customsDetails']['termsOfTrade']);
+            $exportDocument->setInvoiceNumber($this->data['customsDetails']['invoiceNumber']);
+            $exportDocument->setPermitNumber($this->data['customsDetails']['permitNumber']);
+            $exportDocument->setAttestationNumber($this->data['customsDetails']['attestationNumber']);
+            if (isset($this->data['customsDetails']['electronicExportNotification'])) {
+                $notification = new ServiceConfiguration($this->data['customsDetails']['electronicExportNotification']);
+                $exportDocument->setWithElectronicExportNtfctn($notification);
+            }
+
+            $exportItems = [];
+            foreach ($this->data['customsDetails']['items'] as $itemData) {
+                $exportItems[] = new ExportDocPosition(
+                    $itemData['description'],
+                    $itemData['countryOfOrigin'],
+                    $itemData['hsCode'],
+                    $itemData['qty'],
+                    $itemData['weight'],
+                    $itemData['value']
+                );
+            }
+            $exportDocument->setExportDocPosition($exportItems);
+
+            $shipment->setExportDocument($exportDocument);
+        }
 
         $shipmentOrder = new ShipmentOrderType($sequenceNumber, $shipment);
         $shipmentOrder->setPrintOnlyIfCodeable($printOnlyIfCodeable);

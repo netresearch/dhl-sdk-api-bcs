@@ -43,18 +43,18 @@ class ExportDocumentType
     protected $additionalFee;
 
     /**
-     * In case invoice has a number, client app can provide it in this field.
-     *
-     * @var string|null $invoiceNumber
-     */
-    protected $invoiceNumber = null;
-
-    /**
      * Description mandatory if ExportType is OTHER.
      *
      * @var string|null $exportTypeDescription
      */
     protected $exportTypeDescription = null;
+
+    /**
+     * In case invoice has a number, client app can provide it in this field.
+     *
+     * @var string|null $invoiceNumber
+     */
+    protected $invoiceNumber = null;
 
     /**
      * Element provides terms of trades, incoterms codes. Possible values:
@@ -108,26 +108,6 @@ class ExportDocumentType
     }
 
     /**
-     * @param string|null $invoiceNumber
-     * @return ExportDocumentType
-     */
-    public function setInvoiceNumber(string $invoiceNumber = null): self
-    {
-        $this->invoiceNumber = $invoiceNumber;
-        return $this;
-    }
-
-    /**
-     * @param string|null $exportType
-     * @return ExportDocumentType
-     */
-    public function setExportType(string $exportType = null): self
-    {
-        $this->exportType = $exportType;
-        return $this;
-    }
-
-    /**
      * @param string|null $exportTypeDescription
      * @return ExportDocumentType
      */
@@ -138,32 +118,22 @@ class ExportDocumentType
     }
 
     /**
+     * @param string|null $invoiceNumber
+     * @return ExportDocumentType
+     */
+    public function setInvoiceNumber(string $invoiceNumber = null): self
+    {
+        $this->invoiceNumber = $invoiceNumber;
+        return $this;
+    }
+
+    /**
      * @param string|null $termsOfTrade
      * @return ExportDocumentType
      */
     public function setTermsOfTrade(string $termsOfTrade = null): self
     {
         $this->termsOfTrade = $termsOfTrade;
-        return $this;
-    }
-
-    /**
-     * @param string|null $placeOfCommital
-     * @return ExportDocumentType
-     */
-    public function setPlaceOfCommital(string $placeOfCommital = null): self
-    {
-        $this->placeOfCommital = $placeOfCommital;
-        return $this;
-    }
-
-    /**
-     * @param float|null $additionalFee
-     * @return ExportDocumentType
-     */
-    public function setAdditionalFee(float $additionalFee = null): self
-    {
-        $this->additionalFee = $additionalFee;
         return $this;
     }
 
