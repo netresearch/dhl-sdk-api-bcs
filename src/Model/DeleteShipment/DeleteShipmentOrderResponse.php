@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
-use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\StatusInformation;
 
 /**
  * DeleteShipmentOrderResponse

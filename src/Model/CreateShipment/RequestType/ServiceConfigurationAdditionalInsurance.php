@@ -24,6 +24,8 @@ class ServiceConfigurationAdditionalInsurance
     protected $active;
 
     /**
+     * The amount that should be insured.
+     *
      * @var float $insuranceAmount
      */
     protected $insuranceAmount;

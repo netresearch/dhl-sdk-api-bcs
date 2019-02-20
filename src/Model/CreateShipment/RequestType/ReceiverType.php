@@ -18,7 +18,8 @@ class ReceiverType extends ReceiverTypeType
 {
     /**
      * @param string $name1
-     * @param ReceiverNativeAddressType $address Conditionally mandatory. If omitted, set PackStation or Postfiliale instead.
+     * @param ReceiverNativeAddressType $address Conditionally mandatory.
+     *        If omitted, set PackStation or Postfiliale instead.
      */
     public function __construct(
         string $name1,

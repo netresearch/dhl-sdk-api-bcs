@@ -22,16 +22,16 @@ interface ServiceFactoryInterface
     const BASE_URL_SANDBOX = 'https://cig.dhl.de/services/sandbox/soap';
 
     /**
-     * Create the label service able to perform label operations (create, delete).
+     * Create the shipment service able to perform shipment operations (create, delete).
      *
      * @param AuthenticationStorageInterface $authStorage
      * @param LoggerInterface $logger
      * @param bool $sandboxMode
-     * @return LabelServiceInterface
+     * @return ShipmentServiceInterface
      */
-    public function createLabelService(
+    public function createShipmentService(
         AuthenticationStorageInterface $authStorage,
         LoggerInterface $logger,
         bool $sandboxMode = false
-    ): LabelServiceInterface;
+    ): ShipmentServiceInterface;
 }

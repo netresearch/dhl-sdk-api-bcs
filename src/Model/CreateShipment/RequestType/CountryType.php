@@ -45,20 +45,20 @@ class CountryType
         $this->countryISOCode = $countryISOCode;
     }
     /**
-     * @param string $country
+     * @param string|null $country
      * @return CountryType
      */
-    public function setCountry(string $country): self
+    public function setCountry(string $country = null): self
     {
         $this->country = $country;
         return $this;
     }
 
     /**
-     * @param string $state
+     * @param string|null $state
      * @return CountryType
      */
-    public function setState(string $state): self
+    public function setState(string $state = null): self
     {
         $this->state = $state;
         return $this;

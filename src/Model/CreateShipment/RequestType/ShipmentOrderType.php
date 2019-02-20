@@ -33,7 +33,7 @@ class ShipmentOrderType
     protected $Shipment;
 
     /**
-     * @var ServiceConfiguration $PrintOnlyIfCodeable
+     * @var ServiceConfiguration|null $PrintOnlyIfCodeable
      */
     protected $PrintOnlyIfCodeable = null;
 
@@ -48,13 +48,12 @@ class ShipmentOrderType
     }
 
     /**
-     * @param ServiceConfiguration $printOnlyIfCodeable
+     * @param ServiceConfiguration|null $printOnlyIfCodeable
      * @return ShipmentOrderType
      */
-    public function setPrintOnlyIfCodeable(ServiceConfiguration $printOnlyIfCodeable): self
+    public function setPrintOnlyIfCodeable(ServiceConfiguration $printOnlyIfCodeable = null): self
     {
         $this->PrintOnlyIfCodeable = $printOnlyIfCodeable;
         return $this;
     }
-
 }

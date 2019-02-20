@@ -17,45 +17,51 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class CommunicationType
 {
     /**
+     * Phone number.
+     *
      * @var string|null $phone
      */
     protected $phone = null;
 
     /**
+     * Email address.
+     *
      * @var string|null $email
      */
     protected $email = null;
 
     /**
+     * First name and last name of contact person.
+     *
      * @var string|null $contactPerson
      */
     protected $contactPerson = null;
 
     /**
-     * @param string $phone
+     * @param string|null $phone
      * @return CommunicationType
      */
-    public function setPhone(string $phone): self
+    public function setPhone(string $phone = null): self
     {
         $this->phone = $phone;
         return $this;
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      * @return CommunicationType
      */
-    public function setEmail(string $email): self
+    public function setEmail(string $email = null): self
     {
         $this->email = $email;
         return $this;
     }
 
     /**
-     * @param string $contactPerson
+     * @param string|null $contactPerson
      * @return CommunicationType
      */
-    public function setContactPerson(string $contactPerson): self
+    public function setContactPerson(string $contactPerson = null): self
     {
         $this->contactPerson = $contactPerson;
         return $this;

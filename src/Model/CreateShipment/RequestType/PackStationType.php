@@ -71,33 +71,32 @@ class PackStationType
     }
 
     /**
-     * @param string $postNumber
+     * @param string|null $postNumber
      * @return PackStationType
      */
-    public function setPostNumber(string $postNumber): self
+    public function setPostNumber(string $postNumber = null): self
     {
         $this->postNumber = $postNumber;
         return $this;
     }
 
     /**
-     * @param string $province
+     * @param string|null $province
      * @return PackStationType
      */
-    public function setProvince(string $province): self
+    public function setProvince(string $province = null): self
     {
         $this->province = $province;
         return $this;
     }
 
     /**
-     * @param CountryType $Origin
+     * @param CountryType|null $Origin
      * @return PackStationType
      */
-    public function setOrigin(CountryType $Origin): self
+    public function setOrigin(CountryType $Origin = null): self
     {
         $this->Origin = $Origin;
         return $this;
     }
-
 }

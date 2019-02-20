@@ -53,7 +53,8 @@ class ReceiverTypeType
 
     /**
      * @param string $name1
-     * @param ReceiverNativeAddressType $address Conditionally mandatory. If omitted, set PackStation or Postfiliale instead.
+     * @param ReceiverNativeAddressType $address Conditionally mandatory.
+     *        If omitted, set PackStation or Postfiliale instead.
      */
     public function __construct(
         string $name1,
@@ -64,30 +65,40 @@ class ReceiverTypeType
     }
 
     /**
-     * @param PackStationType $packstation
+     * @param ReceiverNativeAddressType|null $address
+     * @return $this
+     */
+    public function setAddress(ReceiverNativeAddressType $address = null)
+    {
+        $this->Address = $address;
+        return $this;
+    }
+
+    /**
+     * @param PackStationType|null $packstation
      * @return ReceiverTypeType
      */
-    public function setPackstation(PackStationType $packstation): self
+    public function setPackstation(PackStationType $packstation = null): self
     {
         $this->Packstation = $packstation;
         return $this;
     }
 
     /**
-     * @param PostfilialeType $postfiliale
+     * @param PostfilialeType|null $postfiliale
      * @return ReceiverTypeType
      */
-    public function setPostfiliale(PostfilialeType $postfiliale): self
+    public function setPostfiliale(PostfilialeType $postfiliale = null): self
     {
         $this->Postfiliale = $postfiliale;
         return $this;
     }
 
     /**
-     * @param CommunicationType $communication
+     * @param CommunicationType|null $communication
      * @return ReceiverTypeType
      */
-    public function setCommunication(CommunicationType $communication): self
+    public function setCommunication(CommunicationType $communication = null): self
     {
         $this->Communication = $communication;
         return $this;

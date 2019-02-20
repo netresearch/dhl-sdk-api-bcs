@@ -33,10 +33,10 @@ class ServiceConfigurationVisualAgeCheck
     protected $type;
 
     /**
-     * @param string $active
+     * @param bool $active
      * @param string $type
      */
-    public function __construct(string $active, string $type)
+    public function __construct(bool $active, string $type)
     {
         $this->active = $active;
         $this->type = $type;

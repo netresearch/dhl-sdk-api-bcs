@@ -17,111 +17,61 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class PostfilialeType
 {
     /**
-     * @var string $PostfilialNumber
+     * Number of the Postfiliale.
+     *
+     * @var string $postfilialNumber
      */
-    protected $PostfilialNumber;
+    protected $postfilialNumber;
 
     /**
-     * @var string $PostNumber
+     * Postnummer of the receiver.
+     *
+     * @var string $postNumber
      */
-    protected $PostNumber;
+    protected $postNumber;
 
     /**
-     * @var string $Zip
+     * Type of zip code.
+     *
+     * @var string $zip
      */
-    protected $Zip;
+    protected $zip;
 
     /**
-     * @var string $City
+     * City name.
+     *
+     * @var string $city
      */
-    protected $City;
-
-    protected $Origin;
+    protected $city;
 
     /**
-     * @param string $PostfilialNumber
-     * @param string $PostNumber
-     * @param Zip $Zip
-     * @param City $City
+     * Country.
+     *
+     * @var CountryType|null $Origin
      */
-    public function __construct($PostfilialNumber, $PostNumber, $Zip, $City)
+    protected $Origin = null;
+
+    /**
+     * @param string $postfilialNumber
+     * @param string $postNumber
+     * @param string $zip
+     * @param string $city
+     */
+    public function __construct(string $postfilialNumber, string $postNumber, string $zip, string $city)
     {
-        $this->PostfilialNumber = $PostfilialNumber;
-        $this->PostNumber = $PostNumber;
-        $this->Zip = $Zip;
-        $this->City = $City;
+        $this->postfilialNumber = $postfilialNumber;
+        $this->postNumber = $postNumber;
+        $this->zip = $zip;
+        $this->city = $city;
     }
 
     /**
-     * @return string
+     * @param CountryType|null $Origin
+     * @return PostfilialeType
      */
-    public function getPostfilialNumber()
+    public function setOrigin($Origin = null): self
     {
-        return $this->PostfilialNumber;
-    }
-
-    /**
-     * @param string $PostfilialNumber
-     * @return \Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\PostfilialeType
-     */
-    public function setPostfilialNumber($PostfilialNumber)
-    {
-        $this->PostfilialNumber = $PostfilialNumber;
+        $this->Origin = $Origin;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getPostNumber()
-    {
-        return $this->PostNumber;
-    }
-
-    /**
-     * @param string $PostNumber
-     * @return \Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\PostfilialeType
-     */
-    public function setPostNumber($PostNumber)
-    {
-        $this->PostNumber = $PostNumber;
-        return $this;
-    }
-
-    /**
-     * @return Zip
-     */
-    public function getZip()
-    {
-        return $this->Zip;
-    }
-
-    /**
-     * @param Zip $Zip
-     * @return \Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\PostfilialeType
-     */
-    public function setZip($Zip)
-    {
-        $this->Zip = $Zip;
-        return $this;
-    }
-
-    /**
-     * @return City
-     */
-    public function getCity()
-    {
-        return $this->City;
-    }
-
-    /**
-     * @param City $City
-     * @return \Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\PostfilialeType
-     */
-    public function setCity($City)
-    {
-        $this->City = $City;
-        return $this;
-    }
-
 }

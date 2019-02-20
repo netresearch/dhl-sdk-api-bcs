@@ -39,10 +39,10 @@ class ServiceConfigurationDetailsOptional
     }
 
     /**
-     * @param string $details
+     * @param string|null $details
      * @return ServiceConfigurationDetailsOptional
      */
-    public function setDetails(string $details): self
+    public function setDetails(string $details = null): self
     {
         $this->details = $details;
         return $this;

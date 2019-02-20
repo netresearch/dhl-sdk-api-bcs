@@ -101,42 +101,22 @@ class ReceiverNativeAddressType
     }
 
     /**
-     * @param string $name2
+     * @param string|null $name2
      * @return ReceiverNativeAddressType
      */
-    public function setName2(string $name2): self
+    public function setName2(string $name2 = null): self
     {
         $this->name2 = $name2;
         return $this;
     }
 
     /**
-     * @param string $name3
+     * @param string|null $name3
      * @return ReceiverNativeAddressType
      */
-    public function setName3(string $name3): self
+    public function setName3(string $name3 = null): self
     {
         $this->name3 = $name3;
-        return $this;
-    }
-
-    /**
-     * @param string $streetName
-     * @return ReceiverNativeAddressType
-     */
-    public function setStreetName(string $streetName): self
-    {
-        $this->streetName = $streetName;
-        return $this;
-    }
-
-    /**
-     * @param string $streetNumber
-     * @return ReceiverNativeAddressType
-     */
-    public function setStreetNumber(string $streetNumber): self
-    {
-        $this->streetNumber = $streetNumber;
         return $this;
     }
 
@@ -144,40 +124,39 @@ class ReceiverNativeAddressType
      * @param string[] $addressAddition
      * @return ReceiverNativeAddressType
      */
-    public function setAddressAddition(array $addressAddition): self
+    public function setAddressAddition(array $addressAddition = []): self
     {
         $this->addressAddition = $addressAddition;
         return $this;
     }
 
     /**
-     * @param string $dispatchingInformation
+     * @param string|null $dispatchingInformation
      * @return ReceiverNativeAddressType
      */
-    public function setDispatchingInformation(string $dispatchingInformation): self
+    public function setDispatchingInformation(string $dispatchingInformation = null): self
     {
         $this->dispatchingInformation = $dispatchingInformation;
         return $this;
     }
 
     /**
-     * @param string $province
+     * @param string|null $province
      * @return ReceiverNativeAddressType
      */
-    public function setProvince(string $province): self
+    public function setProvince(string $province = null): self
     {
         $this->province = $province;
         return $this;
     }
 
     /**
-     * @param CountryType $origin
+     * @param CountryType|null $origin
      * @return ReceiverNativeAddressType
      */
-    public function setOrigin(CountryType $origin): self
+    public function setOrigin(CountryType $origin = null): self
     {
         $this->Origin = $origin;
         return $this;
     }
-
 }

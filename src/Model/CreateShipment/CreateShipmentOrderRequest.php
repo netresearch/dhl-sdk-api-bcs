@@ -29,7 +29,7 @@ class CreateShipmentOrderRequest
     /**
      * ShipmentOrder is the highest parent element that contains all data with respect to one shipment order.
      *
-     * @var ShipmentOrderType $ShipmentOrder
+     * @var ShipmentOrderType[] $ShipmentOrder
      */
     protected $ShipmentOrder;
 
@@ -69,13 +69,13 @@ class CreateShipmentOrderRequest
     protected $feederSystem = null;
 
     /**
-     * @param Version $Version
-     * @param ShipmentOrderType $ShipmentOrder
+     * @param Version $version
+     * @param ShipmentOrderType[] $shipmentOrders
      */
-    public function __construct(Version $Version, ShipmentOrderType $ShipmentOrder)
+    public function __construct(Version $version, array $shipmentOrders)
     {
-        $this->Version = $Version;
-        $this->ShipmentOrder = $ShipmentOrder;
+        $this->Version = $version;
+        $this->ShipmentOrder = $shipmentOrders;
     }
 
     /**
@@ -137,5 +137,4 @@ class CreateShipmentOrderRequest
         $this->feederSystem = $feederSystem;
         return $this;
     }
-
 }

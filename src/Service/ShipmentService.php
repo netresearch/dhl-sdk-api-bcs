@@ -7,20 +7,23 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\LabelInterface;
-use Dhl\Sdk\Paket\Bcs\Api\LabelServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Psr\Log\LoggerInterface;
 
 /**
- * LabelService
+ * ShipmentService
  *
  * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
-class LabelService implements LabelServiceInterface
+class ShipmentService implements ShipmentServiceInterface
 {
     /**
      * @var \SoapClient
@@ -43,7 +46,7 @@ class LabelService implements LabelServiceInterface
     private $deleteShipmentResponseMapper;
 
     /**
-     * LabelService constructor.
+     * ShipmentService constructor.
      *
      * @param \SoapClient $soapClient
      * @param LoggerInterface $logger
@@ -64,18 +67,19 @@ class LabelService implements LabelServiceInterface
 
 
     /**
-     * @param \stdClass $createShipmentRequest
+     * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
+     *
+     * @param \stdClass[]|ShipmentOrderType[] $shipmentOrders
      * @param LoggerInterface $logger
-     * @param CreateShipmentResponseMapper $responseMapper
      *
      * @return LabelInterface[]
      */
-    public function createLabel(
-        \stdClass $createShipmentRequest,
-        LoggerInterface $logger,
-        CreateShipmentResponseMapper $responseMapper
-    ): array {
+    public function createShipments(array $shipmentOrders, LoggerInterface $logger): array
+    {
         // TODO: Implement createLabel() method.
+        $version = new Version('3', '0');
+        $createShipmentRequest = new CreateShipmentOrderRequest($version, $shipmentOrders);
+
         $shipmentResponse = $this->soapClient->__soapCall('createShipmentOrder', [ $createShipmentRequest ]);
         $result = $this->createShipmentResponseMapper->map($shipmentResponse);
 
@@ -83,22 +87,19 @@ class LabelService implements LabelServiceInterface
     }
 
     /**
+     * This operation cancels earlier created shipments.
+     *
      * @param \stdClass $deleteShipmentRequest
      * @param LoggerInterface $logger
-     * @param CreateShipmentResponseMapper $responseMapper
      *
      * @return bool
      */
-    public function deleteLabel(
-        \stdClass $deleteShipmentRequest,
-        LoggerInterface $logger,
-        CreateShipmentResponseMapper $responseMapper
-    ): bool {
+    public function cancelShipments(\stdClass $deleteShipmentRequest, LoggerInterface $logger): bool
+    {
         // TODO: Implement deleteLabel() method.
         $shipmentResponse = $this->soapClient->__soapCall('deleteShipmentOrder', [ $deleteShipmentRequest ]);
         $result = $this->deleteShipmentResponseMapper->map($shipmentResponse);
 
         return $result;
     }
-
 }

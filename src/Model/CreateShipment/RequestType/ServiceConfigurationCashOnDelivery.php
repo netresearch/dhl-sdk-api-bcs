@@ -33,19 +33,25 @@ class ServiceConfigurationCashOnDelivery
     /**
      * Configuration whether the transmission fee to be added to the COD amount or not by DHL.
      *
-     * @var bool $addFee
+     * @var bool|null $addFee
      */
     protected $addFee;
 
     /**
      * @param bool $active
      * @param float $codAmount
-     * @param bool $addFee
      */
-    public function __construct(bool $active, float $codAmount, bool $addFee = false)
+    public function __construct(bool $active, float $codAmount)
     {
         $this->active = $active;
         $this->codAmount = $codAmount;
+    }
+
+    /**
+     * @param bool|null $addFee
+     */
+    public function setAddFee(bool $addFee = null)
+    {
         $this->addFee = $addFee;
     }
 }

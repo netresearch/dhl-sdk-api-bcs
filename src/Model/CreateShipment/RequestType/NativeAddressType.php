@@ -17,41 +17,57 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class NativeAddressType
 {
     /**
+     * Name of street.
+     *
      * @var string $streetName
      */
     protected $streetName;
 
     /**
+     * House number.
+     *
      * @var string $streetNumber
      */
     protected $streetNumber;
 
     /**
+     * Type of zip code.
+     *
      * @var string $zip
      */
     protected $zip;
 
     /**
+     * City name.
+     *
      * @var string $city
      */
     protected $city;
 
     /**
+     * Address add-on.
+     *
      * @var string[] $addressAddition
      */
     protected $addressAddition = [];
 
     /**
+     * Dispatching information.
+     *
      * @var string|null $dispatchingInformation
      */
     protected $dispatchingInformation = null;
 
     /**
+     * Province name.
+     *
      * @var string|null $province
      */
     protected $province = null;
 
     /**
+     * Country.
+     *
      * @var CountryType|null $Origin
      */
     protected $Origin = null;
@@ -74,40 +90,39 @@ class NativeAddressType
      * @param string[] $addressAddition
      * @return NativeAddressType
      */
-    public function setAddressAddition(array $addressAddition): self
+    public function setAddressAddition(array $addressAddition = []): self
     {
         $this->addressAddition = $addressAddition;
         return $this;
     }
 
     /**
-     * @param string $dispatchingInformation
+     * @param string|null $dispatchingInformation
      * @return NativeAddressType
      */
-    public function setDispatchingInformation(string $dispatchingInformation): self
+    public function setDispatchingInformation(string $dispatchingInformation = null): self
     {
         $this->dispatchingInformation = $dispatchingInformation;
         return $this;
     }
 
     /**
-     * @param string $province
+     * @param string|null $province
      * @return NativeAddressType
      */
-    public function setProvince(string $province): self
+    public function setProvince(string $province = null): self
     {
         $this->province = $province;
         return $this;
     }
 
     /**
-     * @param CountryType $Origin
+     * @param CountryType|null $Origin
      * @return NativeAddressType
      */
-    public function setOrigin(CountryType $Origin): self
+    public function setOrigin(CountryType $Origin = null): self
     {
         $this->Origin = $Origin;
         return $this;
     }
-
 }

@@ -74,30 +74,30 @@ class Shipment
     }
 
     /**
-     * @param ShipperType $returnReceiver
+     * @param ShipperType|null $returnReceiver
      * @return Shipment
      */
-    public function setReturnReceiver(ShipperType $returnReceiver): self
+    public function setReturnReceiver(ShipperType $returnReceiver = null): self
     {
         $this->ReturnReceiver = $returnReceiver;
         return $this;
     }
 
     /**
-     * @param ExportDocumentType $exportDocument
+     * @param ExportDocumentType|null $exportDocument
      * @return Shipment
      */
-    public function setExportDocument(ExportDocumentType $exportDocument): self
+    public function setExportDocument(ExportDocumentType $exportDocument = null): self
     {
         $this->ExportDocument = $exportDocument;
         return $this;
     }
 
     /**
-     * @param string $shipperReference
+     * @param string|null $shipperReference
      * @return Shipment
      */
-    public function setShipperReference(string $shipperReference): self
+    public function setShipperReference(string $shipperReference = null): self
     {
         $this->ShipperReference = $shipperReference;
         return $this;

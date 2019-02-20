@@ -7,11 +7,11 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Api\LabelServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
-use Dhl\Sdk\Paket\Bcs\Service\LabelService;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,16 +38,18 @@ class SoapServiceFactory implements ServiceFactoryInterface
     }
 
     /**
+     * Create the shipment service able to perform shipment operations (create, delete).
+     *
      * @param AuthenticationStorageInterface $authStorage
      * @param LoggerInterface $logger
      * @param bool $sandboxMode
-     * @return LabelServiceInterface
+     * @return ShipmentServiceInterface
      */
-    public function createLabelService(
+    public function createShipmentService(
         AuthenticationStorageInterface $authStorage,
         LoggerInterface $logger,
         bool $sandboxMode = false
-    ): LabelServiceInterface {
+    ): ShipmentServiceInterface {
         $createShipmentResponseMapper = new CreateShipmentResponseMapper();
         $deleteShipmentResponseMapper = new DeleteShipmentResponseMapper();
 
@@ -55,8 +57,7 @@ class SoapServiceFactory implements ServiceFactoryInterface
         $authHeader  = $authFactory->create($authStorage->getUser(), $authStorage->getSignature());
         $this->soapClient->__setSoapHeaders([ $authHeader ]);
 
-
-        $service = new LabelService(
+        $service = new ShipmentService(
             $this->soapClient,
             $logger,
             $createShipmentResponseMapper,

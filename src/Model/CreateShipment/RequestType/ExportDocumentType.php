@@ -108,90 +108,90 @@ class ExportDocumentType
     }
 
     /**
-     * @param string $invoiceNumber
+     * @param string|null $invoiceNumber
      * @return ExportDocumentType
      */
-    public function setInvoiceNumber(string $invoiceNumber): self
+    public function setInvoiceNumber(string $invoiceNumber = null): self
     {
         $this->invoiceNumber = $invoiceNumber;
         return $this;
     }
 
     /**
-     * @param string $exportType
+     * @param string|null $exportType
      * @return ExportDocumentType
      */
-    public function setExportType(string $exportType): self
+    public function setExportType(string $exportType = null): self
     {
         $this->exportType = $exportType;
         return $this;
     }
 
     /**
-     * @param string $exportTypeDescription
+     * @param string|null $exportTypeDescription
      * @return ExportDocumentType
      */
-    public function setExportTypeDescription(string $exportTypeDescription): self
+    public function setExportTypeDescription(string $exportTypeDescription = null): self
     {
         $this->exportTypeDescription = $exportTypeDescription;
         return $this;
     }
 
     /**
-     * @param string $termsOfTrade
+     * @param string|null $termsOfTrade
      * @return ExportDocumentType
      */
-    public function setTermsOfTrade(string $termsOfTrade): self
+    public function setTermsOfTrade(string $termsOfTrade = null): self
     {
         $this->termsOfTrade = $termsOfTrade;
         return $this;
     }
 
     /**
-     * @param string $placeOfCommital
+     * @param string|null $placeOfCommital
      * @return ExportDocumentType
      */
-    public function setPlaceOfCommital(string $placeOfCommital): self
+    public function setPlaceOfCommital(string $placeOfCommital = null): self
     {
         $this->placeOfCommital = $placeOfCommital;
         return $this;
     }
 
     /**
-     * @param float $additionalFee
+     * @param float|null $additionalFee
      * @return ExportDocumentType
      */
-    public function setAdditionalFee(float $additionalFee): self
+    public function setAdditionalFee(float $additionalFee = null): self
     {
         $this->additionalFee = $additionalFee;
         return $this;
     }
 
     /**
-     * @param string $permitNumber
+     * @param string|null $permitNumber
      * @return ExportDocumentType
      */
-    public function setPermitNumber(string $permitNumber): self
+    public function setPermitNumber(string $permitNumber = null): self
     {
         $this->permitNumber = $permitNumber;
         return $this;
     }
 
     /**
-     * @param string $attestationNumber
+     * @param string|null $attestationNumber
      * @return ExportDocumentType
      */
-    public function setAttestationNumber(string $attestationNumber): self
+    public function setAttestationNumber(string $attestationNumber = null): self
     {
         $this->attestationNumber = $attestationNumber;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $withElectronicExportNtfctn
+     * @param ServiceConfiguration|null $withElectronicExportNtfctn
      * @return ExportDocumentType
      */
-    public function setWithElectronicExportNtfctn(ServiceConfiguration $withElectronicExportNtfctn): self
+    public function setWithElectronicExportNtfctn(ServiceConfiguration $withElectronicExportNtfctn = null): self
     {
         $this->WithElectronicExportNtfctn = $withElectronicExportNtfctn;
         return $this;
@@ -201,7 +201,7 @@ class ExportDocumentType
      * @param ExportDocPosition[] $exportDocPositions
      * @return ExportDocumentType
      */
-    public function setExportDocPosition(array $exportDocPositions): self
+    public function setExportDocPosition(array $exportDocPositions = []): self
     {
         $this->ExportDocPosition = $exportDocPositions;
         return $this;

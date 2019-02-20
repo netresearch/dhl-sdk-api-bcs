@@ -24,5 +24,4 @@ class ShipperType extends ShipperTypeType
     {
         parent::__construct($name, $address);
     }
-
 }

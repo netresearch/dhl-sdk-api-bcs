@@ -26,21 +26,21 @@ class ShipmentDetailsTypeType extends ShipmentDetailsType
     /**
      * Use one dedicated Service node for each service to be booked with the shipment product.
      *
-     * @var ShipmentService $Service
+     * @var ShipmentService|null $Service
      */
     protected $Service = null;
 
     /**
      * Mechanism to send notifications by email after successful manifesting of shipment.
      *
-     * @var ShipmentNotificationType $Notification
+     * @var ShipmentNotificationType|null $Notification
      */
     protected $Notification = null;
 
     /**
      * If COD is booked as service, bank data must be provided by DHL customer (mandatory server logic).
      *
-     * @var BankType $BankData
+     * @var BankType|null $BankData
      */
     protected $BankData = null;
 
@@ -62,33 +62,32 @@ class ShipmentDetailsTypeType extends ShipmentDetailsType
     }
 
     /**
-     * @param ShipmentService $service
+     * @param ShipmentService|null $service
      * @return ShipmentDetailsTypeType
      */
-    public function setService(ShipmentService $service): self
+    public function setService(ShipmentService $service = null): self
     {
         $this->Service = $service;
         return $this;
     }
 
     /**
-     * @param ShipmentNotificationType $notification
+     * @param ShipmentNotificationType|null $notification
      * @return ShipmentDetailsTypeType
      */
-    public function setNotification(ShipmentNotificationType $notification): self
+    public function setNotification(ShipmentNotificationType $notification = null): self
     {
         $this->Notification = $notification;
         return $this;
     }
 
     /**
-     * @param BankType $BankData
+     * @param BankType|null $BankData
      * @return ShipmentDetailsTypeType
      */
-    public function setBankData(BankType $BankData): self
+    public function setBankData(BankType $BankData = null): self
     {
         $this->BankData = $BankData;
         return $this;
     }
-
 }

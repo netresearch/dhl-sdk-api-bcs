@@ -38,6 +38,16 @@ class Version
     protected $build = null;
 
     /**
+     * @param string $majorRelease
+     * @param string $minorRelease
+     */
+    public function __construct(string $majorRelease, string $minorRelease)
+    {
+        $this->majorRelease = $majorRelease;
+        $this->minorRelease = $minorRelease;
+    }
+
+    /**
      * @return string
      */
     public function getMajorRelease(): string
@@ -59,5 +69,15 @@ class Version
     public function getBuild()
     {
         return $this->build;
+    }
+
+    /**
+     * @param string $build
+     * @return Version
+     */
+    public function setBuild(string $build): self
+    {
+        $this->build = $build;
+        return $this;
     }
 }

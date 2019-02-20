@@ -26,21 +26,21 @@ class ShipmentItemType
     /**
      * The length of the piece in cm.
      *
-     * @var int $lengthInCM
+     * @var int|null $lengthInCM
      */
     protected $lengthInCM = null;
 
     /**
      * The width of the piece in cm.
      *
-     * @var int $widthInCM
+     * @var int|null $widthInCM
      */
     protected $widthInCM = null;
 
     /**
      * The height of the piece in cm.
      *
-     * @var int $heightInCM
+     * @var int|null $heightInCM
      */
     protected $heightInCM = null;
 
@@ -53,30 +53,30 @@ class ShipmentItemType
     }
 
     /**
-     * @param int $lengthInCM
+     * @param int|null $lengthInCM
      * @return ShipmentItemType
      */
-    public function setLengthInCM(int $lengthInCM): self
+    public function setLengthInCM(int $lengthInCM = null): self
     {
         $this->lengthInCM = $lengthInCM;
         return $this;
     }
 
     /**
-     * @param int $widthInCM
+     * @param int|null $widthInCM
      * @return ShipmentItemType
      */
-    public function setWidthInCM(int $widthInCM): self
+    public function setWidthInCM(int $widthInCM = null): self
     {
         $this->widthInCM = $widthInCM;
         return $this;
     }
 
     /**
-     * @param int $heightInCM
+     * @param int|null $heightInCM
      * @return ShipmentItemType
      */
-    public function setHeightInCM(int $heightInCM): self
+    public function setHeightInCM(int $heightInCM = null): self
     {
         $this->heightInCM = $heightInCM;
         return $this;

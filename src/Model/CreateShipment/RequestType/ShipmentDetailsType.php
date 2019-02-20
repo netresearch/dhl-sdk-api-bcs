@@ -40,28 +40,28 @@ class ShipmentDetailsType
     /**
      * A reference number that the client can assign for better association purposes. Appears on shipment label.
      *
-     * @var string $customerReference
+     * @var string|null $customerReference
      */
     protected $customerReference = null;
 
     /**
      * Name of a cost center.
      *
-     * @var string $costCentre
+     * @var string|null $costCentre
      */
     protected $costCentre = null;
 
     /**
      * DHL account number (14 digits).
      *
-     * @var string $returnShipmentAccountNumber
+     * @var string|null $returnShipmentAccountNumber
      */
     protected $returnShipmentAccountNumber = null;
 
     /**
      * A reference number that the client can assign for better association purposes. Appears on return shipment label.
      *
-     * @var string $returnShipmentReference
+     * @var string|null $returnShipmentReference
      */
     protected $returnShipmentReference = null;
 
@@ -78,40 +78,40 @@ class ShipmentDetailsType
     }
 
     /**
-     * @param string $customerReference
+     * @param string|null $customerReference
      * @return ShipmentDetailsType
      */
-    public function setCustomerReference(string $customerReference): self
+    public function setCustomerReference(string $customerReference = null): self
     {
         $this->customerReference = $customerReference;
         return $this;
     }
 
     /**
-     * @param string $costCentre
+     * @param string|null $costCentre
      * @return ShipmentDetailsType
      */
-    public function setCostCentre(string $costCentre): self
+    public function setCostCentre(string $costCentre = null): self
     {
         $this->costCentre = $costCentre;
         return $this;
     }
 
     /**
-     * @param string $returnShipmentAccountNumber
+     * @param string|null $returnShipmentAccountNumber
      * @return ShipmentDetailsType
      */
-    public function setReturnShipmentAccountNumber(string $returnShipmentAccountNumber): self
+    public function setReturnShipmentAccountNumber(string $returnShipmentAccountNumber = null): self
     {
         $this->returnShipmentAccountNumber = $returnShipmentAccountNumber;
         return $this;
     }
 
     /**
-     * @param string $returnShipmentReference
+     * @param string|null $returnShipmentReference
      * @return ShipmentDetailsType
      */
-    public function setReturnShipmentReference(string $returnShipmentReference): self
+    public function setReturnShipmentReference(string $returnShipmentReference = null): self
     {
         $this->returnShipmentReference = $returnShipmentReference;
         return $this;

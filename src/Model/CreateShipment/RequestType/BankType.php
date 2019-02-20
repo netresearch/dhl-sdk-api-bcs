@@ -40,28 +40,28 @@ class BankType
     /**
      * IBAN code of bank account.
      *
-     * @var string $note1
+     * @var string|null $note1
      */
     protected $note1 = null;
 
     /**
      * Purpose of bank information.
      *
-     * @var string $note2
+     * @var string|null $note2
      */
     protected $note2 = null;
 
     /**
      * Bank-Information-Code (BankCCL) of bank account.
      *
-     * @var string $bic
+     * @var string|null $bic
      */
     protected $bic = null;
 
     /**
-     * Account referecne to customer profile.
+     * Account reference to customer profile.
      *
-     * @var string $accountreference
+     * @var string|null $accountreference
      */
     protected $accountreference = null;
 
@@ -78,40 +78,40 @@ class BankType
     }
 
     /**
-     * @param string $note1
+     * @param string|null $note1
      * @return BankType
      */
-    public function setNote1(string $note1): self
+    public function setNote1(string $note1 = null): self
     {
         $this->note1 = $note1;
         return $this;
     }
 
     /**
-     * @param string $note2
+     * @param string|null $note2
      * @return BankType
      */
-    public function setNote2(string $note2): self
+    public function setNote2(string $note2 = null): self
     {
         $this->note2 = $note2;
         return $this;
     }
 
     /**
-     * @param string $bic
+     * @param string|null $bic
      * @return BankType
      */
-    public function setBic(string $bic): self
+    public function setBic(string $bic = null): self
     {
         $this->bic = $bic;
         return $this;
     }
 
     /**
-     * @param string $accountReference
+     * @param string|null $accountReference
      * @return BankType
      */
-    public function setAccountReference(string $accountReference): self
+    public function setAccountReference(string $accountReference = null): self
     {
         $this->accountreference = $accountReference;
         return $this;

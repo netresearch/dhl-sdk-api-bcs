@@ -19,423 +19,423 @@ class ShipmentService
     /**
      * Day of Delivery for product: V06TG: Kurier Taggleich; V06WZ: Kurier Wunschzeit
      *
-     * @var ServiceConfigurationDateOfDelivery $DayOfDelivery
+     * @var ServiceConfigurationDateOfDelivery|null $DayOfDelivery
      */
     protected $DayOfDelivery = null;
 
     /**
      * Timeframe of delivery for product: V06TG: Kurier Taggleich; V06WZ: Kurier Wunschzeit
      *
-     * @var ServiceConfigurationDeliveryTimeFrame $DeliveryTimeframe
+     * @var ServiceConfigurationDeliveryTimeFrame|null $DeliveryTimeframe
      */
     protected $DeliveryTimeframe = null;
 
     /**
      * Preferred Time of delivery for product: V01PAK: DHL PAKET V06PAK: DHL PAKET TAGGLEICH
      *
-     * @var ServiceConfigurationDeliveryTimeFrame $PreferredTime
+     * @var ServiceConfigurationDeliveryTimeFrame|null $PreferredTime
      */
     protected $PreferredTime = null;
 
     /**
      * Individual sender requirements for product: V06TG: Kurier Taggleich V06WZ: Kurier Wunschzeit.
      *
-     * @var ServiceConfigurationISR $IndividualSenderRequirement
+     * @var ServiceConfigurationISR|null $IndividualSenderRequirement
      */
     protected $IndividualSenderRequirement = null;
 
     /**
      * Service for package return.
      *
-     * @var ServiceConfiguration $PackagingReturn
+     * @var ServiceConfiguration|null $PackagingReturn
      */
     protected $PackagingReturn = null;
 
     /**
      * Service of immediatly shipment return in case of non sucessful delivery for product: V06PAK: DHL PAKET TAGGLEICH.
      *
-     * @var ServiceConfiguration $ReturnImmediately
+     * @var ServiceConfiguration|null $ReturnImmediately
      */
     protected $ReturnImmediately = null;
 
     /**
      * Service Notice of non-deliverability.
      *
-     * @var ServiceConfiguration $NoticeOfNonDeliverability
+     * @var ServiceConfiguration|null $NoticeOfNonDeliverability
      */
     protected $NoticeOfNonDeliverability = null;
 
     /**
      * Shipment handling for product: V06TG: Kurier Taggleich; V06WZ: Kurier Wunschzeit.
      *
-     * @var ServiceConfigurationShipmentHandling $ShipmentHandling
+     * @var ServiceConfigurationShipmentHandling|null $ShipmentHandling
      */
     protected $ShipmentHandling = null;
 
     /**
      * Service "Endorsement".
      *
-     * @var ServiceConfigurationEndorsement $Endorsement
+     * @var ServiceConfigurationEndorsement|null $Endorsement
      */
     protected $Endorsement = null;
 
     /**
      * Service visual age check.
      *
-     * @var ServiceConfigurationVisualAgeCheck $VisualCheckOfAge
+     * @var ServiceConfigurationVisualAgeCheck|null $VisualCheckOfAge
      */
     protected $VisualCheckOfAge = null;
 
     /**
      * Service preferred location.
      *
-     * @var ServiceConfigurationDetails $PreferredLocation
+     * @var ServiceConfigurationDetails|null $PreferredLocation
      */
     protected $PreferredLocation = null;
 
     /**
      * Service preferred neighbour.
      *
-     * @var ServiceConfigurationDetails $PreferredNeighbour
+     * @var ServiceConfigurationDetails|null $PreferredNeighbour
      */
     protected $PreferredNeighbour = null;
 
     /**
      * Service preferred day.
      *
-     * @var ServiceConfigurationDetails $PreferredDay
+     * @var ServiceConfigurationDetails|null $PreferredDay
      */
     protected $PreferredDay = null;
 
     /**
      * GoGreen.
      *
-     * @var ServiceConfiguration $GoGreen
+     * @var ServiceConfiguration|null $GoGreen
      */
     protected $GoGreen = null;
 
     /**
      * DHL Kurier Verderbliche Ware.
      *
-     * @var ServiceConfiguration $Perishables
+     * @var ServiceConfiguration|null $Perishables
      */
     protected $Perishables = null;
 
     /**
      * Invoke service personal handover.
      *
-     * @var ServiceConfiguration $Personally
+     * @var ServiceConfiguration|null $Personally
      */
     protected $Personally = null;
 
     /**
      * Invoke service No Neighbour Delivery.
      *
-     * @var ServiceConfiguration $NoNeighbourDelivery
+     * @var ServiceConfiguration|null $NoNeighbourDelivery
      */
     protected $NoNeighbourDelivery = null;
 
     /**
      * Invoke service Named Person Only.
      *
-     * @var ServiceConfiguration $NamedPersonOnly
+     * @var ServiceConfiguration|null $NamedPersonOnly
      */
     protected $NamedPersonOnly = null;
 
     /**
      * Invoke service return receipt.
      *
-     * @var ServiceConfiguration $ReturnReceipt
+     * @var ServiceConfiguration|null $ReturnReceipt
      */
     protected $ReturnReceipt = null;
 
     /**
      * Premium for fast and safe delivery of international shipments.
      *
-     * @var ServiceConfiguration $Premium
+     * @var ServiceConfiguration|null $Premium
      */
     protected $Premium = null;
 
     /**
      * Service Cash on delivery.
      *
-     * @var ServiceConfigurationCashOnDelivery $CashOnDelivery
+     * @var ServiceConfigurationCashOnDelivery|null $CashOnDelivery
      */
     protected $CashOnDelivery = null;
 
     /**
      * Insure shipment with higher than standard amount.
      *
-     * @var ServiceConfigurationAdditionalInsurance $AdditionalInsurance
+     * @var ServiceConfigurationAdditionalInsurance|null $AdditionalInsurance
      */
     protected $AdditionalInsurance = null;
 
     /**
      * Service to ship bulky goods.
      *
-     * @var ServiceConfiguration $BulkyGoods
+     * @var ServiceConfiguration|null $BulkyGoods
      */
     protected $BulkyGoods = null;
 
     /**
      * Service configuration for IdentCheck.
      *
-     * @var ServiceConfigurationIC $IdentCheck
+     * @var ServiceConfigurationIC|null $IdentCheck
      */
     protected $IdentCheck = null;
 
     /**
      * Service configuration for ParcelOutletRouting. If email-address is not set, receiver email will be used.
      *
-     * @var ServiceConfigurationDetailsOptional $ParcelOutletRouting
+     * @var ServiceConfigurationDetailsOptional|null $ParcelOutletRouting
      */
     protected $ParcelOutletRouting = null;
 
     /**
-     * @param ServiceConfigurationDateOfDelivery $dayOfDelivery
+     * @param ServiceConfigurationDateOfDelivery|null $dayOfDelivery
      * @return ShipmentService
      */
-    public function setDayOfDelivery(ServiceConfigurationDateOfDelivery $dayOfDelivery): self
+    public function setDayOfDelivery(ServiceConfigurationDateOfDelivery $dayOfDelivery = null): self
     {
         $this->DayOfDelivery = $dayOfDelivery;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDeliveryTimeFrame $deliveryTimeframe
+     * @param ServiceConfigurationDeliveryTimeFrame|null $deliveryTimeframe
      * @return ShipmentService
      */
-    public function setDeliveryTimeframe(ServiceConfigurationDeliveryTimeFrame $deliveryTimeframe): self
+    public function setDeliveryTimeframe(ServiceConfigurationDeliveryTimeFrame $deliveryTimeframe = null): self
     {
         $this->DeliveryTimeframe = $deliveryTimeframe;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDeliveryTimeFrame $preferredTime
+     * @param ServiceConfigurationDeliveryTimeFrame|null $preferredTime
      * @return ShipmentService
      */
-    public function setPreferredTime(ServiceConfigurationDeliveryTimeFrame $preferredTime): self
+    public function setPreferredTime(ServiceConfigurationDeliveryTimeFrame $preferredTime = null): self
     {
         $this->PreferredTime = $preferredTime;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationISR $individualSenderRequirement
+     * @param ServiceConfigurationISR|null $individualSenderRequirement
      * @return ShipmentService
      */
-    public function setIndividualSenderRequirement(ServiceConfigurationISR $individualSenderRequirement): self
+    public function setIndividualSenderRequirement(ServiceConfigurationISR $individualSenderRequirement = null): self
     {
         $this->IndividualSenderRequirement = $individualSenderRequirement;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $packagingReturn
+     * @param ServiceConfiguration|null $packagingReturn
      * @return ShipmentService
      */
-    public function setPackagingReturn(ServiceConfiguration $packagingReturn): self
+    public function setPackagingReturn(ServiceConfiguration $packagingReturn = null): self
     {
         $this->PackagingReturn = $packagingReturn;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $returnImmediately
+     * @param ServiceConfiguration|null $returnImmediately
      * @return ShipmentService
      */
-    public function setReturnImmediately(ServiceConfiguration $returnImmediately): self
+    public function setReturnImmediately(ServiceConfiguration $returnImmediately = null): self
     {
         $this->ReturnImmediately = $returnImmediately;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $noticeOfNonDeliverability
+     * @param ServiceConfiguration|null $noticeOfNonDeliverability
      * @return ShipmentService
      */
-    public function setNoticeOfNonDeliverability(ServiceConfiguration $noticeOfNonDeliverability): self
+    public function setNoticeOfNonDeliverability(ServiceConfiguration $noticeOfNonDeliverability = null): self
     {
         $this->NoticeOfNonDeliverability = $noticeOfNonDeliverability;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationShipmentHandling $shipmentHandling
+     * @param ServiceConfigurationShipmentHandling|null $shipmentHandling
      * @return ShipmentService
      */
-    public function setShipmentHandling(ServiceConfigurationShipmentHandling $shipmentHandling): self
+    public function setShipmentHandling(ServiceConfigurationShipmentHandling $shipmentHandling = null): self
     {
         $this->ShipmentHandling = $shipmentHandling;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationEndorsement $endorsement
+     * @param ServiceConfigurationEndorsement|null $endorsement
      * @return ShipmentService
      */
-    public function setEndorsement(ServiceConfigurationEndorsement $endorsement): self
+    public function setEndorsement(ServiceConfigurationEndorsement $endorsement = null): self
     {
         $this->Endorsement = $endorsement;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationVisualAgeCheck $visualCheckOfAge
+     * @param ServiceConfigurationVisualAgeCheck|null $visualCheckOfAge
      * @return ShipmentService
      */
-    public function setVisualCheckOfAge(ServiceConfigurationVisualAgeCheck $visualCheckOfAge): self
+    public function setVisualCheckOfAge(ServiceConfigurationVisualAgeCheck $visualCheckOfAge = null): self
     {
         $this->VisualCheckOfAge = $visualCheckOfAge;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDetails $preferredLocation
+     * @param ServiceConfigurationDetails|null $preferredLocation
      * @return ShipmentService
      */
-    public function setPreferredLocation(ServiceConfigurationDetails $preferredLocation): self
+    public function setPreferredLocation(ServiceConfigurationDetails $preferredLocation = null): self
     {
         $this->PreferredLocation = $preferredLocation;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDetails $preferredNeighbour
+     * @param ServiceConfigurationDetails|null $preferredNeighbour
      * @return ShipmentService
      */
-    public function setPreferredNeighbour(ServiceConfigurationDetails $preferredNeighbour): self
+    public function setPreferredNeighbour(ServiceConfigurationDetails $preferredNeighbour = null): self
     {
         $this->PreferredNeighbour = $preferredNeighbour;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDetails $preferredDay
+     * @param ServiceConfigurationDetails|null $preferredDay
      * @return ShipmentService
      */
-    public function setPreferredDay(ServiceConfigurationDetails $preferredDay): self
+    public function setPreferredDay(ServiceConfigurationDetails $preferredDay = null): self
     {
         $this->PreferredDay = $preferredDay;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $goGreen
+     * @param ServiceConfiguration|null $goGreen
      * @return ShipmentService
      */
-    public function setGoGreen(ServiceConfiguration $goGreen): self
+    public function setGoGreen(ServiceConfiguration $goGreen = null): self
     {
         $this->GoGreen = $goGreen;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $perishables
+     * @param ServiceConfiguration|null $perishables
      * @return ShipmentService
      */
-    public function setPerishables(ServiceConfiguration $perishables): self
+    public function setPerishables(ServiceConfiguration $perishables = null): self
     {
         $this->Perishables = $perishables;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $personally
+     * @param ServiceConfiguration|null $personally
      * @return ShipmentService
      */
-    public function setPersonally(ServiceConfiguration $personally): self
+    public function setPersonally(ServiceConfiguration $personally = null): self
     {
         $this->Personally = $personally;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $noNeighbourDelivery
+     * @param ServiceConfiguration|null $noNeighbourDelivery
      * @return ShipmentService
      */
-    public function setNoNeighbourDelivery(ServiceConfiguration $noNeighbourDelivery): self
+    public function setNoNeighbourDelivery(ServiceConfiguration $noNeighbourDelivery = null): self
     {
         $this->NoNeighbourDelivery = $noNeighbourDelivery;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $namedPersonOnly
+     * @param ServiceConfiguration|null $namedPersonOnly
      * @return ShipmentService
      */
-    public function setNamedPersonOnly(ServiceConfiguration $namedPersonOnly): self
+    public function setNamedPersonOnly(ServiceConfiguration $namedPersonOnly = null): self
     {
         $this->NamedPersonOnly = $namedPersonOnly;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $returnReceipt
+     * @param ServiceConfiguration|null $returnReceipt
      * @return ShipmentService
      */
-    public function setReturnReceipt(ServiceConfiguration $returnReceipt): self
+    public function setReturnReceipt(ServiceConfiguration $returnReceipt = null): self
     {
         $this->ReturnReceipt = $returnReceipt;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $premium
+     * @param ServiceConfiguration|null $premium
      * @return ShipmentService
      */
-    public function setPremium(ServiceConfiguration $premium): self
+    public function setPremium(ServiceConfiguration $premium = null): self
     {
         $this->Premium = $premium;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationCashOnDelivery $cashOnDelivery
+     * @param ServiceConfigurationCashOnDelivery|null $cashOnDelivery
      * @return ShipmentService
      */
-    public function setCashOnDelivery(ServiceConfigurationCashOnDelivery $cashOnDelivery): self
+    public function setCashOnDelivery(ServiceConfigurationCashOnDelivery $cashOnDelivery = null): self
     {
         $this->CashOnDelivery = $cashOnDelivery;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationAdditionalInsurance $additionalInsurance
+     * @param ServiceConfigurationAdditionalInsurance|null $additionalInsurance
      * @return ShipmentService
      */
-    public function setAdditionalInsurance(ServiceConfigurationAdditionalInsurance $additionalInsurance): self
+    public function setAdditionalInsurance(ServiceConfigurationAdditionalInsurance $additionalInsurance = null): self
     {
         $this->AdditionalInsurance = $additionalInsurance;
         return $this;
     }
 
     /**
-     * @param ServiceConfiguration $bulkyGoods
+     * @param ServiceConfiguration|null $bulkyGoods
      * @return ShipmentService
      */
-    public function setBulkyGoods(ServiceConfiguration $bulkyGoods): self
+    public function setBulkyGoods(ServiceConfiguration $bulkyGoods = null): self
     {
         $this->BulkyGoods = $bulkyGoods;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationIC $identCheck
+     * @param ServiceConfigurationIC|null $identCheck
      * @return ShipmentService
      */
-    public function setIdentCheck(ServiceConfigurationIC $identCheck): self
+    public function setIdentCheck(ServiceConfigurationIC $identCheck = null): self
     {
         $this->IdentCheck = $identCheck;
         return $this;
     }
 
     /**
-     * @param ServiceConfigurationDetailsOptional $parcelOutletRouting
+     * @param ServiceConfigurationDetailsOptional|null $parcelOutletRouting
      * @return ShipmentService
      */
-    public function setParcelOutletRouting(ServiceConfigurationDetailsOptional $parcelOutletRouting): self
+    public function setParcelOutletRouting(ServiceConfigurationDetailsOptional $parcelOutletRouting = null): self
     {
         $this->ParcelOutletRouting = $parcelOutletRouting;
         return $this;
