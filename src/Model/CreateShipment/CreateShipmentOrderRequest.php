@@ -6,26 +6,20 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractRequest;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 
 /**
  * CreateShipmentOrderRequest
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
+ * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
-class CreateShipmentOrderRequest
+class CreateShipmentOrderRequest extends AbstractRequest
 {
-    /**
-     * The version of the webservice implementation for which the requesting client is developed.
-     *
-     * @var Version $Version
-     */
-    protected $Version;
-
     /**
      * ShipmentOrder is the highest parent element that contains all data with respect to one shipment order.
      *
@@ -74,8 +68,9 @@ class CreateShipmentOrderRequest
      */
     public function __construct(Version $version, array $shipmentOrders)
     {
-        $this->Version = $version;
         $this->ShipmentOrder = $shipmentOrders;
+
+        parent::__construct($version);
     }
 
     /**

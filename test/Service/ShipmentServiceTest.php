@@ -6,24 +6,61 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
 
+use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Service\ServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
+use Psr\Log\Test\TestLogger;
+
 /**
  * Class ShipmentServiceTest
  *
  * @package Dhl\Sdk\Paket\Bcs\Test
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @return mixed[]
+     */
+    public function unauthorizedDataProvider()
+    {
+        return ShipmentServiceTestProvider::authFailure();
+    }
+
+    /**
      * Test authentication error (application level, basic auth).
      *
-     * @param ShipmentRequest $request
-     * @param string $responseXml
+     * @test
+     * @dataProvider unauthorizedDataProvider
+     *
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
+     * @param string $wsdl
+     * @param \SoapFault $fault
      */
-    public function createLabelAppAuthenticationError(ShipmentRequest $request, string $responseXml)
-    {
+    public function createShipmentsAppAuthenticationError(
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $wsdl,
+        \SoapFault $fault
+    ) {
+        $logger = new TestLogger();
 
+        //todo(nr): use mock client that returns $responseXml
+        $soapClient = new \SoapClient($wsdl);
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger);
+
+        $serviceFactory = new ServiceFactory();
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $shipments = $service->createShipments($shipmentOrders);
+
+        self::assertContainsOnlyInstancesOf(ShipmentInterface::class, $shipments);
+        self::assertTrue($logger->hasInfoRecords() || $logger->hasErrorRecords());
     }
 
     /**
@@ -32,7 +69,7 @@ class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
      * @param ShipmentRequest $request
      * @param string $responseXml
      */
-    public function createLabelUserAuthenticationError(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsUserAuthenticationError(ShipmentRequest $request, string $responseXml)
     {
 
     }
@@ -43,7 +80,7 @@ class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
      * @param ShipmentRequest $request
      * @param string $responseXml
      */
-    public function createLabelSuccess(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsSuccess(ShipmentRequest $request, string $responseXml)
     {
 
     }
@@ -54,7 +91,7 @@ class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
      * @param ShipmentRequest $request
      * @param string $responseXml
      */
-    public function createLabelPartialSuccess(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsPartialSuccess(ShipmentRequest $request, string $responseXml)
     {
 
     }
@@ -65,22 +102,22 @@ class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
      * @param ShipmentRequest $request
      * @param string $responseXml
      */
-    public function createLabelVerificationWarning(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsVerificationWarning(ShipmentRequest $request, string $responseXml)
     {
 
     }
 
-    public function createLabelVerificationError(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsVerificationError(ShipmentRequest $request, string $responseXml)
     {
 
     }
 
-    public function createLabelServerError(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsServerError(ShipmentRequest $request, string $responseXml)
     {
 
     }
 
-    public function createLabelGeneralError(ShipmentRequest $request, string $responseXml)
+    public function createShipmentsGeneralError(ShipmentRequest $request, string $responseXml)
     {
 
     }

@@ -6,13 +6,16 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
-use Dhl\Sdk\Paket\Bcs\Api\Data\LabelInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,14 +29,9 @@ use Psr\Log\LoggerInterface;
 class ShipmentService implements ShipmentServiceInterface
 {
     /**
-     * @var \SoapClient
+     * @var AbstractClient
      */
-    private $soapClient;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private $client;
 
     /**
      * @var CreateShipmentResponseMapper
@@ -48,58 +46,68 @@ class ShipmentService implements ShipmentServiceInterface
     /**
      * ShipmentService constructor.
      *
-     * @param \SoapClient $soapClient
-     * @param LoggerInterface $logger
+     * @param AbstractClient $client
      * @param CreateShipmentResponseMapper $createShipmentResponseMapper
      * @param DeleteShipmentResponseMapper $deleteShipmentResponseMapper
      */
     public function __construct(
-        \SoapClient $soapClient,
-        LoggerInterface $logger,
+        AbstractClient $client,
         CreateShipmentResponseMapper $createShipmentResponseMapper,
         DeleteShipmentResponseMapper $deleteShipmentResponseMapper
     ) {
-        $this->soapClient = $soapClient;
-        $this->logger = $logger;
+        $this->client = $client;
         $this->createShipmentResponseMapper = $createShipmentResponseMapper;
         $this->deleteShipmentResponseMapper = $deleteShipmentResponseMapper;
     }
 
-
     /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
-     * @param \stdClass[]|ShipmentOrderType[] $shipmentOrders
-     * @param LoggerInterface $logger
-     *
-     * @return LabelInterface[]
+     * @param \object[]|ShipmentOrderType[] $shipmentOrders
+     * @return ShipmentInterface[]
+     * @throws AuthenticationException
+     * @throws \Exception
      */
-    public function createShipments(array $shipmentOrders, LoggerInterface $logger): array
+    public function createShipments(array $shipmentOrders): array
     {
-        // TODO: Implement createLabel() method.
         $version = new Version('3', '0');
         $createShipmentRequest = new CreateShipmentOrderRequest($version, $shipmentOrders);
+        $createShipmentRequest->setLabelResponseType('B64');
 
-        $shipmentResponse = $this->soapClient->__soapCall('createShipmentOrder', [ $createShipmentRequest ]);
-        $result = $this->createShipmentResponseMapper->map($shipmentResponse);
+        try {
+            $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
+            $result = $this->createShipmentResponseMapper->map($shipmentResponse);
 
-        return $result;
+            return $result;
+        } catch (\SoapFault $fault) {
+            // TODO: Throw proper exceptions.
+            throw new \Exception($fault->getMessage(), $fault->getCode(), $fault);
+        }
     }
 
     /**
-     * This operation cancels earlier created shipments.
+     * Cancel earlier created shipments. Cancellation is only possible before the end-of-the-day manifest.
      *
-     * @param \stdClass $deleteShipmentRequest
-     * @param LoggerInterface $logger
+     * todo(nr): return cancelled shipments, not bool?
      *
+     * @param string[] $shipmentNumbers
      * @return bool
+     * @throws AuthenticationException
+     * @throws \Exception
      */
-    public function cancelShipments(\stdClass $deleteShipmentRequest, LoggerInterface $logger): bool
+    public function cancelShipments(array $shipmentNumbers): bool
     {
-        // TODO: Implement deleteLabel() method.
-        $shipmentResponse = $this->soapClient->__soapCall('deleteShipmentOrder', [ $deleteShipmentRequest ]);
-        $result = $this->deleteShipmentResponseMapper->map($shipmentResponse);
+        $version = new Version('3', '0');
+        $deleteShipmentRequest = new DeleteShipmentOrderRequest($version, $shipmentNumbers);
 
-        return $result;
+        try {
+            $shipmentResponse = $this->client->deleteShipmentOrder($deleteShipmentRequest);
+            $result = $this->deleteShipmentResponseMapper->map($shipmentResponse);
+
+            return $result;
+        } catch (\SoapFault $fault) {
+            // TODO: Throw proper exceptions.
+            throw new \Exception($fault->getMessage(), $fault->getCode(), $fault);
+        }
     }
 }

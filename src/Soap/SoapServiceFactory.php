@@ -53,13 +53,13 @@ class SoapServiceFactory implements ServiceFactoryInterface
         $createShipmentResponseMapper = new CreateShipmentResponseMapper();
         $deleteShipmentResponseMapper = new DeleteShipmentResponseMapper();
 
-        $authFactory = new AuthHeaderFactory();
-        $authHeader  = $authFactory->create($authStorage->getUser(), $authStorage->getSignature());
-        $this->soapClient->__setSoapHeaders([ $authHeader ]);
+        $pluginClient = new Client($this->soapClient);
+        $pluginClient = new LogDecorator($pluginClient, $this->soapClient, $logger);
+        $pluginClient = new ErrorDecorator($pluginClient);
+        $pluginClient = new AuthenticationDecorator($pluginClient, $this->soapClient, $authStorage);
 
         $service = new ShipmentService(
-            $this->soapClient,
-            $logger,
+            $pluginClient,
             $createShipmentResponseMapper,
             $deleteShipmentResponseMapper
         );

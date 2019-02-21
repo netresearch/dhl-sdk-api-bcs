@@ -1,0 +1,27 @@
+<soap:Envelope xmlns:bcs="http://dhl.de/webservices/businesscustomershipping/3.0" xmlns:cis="http://dhl.de/webservice/cisbase" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soap:Header/>
+   <soap:Body>
+      <bcs:CreateShipmentOrderResponse>
+         <bcs:Version>
+            <majorRelease>3</majorRelease>
+            <minorRelease>0</minorRelease>
+         </bcs:Version>
+         <Status>
+            <statusCode>0</statusCode>
+            <statusText>ok</statusText>
+         </Status>
+         <CreationState>
+            <sequenceNumber>0</sequenceNumber>
+            <shipmentNumber>222201010035507576</shipmentNumber>
+            <LabelData>
+               <Status>
+                  <statusCode>0</statusCode>
+                  <statusText>ok</statusText>
+                  <statusMessage>Der Webservice wurde ohne Fehler ausgeführt.</statusMessage>
+               </Status>
+               <labelData>JVBERi0xLjQKJeLjz9MKNSAwIG9</labelData>
+            </LabelData>
+         </CreationState>
+      </bcs:CreateShipmentOrderResponse>
+   </soap:Body>
+</soap:Envelope>

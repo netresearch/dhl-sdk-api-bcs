@@ -1,0 +1,48 @@
+<?php
+/**
+ * See LICENSE.md for license details.
+ */
+declare(strict_types=1);
+
+namespace Dhl\Sdk\Paket\Bcs\Model\Common;
+
+/**
+ * AbstractResponse
+ *
+ * @package Dhl\Sdk\Paket\Bcs\Model\Common
+ * @author  Rico Sonntag <rico.sonntag@netresearch.de>
+ * @license https://choosealicense.com/licenses/mit/ The MIT License
+ * @link    https://www.netresearch.de/
+ */
+abstract class AbstractResponse
+{
+    /**
+     * The version of the webservice implementation for which the requesting client is developed.
+     *
+     * @var Version $Version
+     */
+    protected $Version;
+
+    /**
+     * Success status after processing the overall request.
+     *
+     * @var StatusInformation $Status
+     */
+    protected $Status;
+
+    /**
+     * @return Version
+     */
+    public function getVersion(): Version
+    {
+        return $this->Version;
+    }
+
+    /**
+     * @return StatusInformation
+     */
+    public function getStatus(): StatusInformation
+    {
+        return $this->Status;
+    }
+}

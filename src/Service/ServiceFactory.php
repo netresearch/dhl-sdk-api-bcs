@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class ServiceFactory
  *
- * @package Dhl\Sdk\Paket\Bcs\Soap
+ * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
@@ -35,15 +35,14 @@ class ServiceFactory implements ServiceFactoryInterface
         LoggerInterface $logger,
         bool $sandboxMode = false
     ): ShipmentServiceInterface {
-        $wsdlHost = 'https://cig.dhl.de';
-        $wsdlPath = '/cig-wsdls/com/dpdhl/wsdl/geschaeftskundenversand-api/3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = 'https://cig.dhl.de/cig-wsdls/com/dpdhl/wsdl/geschaeftskundenversand-api/3.0/geschaeftskundenversand-api-3.0.wsdl';
 
         $options = [
-            'login'    => $authStorage->getApplicationId(),
-            'password' => $authStorage->getApplicationToken(),
-            'classmap' => ClassMap::get(),
-            'trace'    => true,
+            'trace' => 1,
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'classmap' => ClassMap::get(),
+            'login' => $authStorage->getApplicationId(),
+            'password' => $authStorage->getApplicationToken(),
         ];
 
         if ($sandboxMode) {
@@ -51,7 +50,7 @@ class ServiceFactory implements ServiceFactoryInterface
             $options['location'] = self::BASE_URL_SANDBOX;
         }
 
-        $soapClient = new \SoapClient($wsdlHost . $wsdlPath, $options);
+        $soapClient = new \SoapClient($wsdl, $options);
         $soapServiceFactory = new SoapServiceFactory($soapClient);
         $shipmentService = $soapServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
 

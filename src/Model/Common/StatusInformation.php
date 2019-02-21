@@ -9,7 +9,7 @@ namespace Dhl\Sdk\Paket\Bcs\Model\Common;
 /**
  * Success status after processing the overall request.
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
+ * @package Dhl\Sdk\Paket\Bcs\Model\Common
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/

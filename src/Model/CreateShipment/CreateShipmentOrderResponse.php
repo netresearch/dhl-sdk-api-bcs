@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
@@ -18,22 +19,8 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
-class CreateShipmentOrderResponse
+class CreateShipmentOrderResponse extends AbstractResponse
 {
-    /**
-     * The version of the webservice implementation for which the requesting client is developed.
-     *
-     * @var Version $Version
-     */
-    protected $Version;
-
-    /**
-     * Success status after processing the overall request.
-     *
-     * @var StatusInformation $Status
-     */
-    protected $Status;
-
     /**
      * The operation's success status for every single ShipmentOrder will be returned by one CreationState element.
      * It is identifiable via SequenceNumber.
@@ -41,22 +28,6 @@ class CreateShipmentOrderResponse
      * @var CreationState|null $CreationState
      */
     protected $CreationState = null;
-
-    /**
-     * @return Version
-     */
-    public function getVersion(): Version
-    {
-        return $this->Version;
-    }
-
-    /**
-     * @return StatusInformation
-     */
-    public function getStatus(): StatusInformation
-    {
-        return $this->Status;
-    }
 
     /**
      * @return CreationState|null

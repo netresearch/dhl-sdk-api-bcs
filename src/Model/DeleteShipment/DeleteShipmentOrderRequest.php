@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractRequest;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 
 /**
@@ -16,29 +17,23 @@ use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
-class DeleteShipmentOrderRequest
+class DeleteShipmentOrderRequest extends AbstractRequest
 {
-    /**
-     * The version of the webservice implementation for which the requesting client is developed.
-     *
-     * @var Version $Version
-     */
-    protected $Version;
-
     /**
      * Can contain any DHL shipment number.
      *
-     * @var string $shipmentNumber
+     * @var string[] $shipmentNumber
      */
     protected $shipmentNumber;
 
     /**
      * @param Version $Version
-     * @param string $shipmentNumber
+     * @param string[] $shipmentNumbers
      */
-    public function __construct(Version $Version, string $shipmentNumber)
+    public function __construct(Version $Version, array $shipmentNumbers)
     {
-        $this->Version = $Version;
-        $this->shipmentNumber = $shipmentNumber;
+        $this->shipmentNumber = $shipmentNumbers;
+
+        parent::__construct($Version);
     }
 }

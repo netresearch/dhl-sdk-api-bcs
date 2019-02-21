@@ -867,7 +867,7 @@ class ShipmentOrderRequestBuilder
         $sequenceNumber = $this->data['sequenceNumber'] ?? '0';
         $printOnlyIfCodeable = new ServiceConfiguration($this->data['printOnlyIfCodeable'] ?? false);
 
-        if (!isset($this->data['shipper']['reference'], $this->data['shipper']['address'])) {
+        if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
             throw new \InvalidArgumentException("No sender included with shipment order $sequenceNumber.");
         }
 
