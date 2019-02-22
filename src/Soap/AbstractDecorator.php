@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
@@ -41,7 +43,8 @@ abstract class AbstractDecorator extends AbstractClient
      * @param CreateShipmentOrderRequest $requestType
      * @return CreateShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
@@ -54,7 +57,8 @@ abstract class AbstractDecorator extends AbstractClient
      * @param DeleteShipmentOrderRequest $requestType
      * @return DeleteShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {

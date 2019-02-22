@@ -8,6 +8,8 @@ namespace Dhl\Sdk\Paket\Bcs\Api;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 
 /**
  * Interface ShipmentServiceInterface
@@ -24,6 +26,8 @@ interface ShipmentServiceInterface
      * @param \object[] $shipmentOrders
      * @return ShipmentInterface[]
      * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function createShipments(array $shipmentOrders): array;
 
@@ -33,6 +37,8 @@ interface ShipmentServiceInterface
      * @param string[] $shipmentNumbers
      * @return bool
      * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function cancelShipments(array $shipmentNumbers): bool;
 }

@@ -7,11 +7,17 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\Sdk\Paket\Bcs\Service\ServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
+use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
+use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\Test\TestLogger;
 
 /**
@@ -26,99 +32,202 @@ class ShipmentServiceTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function unauthorizedDataProvider()
+    public function successDataProvider()
     {
-        return ShipmentServiceTestProvider::authFailure();
+        return ShipmentServiceTestProvider::createShipmentsSuccess();
     }
 
     /**
-     * Test authentication error (application level, basic auth).
-     *
-     * @test
-     * @dataProvider unauthorizedDataProvider
-     *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param ShipmentOrderType[] $shipmentOrders
-     * @param string $wsdl
-     * @param \SoapFault $fault
+     * @return mixed[]
      */
-    public function createShipmentsAppAuthenticationError(
-        AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $wsdl,
-        \SoapFault $fault
-    ) {
-        $logger = new TestLogger();
-
-        //todo(nr): use mock client that returns $responseXml
-        $soapClient = new \SoapClient($wsdl);
-        $serviceFactory = new SoapServiceFactory($soapClient);
-        $service = $serviceFactory->createShipmentService($authStorage, $logger);
-
-        $serviceFactory = new ServiceFactory();
-        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $shipments = $service->createShipments($shipmentOrders);
-
-        self::assertContainsOnlyInstancesOf(ShipmentInterface::class, $shipments);
-        self::assertTrue($logger->hasInfoRecords() || $logger->hasErrorRecords());
+    public function partialSuccessDataProvider()
+    {
+        return ShipmentServiceTestProvider::createShipmentsPartialSuccess();
     }
 
     /**
-     * Test authentication error (user level, wsi soap header).
-     *
-     * @param ShipmentRequest $request
-     * @param string $responseXml
+     * @return mixed[]
      */
-    public function createShipmentsUserAuthenticationError(ShipmentRequest $request, string $responseXml)
+    public function validationWarningDataProvider()
     {
-
+        return ShipmentServiceTestProvider::createShipmentsValidationWarning();
     }
 
     /**
      * Test shipment success case (all labels available, no issues).
      *
-     * @param ShipmentRequest $request
+     * @test
+     * @dataProvider successDataProvider
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
      */
-    public function createShipmentsSuccess(ShipmentRequest $request, string $responseXml)
-    {
+    public function createShipmentsSuccess(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ) {
+        $logger = new TestLogger();
 
+        $clientOptions = [
+            'trace' => 1,
+            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'classmap' => ClassMap::get(),
+            'login' => $authStorage->getApplicationId(),
+            'password' => $authStorage->getApplicationToken(),
+        ];
+
+        /** @var \SoapClient|MockObject $soapClient */
+        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
+
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $result = $service->createShipments($shipmentOrders);
+
+        Expectation::assertAllShipmentsBooked(
+            $soapClient->__getLastRequest(),
+            $soapClient->__getLastResponse(),
+            $result
+        );
+        CommunicationExpectation::assertRequestLogged($soapClient->__getLastRequest(), $logger);
+        CommunicationExpectation::assertResponseLogged($soapClient->__getLastResponse(), $logger);
     }
 
     /**
      * Test shipment partial success case (some labels available).
      *
-     * @param ShipmentRequest $request
+     * @test
+     * @dataProvider partialSuccessDataProvider
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
      */
-    public function createShipmentsPartialSuccess(ShipmentRequest $request, string $responseXml)
-    {
+    public function createShipmentsPartialSuccess(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ) {
+        $logger = new TestLogger();
 
+        $clientOptions = [
+            'trace' => 1,
+            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'classmap' => ClassMap::get(),
+            'login' => $authStorage->getApplicationId(),
+            'password' => $authStorage->getApplicationToken(),
+        ];
+
+        /** @var \SoapClient|MockObject $soapClient */
+        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
+
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $result = $service->createShipments($shipmentOrders);
+
+        // todo(nr): assert that result contains successfully created shipments and hard validation errors are logged.
     }
 
     /**
      * Test shipment success case (all labels available, warnings exist).
      *
-     * @param ShipmentRequest $request
+     * @test
+     * @dataProvider validationWarningDataProvider
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
      */
-    public function createShipmentsVerificationWarning(ShipmentRequest $request, string $responseXml)
-    {
+    public function createShipmentsValidationWarning(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ) {
+        $logger = new TestLogger();
+
+        $clientOptions = [
+            'trace' => 1,
+            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'classmap' => ClassMap::get(),
+            'login' => $authStorage->getApplicationId(),
+            'password' => $authStorage->getApplicationToken(),
+        ];
+
+        /** @var \SoapClient|MockObject $soapClient */
+        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
+
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $result = $service->createShipments($shipmentOrders);
+
+        // todo(nr): assert that result contains successfully created shipments and weak validation warnings are logged.
+    }
+
+    /**
+     * Test shipment validation failure case (no labels available, client exception thrown).
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
+     * @param string $responseXml
+     * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function createShipmentsValidationError(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ) {
 
     }
 
-    public function createShipmentsVerificationError(ShipmentRequest $request, string $responseXml)
-    {
-
-    }
-
-    public function createShipmentsServerError(ShipmentRequest $request, string $responseXml)
-    {
-
-    }
-
-    public function createShipmentsGeneralError(ShipmentRequest $request, string $responseXml)
-    {
+    /**
+     * Test shipment error case (server error or general error, server exception thrown).
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
+     * @param string $responseXml
+     * @throws AuthenticationException
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function createShipmentsError(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ) {
 
     }
 }

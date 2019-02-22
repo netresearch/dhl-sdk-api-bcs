@@ -133,5 +133,4 @@ class Shipment implements ShipmentInterface
             self::LABEL_TYPE_COD => $this->getCodLabel(),
         ];
     }
-
 }

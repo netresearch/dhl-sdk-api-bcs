@@ -33,6 +33,11 @@ class CreateShipmentResponseMapper
         $creationStates = $shipmentResponseType->getCreationState();
 
         $shipments = array_map(function (CreationState $creationState) {
+            if ($creationState->getLabelData()->getStatus()->getStatusCode() !== 0) {
+                // validation error occurred that did not lead to an exception. no label was created.
+                return null;
+            }
+
             $shipment = new Shipment(
                 $creationState->getSequenceNumber(),
                 $creationState->getShipmentNumber(),
@@ -45,6 +50,6 @@ class CreateShipmentResponseMapper
             return $shipment;
         }, $creationStates);
 
-        return $shipments;
+        return array_filter($shipments);
     }
 }

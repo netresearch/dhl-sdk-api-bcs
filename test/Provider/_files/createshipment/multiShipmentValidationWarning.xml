@@ -8,11 +8,11 @@
          </bcs:Version>
          <Status>
             <statusCode>0</statusCode>
-            <statusText>ok</statusText>
+            <statusText>Weak validation error occured.</statusText>
          </Status>
          <CreationState>
             <sequenceNumber>0</sequenceNumber>
-            <shipmentNumber>222201010035507576</shipmentNumber>
+            <shipmentNumber>222201010035521978</shipmentNumber>
             <LabelData>
                <Status>
                   <statusCode>0</statusCode>
@@ -20,6 +20,19 @@
                   <statusMessage>Der Webservice wurde ohne Fehler ausgeführt.</statusMessage>
                </Status>
                <labelData>JVBERi0xLjQKJeLjz9MKNSAwIG9-0</labelData>
+            </LabelData>
+         </CreationState>
+         <CreationState>
+            <sequenceNumber>1</sequenceNumber>
+            <shipmentNumber>222201010035521985</shipmentNumber>
+            <LabelData>
+               <Status>
+                  <statusCode>0</statusCode>
+                  <statusText>Weak validation error occured.</statusText>
+                  <statusMessage>Die angegebene  Straße kann nicht gefunden werden.</statusMessage>
+                  <statusMessage>Die angegebene  Straße kann nicht gefunden werden.</statusMessage>
+               </Status>
+               <labelData>JVBERi0xLjQKJeLjz9MKNSAwIG9-1</labelData>
             </LabelData>
          </CreationState>
       </bcs:CreateShipmentOrderResponse>

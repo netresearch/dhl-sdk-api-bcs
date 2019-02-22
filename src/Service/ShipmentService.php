@@ -9,6 +9,8 @@ namespace Dhl\Sdk\Paket\Bcs\Service;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
@@ -16,7 +18,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
-use Psr\Log\LoggerInterface;
 
 /**
  * ShipmentService
@@ -66,7 +67,8 @@ class ShipmentService implements ShipmentServiceInterface
      * @param \object[]|ShipmentOrderType[] $shipmentOrders
      * @return ShipmentInterface[]
      * @throws AuthenticationException
-     * @throws \Exception
+     * @throws ClientException
+     * @throws ServerException
      */
     public function createShipments(array $shipmentOrders): array
     {
@@ -74,15 +76,10 @@ class ShipmentService implements ShipmentServiceInterface
         $createShipmentRequest = new CreateShipmentOrderRequest($version, $shipmentOrders);
         $createShipmentRequest->setLabelResponseType('B64');
 
-        try {
-            $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
-            $result = $this->createShipmentResponseMapper->map($shipmentResponse);
+        $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
+        $result = $this->createShipmentResponseMapper->map($shipmentResponse);
 
-            return $result;
-        } catch (\SoapFault $fault) {
-            // TODO: Throw proper exceptions.
-            throw new \Exception($fault->getMessage(), $fault->getCode(), $fault);
-        }
+        return $result;
     }
 
     /**
@@ -93,21 +90,17 @@ class ShipmentService implements ShipmentServiceInterface
      * @param string[] $shipmentNumbers
      * @return bool
      * @throws AuthenticationException
-     * @throws \Exception
+     * @throws ClientException
+     * @throws ServerException
      */
     public function cancelShipments(array $shipmentNumbers): bool
     {
         $version = new Version('3', '0');
         $deleteShipmentRequest = new DeleteShipmentOrderRequest($version, $shipmentNumbers);
 
-        try {
-            $shipmentResponse = $this->client->deleteShipmentOrder($deleteShipmentRequest);
-            $result = $this->deleteShipmentResponseMapper->map($shipmentResponse);
+        $shipmentResponse = $this->client->deleteShipmentOrder($deleteShipmentRequest);
+        $result = $this->deleteShipmentResponseMapper->map($shipmentResponse);
 
-            return $result;
-        } catch (\SoapFault $fault) {
-            // TODO: Throw proper exceptions.
-            throw new \Exception($fault->getMessage(), $fault->getCode(), $fault);
-        }
+        return $result;
     }
 }

@@ -54,8 +54,8 @@ class SoapServiceFactory implements ServiceFactoryInterface
         $deleteShipmentResponseMapper = new DeleteShipmentResponseMapper();
 
         $pluginClient = new Client($this->soapClient);
-        $pluginClient = new LogDecorator($pluginClient, $this->soapClient, $logger);
-        $pluginClient = new ErrorDecorator($pluginClient);
+        $pluginClient = new ErrorHandlerDecorator($pluginClient);
+        $pluginClient = new LoggerDecorator($pluginClient, $this->soapClient, $logger);
         $pluginClient = new AuthenticationDecorator($pluginClient, $this->soapClient, $authStorage);
 
         $service = new ShipmentService(

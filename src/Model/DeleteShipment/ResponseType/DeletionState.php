@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
+
 /**
  * Status of the respective deletion operation.
  *
@@ -26,7 +28,7 @@ class DeletionState
     /**
      * Success status of processing the deletion of particular shipment.
      *
-     * @var Statusinformation $Status
+     * @var StatusInformation $Status
      */
     protected $Status;
 

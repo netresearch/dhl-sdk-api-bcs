@@ -8,6 +8,8 @@ namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
@@ -72,7 +74,8 @@ class AuthenticationDecorator extends AbstractDecorator
      * @param CreateShipmentOrderRequest $requestType
      * @return CreateShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
@@ -86,12 +89,12 @@ class AuthenticationDecorator extends AbstractDecorator
      * @param DeleteShipmentOrderRequest $requestType
      * @return DeleteShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
         $this->addAuthHeader();
         return parent::deleteShipmentOrder($requestType);
     }
-
 }

@@ -7,20 +7,25 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 use Psr\Log\LoggerInterface;
 
 /**
- * LogDecorator
+ * LoggerDecorator
  *
  * @package Dhl\Sdk\Paket\Bcs\Soap
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class LogDecorator extends AbstractDecorator
+class LoggerDecorator extends AbstractDecorator
 {
     /**
      * @var \SoapClient
@@ -33,7 +38,7 @@ class LogDecorator extends AbstractDecorator
     private $logger;
 
     /**
-     * LogDecorator constructor.
+     * LoggerDecorator constructor.
      * @param AbstractClient $client
      * @param \SoapClient $soapClient
      * @param LoggerInterface $logger
@@ -47,12 +52,15 @@ class LogDecorator extends AbstractDecorator
     }
 
     /**
+     * Log entire webservice requests and responses.
+     *
      * @param \Closure $performRequest
      * @return CreateShipmentOrderResponse|DeleteShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
-    private function log(\Closure $performRequest)
+    private function logCommunication(\Closure $performRequest)
     {
         try {
             $logLevel = \Psr\Log\LogLevel::INFO;
@@ -61,10 +69,18 @@ class LogDecorator extends AbstractDecorator
             $response = $performRequest();
 
             return $response;
-        } catch (\SoapFault $fault) {
+        } catch (AuthenticationException $exception) {
             $logLevel = \Psr\Log\LogLevel::ERROR;
 
-            throw $fault;
+            throw $exception;
+        } catch (ServerException $exception) {
+            $logLevel = \Psr\Log\LogLevel::ERROR;
+
+            throw $exception;
+        } catch (ClientException $exception) {
+            $logLevel = \Psr\Log\LogLevel::ERROR;
+
+            throw $exception;
         } finally {
             $lastRequest = sprintf(
                 "%s\n%s",
@@ -84,12 +100,43 @@ class LogDecorator extends AbstractDecorator
     }
 
     /**
+     * Log status information from responses.
+     *
+     * @param StatusInformation $status
+     * @param string $shipmentNumber
+     * @param int $sequenceNumber
+     */
+    private function logStatus(StatusInformation $status, $shipmentNumber = '', $sequenceNumber = 0)
+    {
+        $shipmentNumber = $shipmentNumber ?: $sequenceNumber;
+        $statusCode = $status->getStatusCode();
+        $statusText = $status->getStatusText();
+        $statusMessages = array_unique($status->getStatusMessage());
+        $logMessage = sprintf(
+            'Shipment %s: Status %s (%s) – %s',
+            $shipmentNumber,
+            $statusCode,
+            $statusText,
+            implode(' ', $statusMessages)
+        );
+
+        if ($statusCode !== 0) {
+            $this->logger->error($logMessage);
+        } elseif ($statusText === 'Weak validation error occured.') {
+            $this->logger->warning($logMessage);
+        } else {
+            $this->logger->debug($logMessage);
+        }
+    }
+
+    /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
      * @param CreateShipmentOrderRequest $requestType
      * @return CreateShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
@@ -97,7 +144,15 @@ class LogDecorator extends AbstractDecorator
             return parent::createShipmentOrder($requestType);
         };
 
-        return $this->log($performRequest);
+        /** @var CreateShipmentOrderResponse $response */
+        $response = $this->logCommunication($performRequest);
+
+        /** @var CreationState $creationState */
+        foreach ($response->getCreationState() as $creationState) {
+            $this->logStatus($creationState->getLabelData()->getStatus(), $creationState->getShipmentNumber());
+        }
+
+        return $response;
     }
 
     /**
@@ -106,7 +161,8 @@ class LogDecorator extends AbstractDecorator
      * @param DeleteShipmentOrderRequest $requestType
      * @return DeleteShipmentOrderResponse
      * @throws AuthenticationException
-     * @throws \SoapFault
+     * @throws ServerException
+     * @throws ClientException
      */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
@@ -114,6 +170,14 @@ class LogDecorator extends AbstractDecorator
             return parent::deleteShipmentOrder($requestType);
         };
 
-        return $this->log($performRequest);
+        /** @var DeleteShipmentOrderResponse $response */
+        $response = $this->logCommunication($performRequest);
+
+        /** @var DeletionState $deletionState */
+        foreach ($response->getDeletionState() as $deletionState) {
+            $this->logStatus($deletionState->getStatus(), $deletionState->getShipmentNumber());
+        }
+
+        return $response;
     }
 }

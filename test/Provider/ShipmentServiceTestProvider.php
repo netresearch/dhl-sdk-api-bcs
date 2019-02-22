@@ -6,9 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
-use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
-use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
-
 /**
  * Class ShipmentServiceTestProvider
  *
@@ -18,38 +15,64 @@ use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
  */
 class ShipmentServiceTestProvider
 {
-    public static function appAuthFailure()
+    /**
+     * Provide request and response for the test case
+     * - shipment(s) sent to the API, all label(s) successfully booked.
+     *
+     * @return mixed[]
+     */
+    public static function createShipmentsSuccess()
     {
         $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
-        $authStorage = new AuthenticationStorage(
-            'magento_1',
-            'eeeeehh…',
-            '2222222222_01',
-            'pass',
-            '2222222222'
-        );
-        $shipmentOrders = ShipmentRequestProvider::createSingleLabelSuccess();
+        $authStorage = AuthenticationStorageProvider::authSuccess();
+
+        $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
+        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/singleShipmentSuccess.xml');
+
+        $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentSuccess();
+        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentSuccess.xml');
 
         return [
-            'application auth error' => [$wsdl, $authStorage, $shipmentOrders],
+            'single label success' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
+            'multi label success' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
         ];
     }
 
-    public static function userAuthFailure()
+    /**
+     * Provide request and response for the test case
+     * - shipment(s) sent to the API, some label(s) successfully booked.
+     *
+     * @return mixed[]
+     */
+    public static function createShipmentsPartialSuccess()
     {
         $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
-        $authStorage = new AuthenticationStorage(
-            'magento_1',
-            '2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f',
-            '2222222222_01',
-            'no-pass',
-            '2222222222'
-        );
-        $shipmentOrders = ShipmentRequestProvider::createSingleLabelSuccess();
-        $responseXml = \file_get_contents(__DIR__ . '/_files/auth/passwordExpired.xml');
+        $authStorage = AuthenticationStorageProvider::authSuccess();
+
+        $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
+        $labelResponse = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentPartialSuccess.xml');
 
         return [
-            'user auth error' => [$wsdl, $authStorage, $shipmentOrders, $responseXml],
+            'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
+        ];
+    }
+
+    /**
+     * Provide request and response for the test case
+     * - shipment(s) sent to the API, all label(s) successfully booked, weak validation error occurred.
+     *
+     * @return mixed[]
+     */
+    public static function createShipmentsValidationWarning()
+    {
+        $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $authStorage = AuthenticationStorageProvider::authSuccess();
+
+        $labelRequest = ShipmentRequestProvider::createShipmentsValidationWarning();
+        $labelResponse = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentValidationWarning.xml');
+
+        return [
+            'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
         ];
     }
 }
