@@ -75,4 +75,27 @@ class ShipmentServiceTestProvider
             'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
         ];
     }
+
+    /**
+     * Provide request and response for the test case
+     * - shipment(s) sent to the API, no label(s) successfully booked, hard validation error occurred.
+     *
+     * @return mixed[]
+     */
+    public static function createShipmentsError()
+    {
+        $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $authStorage = AuthenticationStorageProvider::authSuccess();
+
+        $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentError();
+        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/singleShipmentValidationError.xml');
+
+        $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentError();
+        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentValidationError.xml');
+
+        return [
+            'single label validation error' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
+            'multi label validation error' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
+        ];
+    }
 }

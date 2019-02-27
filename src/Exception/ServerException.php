@@ -16,14 +16,4 @@ namespace Dhl\Sdk\Paket\Bcs\Exception;
  */
 class ServerException extends ServiceException
 {
-    /**
-     * Create server exception when no response is available.
-     *
-     * @param \Exception $exception
-     * @return static
-     */
-    public static function create(\Exception $exception)
-    {
-        return new static($exception->getMessage(), $exception->getCode(), $exception);
-    }
 }

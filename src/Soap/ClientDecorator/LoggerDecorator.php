@@ -63,10 +63,19 @@ class LoggerDecorator extends AbstractDecorator
     private function logCommunication(\Closure $performRequest)
     {
         try {
-            $logLevel = \Psr\Log\LogLevel::INFO;
-
             /** @var CreateShipmentOrderResponse|DeleteShipmentOrderResponse $response */
             $response = $performRequest();
+
+            // adjust log level on successful responses
+            if ($response->getStatus()->getStatusText() === 'Some Shipments had errors.') {
+                // hard validation errors contained in response.
+                $logLevel = \Psr\Log\LogLevel::ERROR;
+            } elseif ($response->getStatus()->getStatusText() === 'Weak validation error occured.') {
+                // weak validation errors contained in response.
+                $logLevel = \Psr\Log\LogLevel::WARNING;
+            } else {
+                $logLevel = \Psr\Log\LogLevel::INFO;
+            }
 
             return $response;
         } catch (AuthenticationException $exception) {
@@ -96,6 +105,10 @@ class LoggerDecorator extends AbstractDecorator
 
             $this->logger->log($logLevel, $lastRequest);
             $this->logger->log($logLevel, $lastResponse);
+
+            if (isset($exception) && $exception instanceof \Exception) {
+                $this->logger->log($logLevel, $exception->getMessage());
+            }
         }
     }
 

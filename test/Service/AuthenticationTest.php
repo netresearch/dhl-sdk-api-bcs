@@ -91,7 +91,11 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
         try {
             $service->createShipments($shipmentOrders);
         } catch (AuthenticationException $exception) {
-            CommunicationExpectation::assertErrorRequestLogged($soapClient->__getLastRequest(), $logger);
+            CommunicationExpectation::assertErrorsLogged(
+                $soapClient->__getLastRequest(),
+                $soapFault->getMessage(),
+                $logger
+            );
 
             throw $exception;
         }
@@ -151,8 +155,11 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
         try {
             $service->createShipments($shipmentOrders);
         } catch (AuthenticationException $exception) {
-            CommunicationExpectation::assertErrorRequestLogged($soapClient->__getLastRequest(), $logger);
-            CommunicationExpectation::assertErrorResponseLogged($soapClient->__getLastResponse(), $logger);
+            CommunicationExpectation::assertErrorsLogged(
+                $soapClient->__getLastRequest(),
+                $soapClient->__getLastResponse(),
+                $logger
+            );
 
             throw $exception;
         }

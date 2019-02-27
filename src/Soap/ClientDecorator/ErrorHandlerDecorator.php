@@ -69,6 +69,8 @@ class ErrorHandlerDecorator extends AbstractDecorator
             throw new AuthenticationException($fault->getMessage(), 401, $fault);
         }
 
+        //todo(nr): extract http response status from last response headers. if 5xx, return serverexception
+
         throw new ClientException($fault->getMessage(), $fault->getCode(), $fault);
     }
 

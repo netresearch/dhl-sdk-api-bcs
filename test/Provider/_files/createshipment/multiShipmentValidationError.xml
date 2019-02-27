@@ -1,0 +1,37 @@
+<soap:Envelope xmlns:bcs="http://dhl.de/webservices/businesscustomershipping/3.0" xmlns:cis="http://dhl.de/webservice/cisbase" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soap:Header/>
+   <soap:Body>
+      <bcs:CreateShipmentOrderResponse>
+         <bcs:Version>
+            <majorRelease>3</majorRelease>
+            <minorRelease>0</minorRelease>
+         </bcs:Version>
+         <Status>
+            <statusCode>1101</statusCode>
+            <statusText>Hard validation error occured.</statusText>
+         </Status>
+         <CreationState>
+            <sequenceNumber>0</sequenceNumber>
+            <LabelData>
+               <Status>
+                  <statusCode>1101</statusCode>
+                  <statusText>Hard validation error occured.</statusText>
+                  <statusMessage>In der Sendung trat mindestens ein harter Fehler auf.</statusMessage>
+                  <statusMessage>Die angegebene  Straße kann nicht gefunden werden.</statusMessage>
+               </Status>
+            </LabelData>
+         </CreationState>
+         <CreationState>
+            <sequenceNumber>1</sequenceNumber>
+            <LabelData>
+               <Status>
+                  <statusCode>1101</statusCode>
+                  <statusText>Hard validation error occured.</statusText>
+                  <statusMessage>In der Sendung trat mindestens ein harter Fehler auf.</statusMessage>
+                  <statusMessage>Die angegebene  Straße kann nicht gefunden werden.</statusMessage>
+               </Status>
+            </LabelData>
+         </CreationState>
+      </bcs:CreateShipmentOrderResponse>
+   </soap:Body>
+</soap:Envelope>

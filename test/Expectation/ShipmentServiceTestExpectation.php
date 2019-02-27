@@ -52,4 +52,37 @@ class ShipmentServiceTestExpectation
             Assert::assertEmpty(array_diff($expected, $actual), "Returned labels are not mapped to result for $sn.");
         }
     }
+
+    /**
+     * @param string $requestXml
+     * @param string $responseXml
+     * @param ShipmentInterface[] $result
+     */
+    public static function assertSomeShipmentsBooked(string $requestXml, string $responseXml, array $result)
+    {
+        $request = new \SimpleXMLElement($requestXml);
+
+        $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $request->registerXPathNamespace('ns2', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $request = $request->xpath('/SOAP-ENV:Envelope/SOAP-ENV:Body/ns2:CreateShipmentOrderRequest')[0];
+
+        $response = new \SimpleXMLElement($responseXml);
+        $response->registerXPathNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $response->registerXPathNamespace('bcs', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $response = $response->xpath('/soap:Envelope/soap:Body/bcs:CreateShipmentOrderResponse')[0];
+
+        // assert that all sequence numbers of the request are available in the response
+        $expected = $request->xpath('./ShipmentOrder/sequenceNumber');
+        $actual = $response->xpath('./CreationState/sequenceNumber');
+        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+
+        // assert that success and error status are contained in the response
+        $labels = $response->xpath("./CreationState/LabelData[./Status/statusCode = '0']");
+        $errors = $response->xpath("./CreationState/LabelData[./Status/statusCode != '0']");
+        Assert::assertCount(count($expected), array_merge($labels, $errors));
+
+        // assert that shipments were created but not all of them
+        Assert::assertNotEmpty($result);
+        Assert::assertLessThan(count($expected), count($result));
+    }
 }

@@ -16,14 +16,4 @@ namespace Dhl\Sdk\Paket\Bcs\Exception;
  */
 class ClientException extends ServiceException
 {
-    /**
-     * Create client exception.
-     *
-     * @param \Exception $exception
-     * @return static
-     */
-    public static function create(\Exception $exception)
-    {
-        return new static($exception->getMessage(), $exception->getCode(), $exception);
-    }
 }
