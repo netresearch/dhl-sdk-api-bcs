@@ -34,6 +34,11 @@ interface ShipmentInterface
     /**
      * @return string
      */
+    public function getReturnShipmentNumber(): string;
+
+    /**
+     * @return string
+     */
     public function getShipmentLabel(): string;
 
     /**

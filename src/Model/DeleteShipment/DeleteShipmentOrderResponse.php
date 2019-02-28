@@ -28,9 +28,9 @@ class DeleteShipmentOrderResponse extends AbstractResponse
     protected $DeletionState;
 
     /**
-     * @return DeletionState
+     * @return DeletionState|null
      */
-    public function getDeletionState(): DeletionState
+    public function getDeletionState()
     {
         return $this->DeletionState;
     }

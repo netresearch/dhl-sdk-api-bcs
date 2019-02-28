@@ -35,10 +35,10 @@ interface ShipmentServiceInterface
      * This operation cancels earlier created shipments.
      *
      * @param string[] $shipmentNumbers
-     * @return bool
+     * @return string[]
      * @throws AuthenticationException
      * @throws ClientException
      * @throws ServerException
      */
-    public function cancelShipments(array $shipmentNumbers): bool;
+    public function cancelShipments(array $shipmentNumbers): array;
 }

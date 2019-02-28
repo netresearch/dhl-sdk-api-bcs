@@ -30,6 +30,11 @@ class Shipment implements ShipmentInterface
     /**
      * @var string
      */
+    private $returnShipmentNumber;
+
+    /**
+     * @var string
+     */
     private $shipmentLabel;
 
     /**
@@ -51,6 +56,7 @@ class Shipment implements ShipmentInterface
      * Shipment constructor.
      * @param string $sequenceNumber
      * @param string $shipmentNumber
+     * @param string $returnShipmentNumber
      * @param string $shipmentLabel
      * @param string $returnLabel
      * @param string $exportLabel
@@ -59,6 +65,7 @@ class Shipment implements ShipmentInterface
     public function __construct(
         string $sequenceNumber,
         string $shipmentNumber,
+        string $returnShipmentNumber,
         string $shipmentLabel,
         string $returnLabel,
         string $exportLabel,
@@ -66,6 +73,7 @@ class Shipment implements ShipmentInterface
     ) {
         $this->sequenceNumber = $sequenceNumber;
         $this->shipmentNumber = $shipmentNumber;
+        $this->returnShipmentNumber = $returnShipmentNumber;
         $this->shipmentLabel = $shipmentLabel;
         $this->returnLabel = $returnLabel;
         $this->exportLabel = $exportLabel;
@@ -87,6 +95,14 @@ class Shipment implements ShipmentInterface
     public function getShipmentNumber(): string
     {
         return $this->shipmentNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnShipmentNumber(): string
+    {
+        return $this->returnShipmentNumber;
     }
 
     /**

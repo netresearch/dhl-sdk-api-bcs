@@ -67,7 +67,10 @@ class LoggerDecorator extends AbstractDecorator
             $response = $performRequest();
 
             // adjust log level on successful responses
-            if ($response->getStatus()->getStatusText() === 'Some Shipments had errors.') {
+            if ($response->getStatus()->getStatusCode() === 2000) {
+                // unknown shipment number errors contained in response.
+                $logLevel = \Psr\Log\LogLevel::ERROR;
+            } elseif ($response->getStatus()->getStatusText() === 'Some Shipments had errors.') {
                 // hard validation errors contained in response.
                 $logLevel = \Psr\Log\LogLevel::ERROR;
             } elseif ($response->getStatus()->getStatusText() === 'Weak validation error occured.') {

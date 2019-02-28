@@ -14,6 +14,7 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 
 /**
  * ErrorHandlerDecorator
@@ -49,9 +50,24 @@ class ErrorHandlerDecorator extends AbstractDecorator
                 // Service temporary not available | General error
                 throw new ServerException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
             case 1101:
-            case 2000:
-                // Hard validation error occured | Unknown shipment number
+                // Hard validation error occured
                 throw new ClientException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+            case 2000:
+                // Unknown shipment number, check item status
+                /** @var DeleteShipmentOrderResponse $response */
+                $deletionStates = $response->getDeletionState();
+                /** @var DeletionState[] $deletionStates */
+                $allFailed = array_reduce($deletionStates, function (bool $fail, DeletionState $deletionState) {
+                    return ($fail && ($deletionState->getStatus()->getStatusCode() !== 0));
+                }, true);
+
+                if ($allFailed) {
+                    // no successfully cancelled shipments in response
+                    throw new ClientException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+                }
+
+                // some shipments were cancelled successfully
+                return $response;
             default:
                 // ok | Weak validation error occured.
                 return $response;
@@ -62,6 +78,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @param \SoapFault $fault
      * @throws AuthenticationException
      * @throws ClientException
+     * @throws ServerException
      */
     private function handleSoapFault(\SoapFault $fault)
     {
@@ -69,7 +86,13 @@ class ErrorHandlerDecorator extends AbstractDecorator
             throw new AuthenticationException($fault->getMessage(), 401, $fault);
         }
 
-        //todo(nr): extract http response status from last response headers. if 5xx, return serverexception
+        if (false !== strpos($fault->faultcode, 'Client')) {
+            throw new ClientException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 400, $fault);
+        }
+
+        if (false !== strpos($fault->faultcode, 'Server')) {
+            throw new ServerException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 500, $fault);
+        }
 
         throw new ClientException($fault->getMessage(), $fault->getCode(), $fault);
     }

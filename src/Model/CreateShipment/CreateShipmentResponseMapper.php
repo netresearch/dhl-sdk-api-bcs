@@ -38,10 +38,10 @@ class CreateShipmentResponseMapper
                 return null;
             }
 
-            //todo(nr): handle return shipment number
             $shipment = new Shipment(
                 $creationState->getSequenceNumber(),
                 $creationState->getShipmentNumber(),
+                (string) $creationState->getReturnShipmentNumber(),
                 (string) $creationState->getLabelData()->getLabelData(),
                 (string) $creationState->getLabelData()->getReturnLabelData(),
                 (string) $creationState->getLabelData()->getExportLabelData(),

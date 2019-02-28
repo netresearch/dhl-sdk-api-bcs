@@ -85,15 +85,13 @@ class ShipmentService implements ShipmentServiceInterface
     /**
      * Cancel earlier created shipments. Cancellation is only possible before the end-of-the-day manifest.
      *
-     * todo(nr): return cancelled shipments, not bool?
-     *
      * @param string[] $shipmentNumbers
-     * @return bool
+     * @return string[]
      * @throws AuthenticationException
      * @throws ClientException
      * @throws ServerException
      */
-    public function cancelShipments(array $shipmentNumbers): bool
+    public function cancelShipments(array $shipmentNumbers): array
     {
         $version = new Version('3', '0');
         $deleteShipmentRequest = new DeleteShipmentOrderRequest($version, $shipmentNumbers);
