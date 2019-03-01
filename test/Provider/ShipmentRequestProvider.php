@@ -29,7 +29,7 @@ class ShipmentRequestProvider
         $requestBuilder = new ShipmentOrderRequestBuilder();
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('DE', '04229', 'Leipzig', 'Nonnenstraße', '11d', 'Netresearch GmbH & Co.KG');
-        $requestBuilder->setRecipientAddress('DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20', 'Happy Customer');
+        $requestBuilder->setRecipientAddress('DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20', 'John Doe');
         $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();

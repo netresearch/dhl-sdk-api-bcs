@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Soap;
+namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
@@ -15,6 +15,7 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 
 /**
  * ErrorHandlerDecorator

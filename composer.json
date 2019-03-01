@@ -8,6 +8,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Christoph Aßmann",
+            "email": "christoph.assmann@netresearch.de"
+        },
+        {
             "name": "Rico Sonntag",
             "email": "rico.sonntag@netresearch.de"
         }

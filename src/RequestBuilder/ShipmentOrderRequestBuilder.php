@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\BankType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CommunicationType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CountryType;
@@ -39,14 +40,14 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentService;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipperType;
 
 /**
- * CreateShipmentRequestBuilder
+ * ShipmentOrderRequestBuilder
  *
  * @package Dhl\Sdk\Paket\Bcs\Serializer
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
-class ShipmentOrderRequestBuilder
+class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterface
 {
     /**
      * The collected data used to build the request
@@ -57,9 +58,9 @@ class ShipmentOrderRequestBuilder
 
     /**
      * @param string $sequenceNumber
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilder
+    public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface
     {
         $this->data['sequenceNumber'] = $sequenceNumber;
 
@@ -68,9 +69,9 @@ class ShipmentOrderRequestBuilder
 
     /**
      * @param bool $printOnlyIfCodeable
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPrintOnlyIfCodeable(bool $printOnlyIfCodeable): ShipmentOrderRequestBuilder
+    public function setPrintOnlyIfCodeable(bool $printOnlyIfCodeable): ShipmentOrderRequestBuilderInterface
     {
         $this->data['printOnlyIfCodeable'] = $printOnlyIfCodeable;
 
@@ -82,12 +83,12 @@ class ShipmentOrderRequestBuilder
      *
      * @param string $accountNumber
      * @param string|null $returnAccountNumber Provide if return label should included with response.
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
         string $accountNumber,
         string $returnAccountNumber = null
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['account'] = $accountNumber;
         $this->data['shipper']['returnAccount'] = $returnAccountNumber;
 
@@ -115,7 +116,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAddress(
         string $country,
@@ -132,7 +133,7 @@ class ShipmentOrderRequestBuilder
         string $state = null,
         string $dispatchingInformation = null,
         array $addressAddition = []
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['address']['country'] = $country;
         $this->data['shipper']['address']['postalCode'] = $postalCode;
         $this->data['shipper']['address']['city'] = $city;
@@ -158,7 +159,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $bic
      * @param string|null $accountReference
      * @param string[] $notes
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperBankData(
         string $accountOwner,
@@ -167,7 +168,7 @@ class ShipmentOrderRequestBuilder
         string $bic = null,
         string $accountReference = null,
         array $notes = []
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['bankData']['owner'] = $accountOwner;
         $this->data['shipper']['bankData']['bankName'] = $bankName;
         $this->data['shipper']['bankData']['iban'] = $iban;
@@ -198,7 +199,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnAddress(
         string $country,
@@ -215,7 +216,7 @@ class ShipmentOrderRequestBuilder
         string $state = null,
         string $dispatchingInformation = null,
         array $addressAddition = []
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['return']['address']['country'] = $country;
         $this->data['return']['address']['postalCode'] = $postalCode;
         $this->data['return']['address']['city'] = $city;
@@ -251,7 +252,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setRecipientAddress(
         string $country,
@@ -268,7 +269,7 @@ class ShipmentOrderRequestBuilder
         string $state = null,
         string $dispatchingInformation = null,
         array $addressAddition = []
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['address']['country'] = $country;
         $this->data['recipient']['address']['postalCode'] = $postalCode;
         $this->data['recipient']['address']['city'] = $city;
@@ -291,9 +292,9 @@ class ShipmentOrderRequestBuilder
      * Enable sending recipient notifications by email after successful manifesting of shipment.
      *
      * @param string $email
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setRecipientNotification(string $email): ShipmentOrderRequestBuilder
+    public function setRecipientNotification(string $email): ShipmentOrderRequestBuilderInterface
     {
         $this->data['recipient']['notification'] = $email;
 
@@ -319,7 +320,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $shipmentReference
      * @param string|null $returnReference
      * @param string|null $costCentre
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipmentDetails(
         string $productCode,
@@ -327,7 +328,7 @@ class ShipmentOrderRequestBuilder
         string $shipmentReference = null,
         string $returnReference = null,
         string $costCentre = null
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
 
         $this->data['shipmentDetails']['product'] = $productCode;
         $this->data['shipmentDetails']['date'] = $cetDate;
@@ -343,14 +344,14 @@ class ShipmentOrderRequestBuilder
      *
      * @param float $weight Weight in KG
      * @param float $insuredValue The amount the package should be insured with. Omit if standard amount is sufficient.
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDetails(
         float $weight,
         float $insuredValue = null
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['packageDetails']['weight'] = $weight;
-        $this->data['packageDetails']['insuredValue'] = $insuredValue;
+        $this->data['services']['insuredValue'] = $insuredValue;
 
         return $this;
     }
@@ -361,12 +362,12 @@ class ShipmentOrderRequestBuilder
      *
      * @param float $codAmount Money amount to be collected.
      * @param bool $addFee Indicate whether or not transmission fee should be added to the COD amount automatically.
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setCodAmount(float $codAmount, bool $addFee = null): ShipmentOrderRequestBuilder
+    public function setCodAmount(float $codAmount, bool $addFee = null): ShipmentOrderRequestBuilderInterface
     {
-        $this->data['packageDetails']['codAmount'] = $codAmount;
-        $this->data['packageDetails']['addCodFee'] = $addFee;
+        $this->data['services']['cod']['codAmount'] = $codAmount;
+        $this->data['services']['cod']['addCodFee'] = $addFee;
 
         return $this;
     }
@@ -377,13 +378,13 @@ class ShipmentOrderRequestBuilder
      * @param float $width Width in cm
      * @param float $length Length in cm
      * @param float $height Height in cm
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDimensions(
         float $width,
         float $length,
         float $height
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['packageDetails']['dimensions']['width'] = $width;
         $this->data['packageDetails']['dimensions']['length'] = $length;
         $this->data['packageDetails']['dimensions']['height'] = $height;
@@ -400,7 +401,7 @@ class ShipmentOrderRequestBuilder
      * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackstation(
         string $packstationNumber,
@@ -409,7 +410,7 @@ class ShipmentOrderRequestBuilder
         string $postNumber = null,
         string $state = null,
         string $country = null
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['packstation']['number'] = $packstationNumber;
         $this->data['recipient']['packstation']['postalCode'] = $postalCode;
         $this->data['recipient']['packstation']['city'] = $city;
@@ -428,7 +429,7 @@ class ShipmentOrderRequestBuilder
      * @param string $postalCode
      * @param string $city
      * @param string|null $country
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPostfiliale(
         string $postfilialNumber,
@@ -436,7 +437,7 @@ class ShipmentOrderRequestBuilder
         string $postalCode,
         string $city,
         string $country = null
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['postfiliale']['number'] = $postfilialNumber;
         $this->data['recipient']['postfiliale']['postNumber'] = $postNumber;
         $this->data['recipient']['postfiliale']['postalCode'] = $postalCode;
@@ -454,9 +455,9 @@ class ShipmentOrderRequestBuilder
      * @see setShipperAddress
      *
      * @param string $reference
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setShipperReference(string $reference): ShipmentOrderRequestBuilder
+    public function setShipperReference(string $reference): ShipmentOrderRequestBuilderInterface
     {
         $this->data['shipper']['reference'] = $reference;
 
@@ -467,9 +468,9 @@ class ShipmentOrderRequestBuilder
      * Book "Day of Delivery" service (V06TG and V06WZ only).
      *
      * @param string $cetDate
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setDayOfDelivery(string $cetDate): ShipmentOrderRequestBuilder
+    public function setDayOfDelivery(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['dayOfDelivery'] = $cetDate;
 
@@ -480,9 +481,9 @@ class ShipmentOrderRequestBuilder
      * Book "Delivery Time Frame" service (V06TG and V06WZ only).
      *
      * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setDeliveryTimeFrame(string $timeFrameType): ShipmentOrderRequestBuilder
+    public function setDeliveryTimeFrame(string $timeFrameType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['deliveryTimeFrame'] = $timeFrameType;
 
@@ -493,9 +494,9 @@ class ShipmentOrderRequestBuilder
      * Book "Preferred Day" service.
      *
      * @param string $cetDate
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilder
+    public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredDay'] = $cetDate;
 
@@ -506,9 +507,9 @@ class ShipmentOrderRequestBuilder
      * Book "Preferred Time" service (V01PAK and V06PAK only).
      *
      * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPreferredTime(string $timeFrameType): ShipmentOrderRequestBuilder
+    public function setPreferredTime(string $timeFrameType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredTime'] = $timeFrameType;
 
@@ -519,9 +520,9 @@ class ShipmentOrderRequestBuilder
      * Book "Preferred Location" service.
      *
      * @param string $location
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPreferredLocation(string $location): ShipmentOrderRequestBuilder
+    public function setPreferredLocation(string $location): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredLocation'] = $location;
 
@@ -532,9 +533,9 @@ class ShipmentOrderRequestBuilder
      * Book "Preferred Neighbour" service.
      *
      * @param string $neighbour
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPreferredNeighbour(string $neighbour): ShipmentOrderRequestBuilder
+    public function setPreferredNeighbour(string $neighbour): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredNeighbour'] = $neighbour;
 
@@ -545,9 +546,9 @@ class ShipmentOrderRequestBuilder
      * Add individual details for handling (free text).
      *
      * @param string $handlingDetails
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setIndividualSenderRequirement(string $handlingDetails): ShipmentOrderRequestBuilder
+    public function setIndividualSenderRequirement(string $handlingDetails): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['individualSenderRequirement'] = $handlingDetails;
 
@@ -557,9 +558,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book service for package return.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPackagingReturn(): ShipmentOrderRequestBuilder
+    public function setPackagingReturn(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['packagingReturn'] = true;
 
@@ -569,9 +570,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book service of immediate shipment return in case of non-successful delivery (V06PA only).
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setReturnImmediately(): ShipmentOrderRequestBuilder
+    public function setReturnImmediately(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['returnImmediately'] = true;
 
@@ -581,9 +582,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book service notice in case of non-deliverability.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setNoticeOfNonDeliverability(): ShipmentOrderRequestBuilder
+    public function setNoticeOfNonDeliverability(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['noticeOfNonDeliverability'] = true;
 
@@ -601,9 +602,9 @@ class ShipmentOrderRequestBuilder
      * - e
      *
      * @param string $handlingType
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setContainerHandlingType(string $handlingType): ShipmentOrderRequestBuilder
+    public function setContainerHandlingType(string $handlingType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['shipmentHandling'] = $handlingType;
 
@@ -621,9 +622,9 @@ class ShipmentOrderRequestBuilder
      * - ABANDONMENT
      *
      * @param string $endorsementType
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setShipmentEndorsementType(string $endorsementType): ShipmentOrderRequestBuilder
+    public function setShipmentEndorsementType(string $endorsementType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['endorsement'] = $endorsementType;
 
@@ -638,9 +639,9 @@ class ShipmentOrderRequestBuilder
      * - A18
      *
      * @param string $ageType
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilder
+    public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['visualCheckOfAge'] = $ageType;
 
@@ -649,9 +650,9 @@ class ShipmentOrderRequestBuilder
 
     /**
      * Book GoGreen
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setGoGreen(): ShipmentOrderRequestBuilder
+    public function setGoGreen(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['goGreen'] = true;
 
@@ -661,9 +662,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Indicate delivery as perishable goods.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPerishables(): ShipmentOrderRequestBuilder
+    public function setPerishables(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['perishables'] = true;
 
@@ -673,9 +674,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book "Personal Shipment Handover" service.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPersonally(): ShipmentOrderRequestBuilder
+    public function setPersonally(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['personally'] = true;
 
@@ -685,9 +686,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Prohibit delivery to neighbours.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setNoNeighbourDelivery(): ShipmentOrderRequestBuilder
+    public function setNoNeighbourDelivery(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['noNeighbourDelivery'] = true;
 
@@ -697,9 +698,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book "Named Person Only" service.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setNamedPersonOnly(): ShipmentOrderRequestBuilder
+    public function setNamedPersonOnly(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['namedPersonOnly'] = true;
 
@@ -709,9 +710,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book "Return Receipt" service.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setReturnReceipt(): ShipmentOrderRequestBuilder
+    public function setReturnReceipt(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['returnReceipt'] = true;
 
@@ -721,9 +722,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Book "Premium" service.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPremium(): ShipmentOrderRequestBuilder
+    public function setPremium(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['premium'] = true;
 
@@ -733,9 +734,9 @@ class ShipmentOrderRequestBuilder
     /**
      * Indicate shipment containing bulky goods.
      *
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setBulkyGoods(): ShipmentOrderRequestBuilder
+    public function setBulkyGoods(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['bulkyGoods'] = true;
 
@@ -749,14 +750,14 @@ class ShipmentOrderRequestBuilder
      * @param string $givenName
      * @param string $dateOfBirth
      * @param string $minimumAge
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
         string $surname,
         string $givenName,
         string $dateOfBirth,
         string $minimumAge
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         $this->data['services']['identCheck']['surname'] = $surname;
         $this->data['services']['identCheck']['givenName'] = $givenName;
         $this->data['services']['identCheck']['dateOfBirth'] = $dateOfBirth;
@@ -769,9 +770,9 @@ class ShipmentOrderRequestBuilder
      * Book "Parcel Outlet Routing" service.
      *
      * @param string|null $email If not set, receiver email will be used.
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilder
+    public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['parcelOutletRouting']['active'] = true;
         $this->data['services']['parcelOutletRouting']['details'] = $email;
@@ -830,7 +831,7 @@ class ShipmentOrderRequestBuilder
      * @param float $weight Weight in kg
      * @param string $hsCode
      * @param string $countryOfOrigin
-     * @return ShipmentOrderRequestBuilder
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function addExportItem(
         int $qty,
@@ -839,7 +840,7 @@ class ShipmentOrderRequestBuilder
         float $weight,
         string $hsCode,
         string $countryOfOrigin
-    ): ShipmentOrderRequestBuilder {
+    ): ShipmentOrderRequestBuilderInterface {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
         }
@@ -859,7 +860,7 @@ class ShipmentOrderRequestBuilder
     /**
      * Create the shipment request and reset the builder data.
      *
-     * @return object
+     * @return object|ShipmentOrderType
      * @throws \InvalidArgumentException
      */
     public function create()
@@ -1073,16 +1074,16 @@ class ShipmentOrderRequestBuilder
                 $services->setPremium($config);
             }
 
-            if (isset($this->data['packageDetails']['codAmount'])) {
+            if (isset($this->data['services']['cod']['codAmount'])) {
                 $config = new ServiceConfigurationCashOnDelivery(true, $this->data['packageDetails']['codAmount']);
-                $config->setAddFee($this->data['packageDetails']['addCodFee']);
+                $config->setAddFee($this->data['services']['cod']['addCodFee']);
                 $services->setCashOnDelivery($config);
             }
 
-            if (isset($this->data['packageDetails']['insuredValue'])) {
+            if (isset($this->data['services']['insuredValue'])) {
                 $config = new ServiceConfigurationAdditionalInsurance(
                     true,
-                    $this->data['packageDetails']['insuredValue']
+                    $this->data['services']['insuredValue']
                 );
                 $services->setAdditionalInsurance($config);
             }

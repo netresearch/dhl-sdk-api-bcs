@@ -12,6 +12,9 @@ use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService;
+use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\AuthenticationDecorator;
+use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\ErrorHandlerDecorator;
+use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\LoggerDecorator;
 use Psr\Log\LoggerInterface;
 
 /**
