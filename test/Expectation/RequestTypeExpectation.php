@@ -44,6 +44,7 @@ class RequestTypeExpectation
     const XPATH_SHIPPER_ADDRESS_ADD1 = './Shipment/Shipper/Address/ns1:addressAddition[1]';
     const XPATH_SHIPPER_ADDRESS_ADD2 = './Shipment/Shipper/Address/ns1:addressAddition[2]';
     const XPATH_SHIPPER_DISPATCH_INFO = './Shipment/Shipper/Address/ns1:dispatchingInformation';
+    const XPATH_SHIPPER_REFERENCE = './Shipment/ShipperReference';
 
     const XPATH_SHIPPER_BANK_OWNER = './Shipment/ShipmentDetails/BankData/ns1:accountOwner';
     const XPATH_SHIPPER_BANK_NAME = './Shipment/ShipmentDetails/BankData/ns1:bankName';
@@ -86,6 +87,13 @@ class RequestTypeExpectation
     const XPATH_RECIPIENT_DISPATCH_INFO = './Shipment/Receiver/Address/ns1:dispatchingInformation';
     const XPATH_RECIPIENT_NOTIFICATION = './Shipment/ShipmentDetails/Notification/recipientEmailAddress';
 
+    const XPATH_PACKSTATION_NUMBER = './Shipment/Receiver/Packstation/ns1:packstationNumber';
+    const XPATH_PACKSTATION_POSTAL_CODE = './Shipment/Receiver/Packstation/ns1:zip';
+    const XPATH_PACKSTATION_CITY = './Shipment/Receiver/Packstation/ns1:city';
+    const XPATH_PACKSTATION_POST_NUMBER = './Shipment/Receiver/Packstation/ns1:postNumber';
+    const XPATH_PACKSTATION_STATE = './Shipment/Receiver/Packstation/ns1:province';
+    const XPATH_PACKSTATION_COUNTRY = './Shipment/Receiver/Packstation/ns1:Origin/ns1:countryISOCode';
+
     const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
     const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
     const XPATH_COD_AMOUNT = './Shipment/ShipmentDetails/Service/CashOnDelivery/@codAmount';
@@ -94,6 +102,48 @@ class RequestTypeExpectation
     const XPATH_PACKAGE_LENGTH = './Shipment/ShipmentDetails/ShipmentItem/lengthInCM';
     const XPATH_PACKAGE_WIDTH = './Shipment/ShipmentDetails/ShipmentItem/widthInCM';
     const XPATH_PACKAGE_HEIGHT = './Shipment/ShipmentDetails/ShipmentItem/heightInCM';
+
+    const XPATH_EXPORT_TYPE = './Shipment/ExportDocument/exportType';
+    const XPATH_EXPORT_PLACE = './Shipment/ExportDocument/placeOfCommital';
+    const XPATH_EXPORT_FEE = './Shipment/ExportDocument/additionalFee';
+    const XPATH_EXPORT_DESCRIPTION = './Shipment/ExportDocument/exportTypeDescription';
+    const XPATH_EXPORT_INCOTERMS = './Shipment/ExportDocument/termsOfTrade';
+    const XPATH_EXPORT_INVOICE_NO = './Shipment/ExportDocument/invoiceNumber';
+    const XPATH_EXPORT_PERMIT_NO = './Shipment/ExportDocument/permitNumber';
+    const XPATH_EXPORT_ATTESTATION_NO = './Shipment/ExportDocument/attestationNumber';
+    const XPATH_EXPORT_NOTIFICATION = './Shipment/ExportDocument/WithElectronicExportNtfctn/@active';
+    const XPATH_EXPORT_ITEM1_QTY = './Shipment/ExportDocument/ExportDocPosition[1]/amount';
+    const XPATH_EXPORT_ITEM1_DESC = './Shipment/ExportDocument/ExportDocPosition[1]/description';
+    const XPATH_EXPORT_ITEM1_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[1]/netWeightInKG';
+    const XPATH_EXPORT_ITEM1_VALUE = './Shipment/ExportDocument/ExportDocPosition[1]/customsValue';
+    const XPATH_EXPORT_ITEM1_HSCODE = './Shipment/ExportDocument/ExportDocPosition[1]/customsTariffNumber';
+    const XPATH_EXPORT_ITEM1_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[1]/countryCodeOrigin';
+    const XPATH_EXPORT_ITEM2_QTY = './Shipment/ExportDocument/ExportDocPosition[2]/amount';
+    const XPATH_EXPORT_ITEM2_DESC = './Shipment/ExportDocument/ExportDocPosition[2]/description';
+    const XPATH_EXPORT_ITEM2_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[2]/netWeightInKG';
+    const XPATH_EXPORT_ITEM2_VALUE = './Shipment/ExportDocument/ExportDocPosition[2]/customsValue';
+    const XPATH_EXPORT_ITEM2_HSCODE = './Shipment/ExportDocument/ExportDocPosition[2]/customsTariffNumber';
+    const XPATH_EXPORT_ITEM2_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[2]/countryCodeOrigin';
+
+    const XPATH_SERVICE_PREFERRED_DAY = './Shipment/ShipmentDetails/Service/PreferredDay/@details';
+    const XPATH_SERVICE_PREFERRED_TIME = './Shipment/ShipmentDetails/Service/PreferredTime/@type';
+    const XPATH_SERVICE_PREFERRED_LOCATION = './Shipment/ShipmentDetails/Service/PreferredLocation/@details';
+    const XPATH_SERVICE_PREFERRED_NEIGHBOUR = './Shipment/ShipmentDetails/Service/PreferredNeighbour/@details';
+    const XPATH_SERVICE_SENDER_REQUIREMENT = './Shipment/ShipmentDetails/Service/IndividualSenderRequirement/@details';
+    const XPATH_SERVICE_AGECHECK = './Shipment/ShipmentDetails/Service/VisualCheckOfAge/@type';
+    const XPATH_SERVICE_GOGREEN = './Shipment/ShipmentDetails/Service/GoGreen/@active';
+    const XPATH_SERVICE_PERISHABLES = './Shipment/ShipmentDetails/Service/Perishables/@active';
+    const XPATH_SERVICE_PERSONALLY = './Shipment/ShipmentDetails/Service/Personally/@active';
+    const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
+    const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
+    const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
+    const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
+    const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    const XPATH_SERVICE_IDENT_SURNAME = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    const XPATH_SERVICE_IDENT_GIVEN_NAME = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    const XPATH_SERVICE_IDENT_MIN_AGE = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    const XPATH_SERVICE_ROUTING = './Shipment/ShipmentDetails/Service/ParcelOutletRouting/@details';
 
     /**
      * @return string[]
@@ -126,6 +176,7 @@ class RequestTypeExpectation
             'shipperAddressAddition1' => self::XPATH_SHIPPER_ADDRESS_ADD1,
             'shipperAddressAddition2' => self::XPATH_SHIPPER_ADDRESS_ADD2,
             'shipperDispatchingInformation' => self::XPATH_SHIPPER_DISPATCH_INFO,
+            'shipperReference' => self::XPATH_SHIPPER_REFERENCE,
 
             'shipperBankOwner' => self::XPATH_SHIPPER_BANK_OWNER,
             'shipperBankName' => self::XPATH_SHIPPER_BANK_NAME,
@@ -168,14 +219,64 @@ class RequestTypeExpectation
             'recipientDispatchingInformation' => self::XPATH_RECIPIENT_DISPATCH_INFO,
             'recipientNotification' => self::XPATH_RECIPIENT_NOTIFICATION,
 
+            'packstationNumber' => self::XPATH_PACKSTATION_NUMBER,
+            'packstationPostalCode' => self::XPATH_PACKSTATION_POSTAL_CODE,
+            'packstationCity' => self::XPATH_PACKSTATION_CITY,
+            'packstationRecipientName' => self::XPATH_RECIPIENT_NAME,
+            'packstationPostNumber' => self::XPATH_PACKSTATION_POST_NUMBER,
+            'packstationState' => self::XPATH_PACKSTATION_STATE,
+            'packstationCountry' => self::XPATH_PACKSTATION_COUNTRY,
+
             'packageWeight' => self::XPATH_WEIGHT,
             'packageValue' => self::XPATH_INSURED_VALUE,
-            'codAmount' => self::XPATH_COD_AMOUNT,
-            'addCodFee' => self::XPATH_COD_ADD_FEE,
-
             'packageLength' => self::XPATH_PACKAGE_LENGTH,
             'packageWidth' => self::XPATH_PACKAGE_WIDTH,
             'packageHeight' => self::XPATH_PACKAGE_HEIGHT,
+
+            'exportType' => self::XPATH_EXPORT_TYPE,
+            'placeOfCommital' => self::XPATH_EXPORT_PLACE,
+            'additionalFee' => self::XPATH_EXPORT_FEE,
+            'exportTypeDescription' => self::XPATH_EXPORT_DESCRIPTION,
+            'termsOfTrade' => self::XPATH_EXPORT_INCOTERMS,
+            'invoiceNumber' => self::XPATH_EXPORT_INVOICE_NO,
+            'permitNumber' => self::XPATH_EXPORT_PERMIT_NO,
+            'attestationNumber' => self::XPATH_EXPORT_ATTESTATION_NO,
+            'electronicExportNotification' => self::XPATH_EXPORT_NOTIFICATION,
+            'exportItem1Qty' => self::XPATH_EXPORT_ITEM1_QTY,
+            'exportItem1Desc' => self::XPATH_EXPORT_ITEM1_DESC,
+            'exportItem1Weight' => self::XPATH_EXPORT_ITEM1_WEIGHT,
+            'exportItem1Value' => self::XPATH_EXPORT_ITEM1_VALUE,
+            'exportItem1HsCode' => self::XPATH_EXPORT_ITEM1_HSCODE,
+            'exportItem1Origin' => self::XPATH_EXPORT_ITEM1_ORIGIN,
+            'exportItem2Qty' => self::XPATH_EXPORT_ITEM2_QTY,
+            'exportItem2Desc' => self::XPATH_EXPORT_ITEM2_DESC,
+            'exportItem2Weight' => self::XPATH_EXPORT_ITEM2_WEIGHT,
+            'exportItem2Value' => self::XPATH_EXPORT_ITEM2_VALUE,
+            'exportItem2HsCode' => self::XPATH_EXPORT_ITEM2_HSCODE,
+            'exportItem2Origin' => self::XPATH_EXPORT_ITEM2_ORIGIN,
+
+            'codAmount' => self::XPATH_COD_AMOUNT,
+            'addCodFee' => self::XPATH_COD_ADD_FEE,
+
+            'preferredDay' => self::XPATH_SERVICE_PREFERRED_DAY,
+            'preferredTime' => self::XPATH_SERVICE_PREFERRED_TIME,
+            'preferredLocation' => self::XPATH_SERVICE_PREFERRED_LOCATION,
+            'preferredNeighbour' => self::XPATH_SERVICE_PREFERRED_NEIGHBOUR,
+            'senderRequirement' => self::XPATH_SERVICE_SENDER_REQUIREMENT,
+            'visualCheckOfAge' => self::XPATH_SERVICE_AGECHECK,
+            'goGreen' => self::XPATH_SERVICE_GOGREEN,
+            'perishables' => self::XPATH_SERVICE_PERISHABLES,
+            'personally' => self::XPATH_SERVICE_PERSONALLY,
+            'noNeighbourDelivery' => self::XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY,
+            'namedPersonOnly' => self::XPATH_SERVICE_NAMES_PERSON_ONLY,
+            'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,
+            'premium' => self::XPATH_SERVICE_PREMIUM,
+            'bulkyGoods' => self::XPATH_SERVICE_BULKY_GOODS,
+            'identSurname' => self::XPATH_SERVICE_BULKY_GOODS,
+            'identGivenName' => self::XPATH_SERVICE_BULKY_GOODS,
+            'identDob' => self::XPATH_SERVICE_BULKY_GOODS,
+            'identMinAge' => self::XPATH_SERVICE_BULKY_GOODS,
+            'parcelOutletRouting' => self::XPATH_SERVICE_ROUTING,
         ];
     }
 
@@ -222,6 +323,7 @@ class RequestTypeExpectation
             $xml.= $requestNode->asXML();
         }
         $xml.= '</ns2:CreateShipmentOrderRequest>';
+//        $xml = str_replace('Version', 'ns2:Version', $xml);
 
         $doc = new \DOMDocument();
         $doc->loadXML($xml);

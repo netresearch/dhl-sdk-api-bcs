@@ -92,6 +92,28 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'recipientStreetNumber' => '3131',
                 'recipientName' => 'Vince Viva',
                 'packageWeight' => 2.4,
+
+                'exportType' => 'OTHER',
+                'placeOfCommital' => 'Leipzig',
+                'additionalFee' => 7.99,
+                'exportTypeDescription' => 'Lekker Double Vla',
+                'termsOfTrade' => 'DDU',
+                'invoiceNumber' => '2121212121',
+                'permitNumber' => 'p3rm1t n0.',
+                'attestationNumber' => '4tt35t4t10n n0.',
+                'electronicExportNotification' => false,
+                'exportItem1Qty' => 2,
+                'exportItem1Desc' => 'Export Desc 1',
+                'exportItem1Weight' => 3.37,
+                'exportItem1Value' => 29.99,
+                'exportItem1HsCode' => ' 42031000',
+                'exportItem1Origin' => 'CN',
+                'exportItem2Qty' => 1,
+                'exportItem2Desc' => 'Export Desc 2',
+                'exportItem2Weight' => 2.22,
+                'exportItem2Value' => 35,
+                'exportItem2HsCode' => '  62099010',
+                'exportItem2Origin' => 'US',
             ],
             's1' => [
                 'printOnlyIfCodeable' => true,
@@ -160,7 +182,7 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
 
                 'recipientNotification' => 'notify@example.org',
 
-                'packageWeight' => 1.125,
+                'packageWeight' => 1.12,
                 'packageValue' => 24.99,
                 'codAmount' => 29.99,
                 'addCodFee' => false,
@@ -169,6 +191,40 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'packageWidth' => 20,
                 'packageHeight' => 15,
 
+                'preferredDay' => date('Y-m-d', time() + 60 * 60 * 24 * 4),
+                'preferredTime' => '12001400',
+                'preferredLocation' => 'Mailbox',
+                'preferredNeighbour' => 'Mr. Smith',
+                'senderRequirement' => 'Do not kick.',
+                'visualCheckOfAge' => 'A18',
+                'goGreen' => true,
+                'perishables' => true,
+                'personally' => true,
+                'noNeighbourDelivery' => true,
+                'namedPersonOnly' => true,
+                'returnReceipt' => true,
+                'premium' => true,
+                'bulkyGoods' => true,
+//                'identSurname' => 'Sam',
+//                'identGivenName' => 'Smith',
+//                'identDob' => '1970-01-01',
+//                'identMinAge' => '21',
+                'parcelOutletRouting' => 'route@example.com',
+            ],
+            's2' => [
+                'sequenceNumber' => 's2',
+                'accountNumber' => '22222222220101',
+                'productCode' => 'V53PAK',
+                'shipDate' => date('Y-m-d', $tsShip),
+                'shipperReference' => 'Shipper Reference #123',
+                'packstationNumber' => '139',
+                'packstationPostalCode' => '53113',
+                'packstationCity' => 'Bonn',
+                'packstationRecipientName' => 'Jane Doe',
+                'packstationPostNumber' => '12345678',
+                'packstationState' => 'NW',
+                'packstationCountry' => 'DE',
+                'packageWeight' => 4.5,
             ]
         ];
 
@@ -320,6 +376,33 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $requestBuilder->setPackageDetails(
             $requestData['s0']['packageWeight']
         );
+        $requestBuilder->setCustomsDetails(
+            $requestData['s0']['exportType'],
+            $requestData['s0']['placeOfCommital'],
+            $requestData['s0']['additionalFee'],
+            $requestData['s0']['exportTypeDescription'],
+            $requestData['s0']['termsOfTrade'],
+            $requestData['s0']['invoiceNumber'],
+            $requestData['s0']['permitNumber'],
+            $requestData['s0']['attestationNumber'],
+            $requestData['s0']['electronicExportNotification']
+        );
+        $requestBuilder->addExportItem(
+            $requestData['s0']['exportItem1Qty'],
+            $requestData['s0']['exportItem1Desc'],
+            $requestData['s0']['exportItem1Value'],
+            $requestData['s0']['exportItem1Weight'],
+            $requestData['s0']['exportItem1HsCode'],
+            $requestData['s0']['exportItem1Origin']
+        );
+        $requestBuilder->addExportItem(
+            $requestData['s0']['exportItem2Qty'],
+            $requestData['s0']['exportItem2Desc'],
+            $requestData['s0']['exportItem2Value'],
+            $requestData['s0']['exportItem2Weight'],
+            $requestData['s0']['exportItem2HsCode'],
+            $requestData['s0']['exportItem2Origin']
+        );
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 
@@ -417,6 +500,49 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             $requestData['s1']['packageWidth'],
             $requestData['s1']['packageHeight']
         );
+        $requestBuilder->setPreferredDay($requestData['s1']['preferredDay']);
+        $requestBuilder->setPreferredTime($requestData['s1']['preferredTime']);
+        $requestBuilder->setPreferredLocation($requestData['s1']['preferredLocation']);
+        $requestBuilder->setPreferredNeighbour($requestData['s1']['preferredNeighbour']);
+        $requestBuilder->setIndividualSenderRequirement($requestData['s1']['senderRequirement']);
+        $requestBuilder->setVisualCheckOfAge($requestData['s1']['visualCheckOfAge']);
+        $requestBuilder->setGoGreen();
+        $requestBuilder->setPerishables();
+        $requestBuilder->setPersonally();
+        $requestBuilder->setNoNeighbourDelivery();
+        $requestBuilder->setNamedPersonOnly();
+        $requestBuilder->setReturnReceipt();
+        $requestBuilder->setPremium();
+        $requestBuilder->setBulkyGoods();
+        //fixme(nr): check properties, Ident is defined twice in XSD
+//        $requestBuilder->setIdentCheck(
+//            $requestData['s1']['identSurname'],
+//            $requestData['s1']['identGivenName'],
+//            $requestData['s1']['identDob'],
+//            $requestData['s1']['identMinAge']
+//        );
+        $requestBuilder->setParcelOutletRouting($requestData['s1']['parcelOutletRouting']);
+        $shipmentOrder = $requestBuilder->create();
+        $shipmentOrders[]= $shipmentOrder;
+
+        // shipment order 3
+        $requestBuilder->setSequenceNumber($requestData['s2']['sequenceNumber']);
+        $requestBuilder->setShipmentDetails(
+            $requestData['s2']['productCode'],
+            $requestData['s2']['shipDate']
+        );
+        $requestBuilder->setShipperAccount($requestData['s2']['accountNumber']);
+        $requestBuilder->setShipperReference($requestData['s2']['shipperReference']);
+        $requestBuilder->setPackstation(
+            $requestData['s2']['packstationNumber'],
+            $requestData['s2']['packstationPostalCode'],
+            $requestData['s2']['packstationCity'],
+            $requestData['s2']['packstationRecipientName'],
+            $requestData['s2']['packstationPostNumber'],
+            $requestData['s2']['packstationState'],
+            $requestData['s2']['packstationCountry']
+        );
+        $requestBuilder->setPackageDetails($requestData['s2']['packageWeight']);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 

@@ -342,7 +342,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Set package details.
      *
-     * @param float $weight Weight in KG
+     * @param float $weight Weight in KG, two digits after the decimal point
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDetails(float $weight): ShipmentOrderRequestBuilderInterface
@@ -406,6 +406,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * @param string $packstationNumber
      * @param string $postalCode
      * @param string $city
+     * @param string $recipientName
      * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
@@ -415,10 +416,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $packstationNumber,
         string $postalCode,
         string $city,
+        string $recipientName,
         string $postNumber = null,
         string $state = null,
         string $country = null
     ): ShipmentOrderRequestBuilderInterface {
+        $this->data['recipient']['address']['name'] = $recipientName;
         $this->data['recipient']['packstation']['number'] = $packstationNumber;
         $this->data['recipient']['packstation']['postalCode'] = $postalCode;
         $this->data['recipient']['packstation']['city'] = $city;
@@ -836,7 +839,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * @param int $qty
      * @param string $description
      * @param float $value Customs value in EUR
-     * @param float $weight Weight in kg
+     * @param float $weight Weight in kg, two digits after the decimal point
      * @param string $hsCode
      * @param string $countryOfOrigin
      * @return ShipmentOrderRequestBuilderInterface
@@ -914,13 +917,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             throw new \InvalidArgumentException("No recipient included with shipment order $sequenceNumber.");
         }
 
-        $receiverCommunication = new CommunicationType();
-        $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson']);
-        $receiverCommunication->setEmail($this->data['recipient']['address']['email']);
-        $receiverCommunication->setPhone($this->data['recipient']['address']['phone']);
-
         $receiver = new ReceiverType($this->data['recipient']['address']['name']);
-        $receiver->setCommunication($receiverCommunication);
 
         if (isset($this->data['recipient']['packstation'])) {
             $packstationCountry = new CountryType($this->data['recipient']['packstation']['country']);
@@ -957,8 +954,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $receiverAddress->setDispatchingInformation($this->data['recipient']['address']['dispatchingInformation']);
             $receiverAddress->setProvince($this->data['recipient']['address']['state']);
             $receiverAddress->setOrigin($receiverCountry);
-
             $receiver->setAddress($receiverAddress);
+
+            $receiverCommunication = new CommunicationType();
+            $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson']);
+            $receiverCommunication->setEmail($this->data['recipient']['address']['email']);
+            $receiverCommunication->setPhone($this->data['recipient']['address']['phone']);
+            $receiver->setCommunication($receiverCommunication);
         }
 
         $shipmentItem = new ShipmentItemType($this->data['packageDetails']['weight']);

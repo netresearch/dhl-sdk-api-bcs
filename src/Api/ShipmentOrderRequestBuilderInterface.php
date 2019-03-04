@@ -247,6 +247,7 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string $packstationNumber
      * @param string $postalCode
      * @param string $city
+     * @param string $recipientName
      * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
@@ -256,6 +257,7 @@ interface ShipmentOrderRequestBuilderInterface
         string $packstationNumber,
         string $postalCode,
         string $city,
+        string $recipientName,
         string $postNumber = null,
         string $state = null,
         string $country = null
