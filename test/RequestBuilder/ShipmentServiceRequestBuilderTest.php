@@ -269,9 +269,17 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $clientOptions = [
             'trace' => 1,
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'typemap' => [
+                [
+//                    'type_ns' => 'http://dhl.de/webservices/businesscustomershipping/3.0',
+                    'type_name' => 'active',
+                    'to_xml' => 'intval'
+                ],
+            ],
             'classmap' => ClassMap::get(),
             'login' => $authStorage->getApplicationId(),
             'password' => $authStorage->getApplicationToken(),
+            'cache_wsdl' => WSDL_CACHE_NONE,
         ];
 
         /** @var \SoapClient|MockObject $soapClient */
@@ -398,10 +406,8 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
         $requestBuilder->setRecipientNotification($requestData['s1']['recipientNotification']);
-        $requestBuilder->setPackageDetails(
-            $requestData['s1']['packageWeight'],
-            $requestData['s1']['packageValue']
-        );
+        $requestBuilder->setPackageDetails($requestData['s1']['packageWeight']);
+        $requestBuilder->setInsuredValue($requestData['s1']['packageValue']);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 
@@ -409,5 +415,6 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
 
         $requestXml = $soapClient->__getLastRequest();
         Expectation::assertRequestContentsAvailable($requestData, $requestXml);
+//        Expectation::assertRequestContentsValid($requestXml, $wsdl);
     }
 }

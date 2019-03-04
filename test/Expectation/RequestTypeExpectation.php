@@ -168,8 +168,8 @@ class RequestTypeExpectation
     }
 
     /**
-     * @param mixed[] $expected
-     * @param string $actual
+     * @param mixed[] $requestData
+     * @param string $requestXml
      */
     public static function assertRequestContentsAvailable(array $requestData, string $requestXml)
     {
@@ -187,5 +187,41 @@ class RequestTypeExpectation
                 Assert::assertEquals($expectedValue, (string) $shipmentOrder->xpath($xPaths[$key])[0]);
             }
         }
+    }
+
+    /**
+     * @param string $requestXml
+     * @param string $wsdlFile
+     */
+    public static function assertRequestContentsValid(string $requestXml, string $wsdlFile)
+    {
+        $request = new \SimpleXMLElement($requestXml);
+        $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $request->registerXPathNamespace('ns1', 'http://dhl.de/webservice/cisbase');
+        $request->registerXPathNamespace('ns2', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $requestNodes = $request->xpath('/SOAP-ENV:Envelope/SOAP-ENV:Body/ns2:CreateShipmentOrderRequest/*');
+
+        $xml = '<ns2:CreateShipmentOrderRequest';
+        $xml.= ' xmlns:ns2="http://dhl.de/webservices/businesscustomershipping/3.0"';
+//        $xml.= ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"';
+        $xml.= ' xmlns:ns1="http://dhl.de/webservice/cisbase">';
+        foreach ($requestNodes as $requestNode) {
+            $xml.= $requestNode->asXML();
+        }
+        $xml.= '</ns2:CreateShipmentOrderRequest>';
+
+        $doc = new \DOMDocument();
+        $doc->loadXML($xml);
+
+        $wsdlXml = \file_get_contents($wsdlFile);
+        $wsdl = new \SimpleXMLElement($wsdlXml);
+        $wsdl->registerXPathNamespace('wsdl', 'http://schemas.xmlsoap.org/wsdl/');
+        $wsdl->registerXPathNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
+        $schema = $wsdl->xpath('/wsdl:definitions/wsdl:types/xs:schema')[0];
+        // $schema->addAttribute('targetNamespace', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $schema->addAttribute('xmlns:xmlns:xs', 'http://www.w3.org/2001/XMLSchema');
+
+        chdir(__DIR__ . '/../Provider/_files/gvapi-3.0');
+        Assert::assertTrue($doc->schemaValidateSource($schema->asXML()));
     }
 }

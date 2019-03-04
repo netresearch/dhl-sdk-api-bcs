@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "ext-simplexml": "*",
+        "ext-dom": "*",
         "phpunit/phpunit": "^6.0.0"
     },
     "autoload": {

@@ -343,19 +343,27 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * Set package details.
      *
      * @param float $weight Weight in KG
-     * @param float $insuredValue The amount the package should be insured with. Omit if standard amount is sufficient.
      * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPackageDetails(
-        float $weight,
-        float $insuredValue = null
-    ): ShipmentOrderRequestBuilderInterface {
+    public function setPackageDetails(float $weight): ShipmentOrderRequestBuilderInterface
+    {
         $this->data['packageDetails']['weight'] = $weight;
-        $this->data['services']['insuredValue'] = $insuredValue;
 
         return $this;
     }
 
+    /**
+     * Set the amount the package should be insured with. Omit if standard amount is sufficient.
+     *
+     * @param float $insuredValue
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setInsuredValue(float $insuredValue): ShipmentOrderRequestBuilderInterface
+    {
+        $this->data['services']['insuredValue'] = $insuredValue;
+
+        return $this;
+    }
 
     /**
      * Set COD amount (optional).
@@ -866,7 +874,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     public function create()
     {
         $sequenceNumber = $this->data['sequenceNumber'] ?? '0';
-        $printOnlyIfCodeable = new ServiceConfiguration($this->data['printOnlyIfCodeable'] ?? false);
 
         if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
             throw new \InvalidArgumentException("No sender included with shipment order $sequenceNumber.");
@@ -1197,7 +1204,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $shipmentOrder = new ShipmentOrderType($sequenceNumber, $shipment);
-        $shipmentOrder->setPrintOnlyIfCodeable($printOnlyIfCodeable);
+        if (!empty($this->data['printOnlyIfCodeable'])) {
+            $shipmentOrder->setPrintOnlyIfCodeable(new ServiceConfiguration(true));
+        }
 
         $this->data = [];
 
