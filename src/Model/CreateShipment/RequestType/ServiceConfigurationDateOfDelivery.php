@@ -19,7 +19,7 @@ class ServiceConfigurationDateOfDelivery
     /**
      * Indicates, if the option is on/off.
      *
-     * @var bool $active
+     * @var int $active "0" or "1"
      */
     protected $active;
 
@@ -36,7 +36,7 @@ class ServiceConfigurationDateOfDelivery
      */
     public function __construct(bool $active, string $details)
     {
-        $this->active = $active;
+        $this->active = intval($active);
         $this->details = $details;
     }
 }

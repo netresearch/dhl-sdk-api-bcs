@@ -19,7 +19,7 @@ class ServiceConfigurationEndorsement
     /**
      * Indicates, if the option is on/off.
      *
-     * @var bool $active
+     * @var int $active "0" or "1"
      */
     protected $active;
 
@@ -41,7 +41,7 @@ class ServiceConfigurationEndorsement
      */
     public function __construct(bool $active, string $type)
     {
-        $this->active = $active;
+        $this->active = intval($active);
         $this->type = $type;
     }
 }

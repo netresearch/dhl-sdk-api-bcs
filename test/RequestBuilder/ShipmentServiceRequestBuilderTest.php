@@ -162,6 +162,13 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
 
                 'packageWeight' => 1.125,
                 'packageValue' => 24.99,
+                'codAmount' => 29.99,
+                'addCodFee' => false,
+
+                'packageLength' => 30,
+                'packageWidth' => 20,
+                'packageHeight' => 15,
+
             ]
         ];
 
@@ -269,13 +276,6 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $clientOptions = [
             'trace' => 1,
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-            'typemap' => [
-                [
-//                    'type_ns' => 'http://dhl.de/webservices/businesscustomershipping/3.0',
-                    'type_name' => 'active',
-                    'to_xml' => 'intval'
-                ],
-            ],
             'classmap' => ClassMap::get(),
             'login' => $authStorage->getApplicationId(),
             'password' => $authStorage->getApplicationToken(),
@@ -408,6 +408,15 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $requestBuilder->setRecipientNotification($requestData['s1']['recipientNotification']);
         $requestBuilder->setPackageDetails($requestData['s1']['packageWeight']);
         $requestBuilder->setInsuredValue($requestData['s1']['packageValue']);
+        $requestBuilder->setCodAmount(
+            $requestData['s1']['codAmount'],
+            $requestData['s1']['addCodFee']
+        );
+        $requestBuilder->setPackageDimensions(
+            $requestData['s1']['packageLength'],
+            $requestData['s1']['packageWidth'],
+            $requestData['s1']['packageHeight']
+        );
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 

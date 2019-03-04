@@ -19,7 +19,7 @@ class ServiceConfigurationIC
     /**
      * Indicates, if the option is on/off.
      *
-     * @var bool $active
+     * @var int $active "0" or "1"
      */
     protected $active;
 
@@ -36,7 +36,7 @@ class ServiceConfigurationIC
      */
     public function __construct(bool $active, Ident $ident)
     {
+        $this->active = intval($active);
         $this->Ident = $ident;
-        $this->active = $active;
     }
 }

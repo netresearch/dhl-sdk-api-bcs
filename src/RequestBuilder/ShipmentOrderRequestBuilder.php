@@ -383,18 +383,18 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Set package dimensions.
      *
-     * @param float $width Width in cm
      * @param float $length Length in cm
+     * @param float $width Width in cm
      * @param float $height Height in cm
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDimensions(
-        float $width,
         float $length,
+        float $width,
         float $height
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['packageDetails']['dimensions']['width'] = $width;
         $this->data['packageDetails']['dimensions']['length'] = $length;
+        $this->data['packageDetails']['dimensions']['width'] = $width;
         $this->data['packageDetails']['dimensions']['height'] = $height;
 
         return $this;
@@ -963,9 +963,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
         $shipmentItem = new ShipmentItemType($this->data['packageDetails']['weight']);
         if (isset($this->data['packageDetails']['dimensions'])) {
-            $shipmentItem->setWidthInCM($this->data['packageDetails']['dimensions']['width']);
-            $shipmentItem->setLengthInCM($this->data['packageDetails']['dimensions']['length']);
-            $shipmentItem->setHeightInCM($this->data['packageDetails']['dimensions']['height']);
+            $shipmentItem->setLengthInCM((int) $this->data['packageDetails']['dimensions']['length']);
+            $shipmentItem->setWidthInCM((int) $this->data['packageDetails']['dimensions']['width']);
+            $shipmentItem->setHeightInCM((int) $this->data['packageDetails']['dimensions']['height']);
         }
 
         $shipmentDetails = new ShipmentDetailsTypeType(
@@ -1082,7 +1082,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             }
 
             if (isset($this->data['services']['cod']['codAmount'])) {
-                $config = new ServiceConfigurationCashOnDelivery(true, $this->data['packageDetails']['codAmount']);
+                $config = new ServiceConfigurationCashOnDelivery(true, $this->data['services']['cod']['codAmount']);
                 $config->setAddFee($this->data['services']['cod']['addCodFee']);
                 $services->setCashOnDelivery($config);
             }

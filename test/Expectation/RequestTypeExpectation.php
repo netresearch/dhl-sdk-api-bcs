@@ -88,6 +88,12 @@ class RequestTypeExpectation
 
     const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
     const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
+    const XPATH_COD_AMOUNT = './Shipment/ShipmentDetails/Service/CashOnDelivery/@codAmount';
+    const XPATH_COD_ADD_FEE = './Shipment/ShipmentDetails/Service/CashOnDelivery/@addFee';
+
+    const XPATH_PACKAGE_LENGTH = './Shipment/ShipmentDetails/ShipmentItem/lengthInCM';
+    const XPATH_PACKAGE_WIDTH = './Shipment/ShipmentDetails/ShipmentItem/widthInCM';
+    const XPATH_PACKAGE_HEIGHT = './Shipment/ShipmentDetails/ShipmentItem/heightInCM';
 
     /**
      * @return string[]
@@ -164,6 +170,12 @@ class RequestTypeExpectation
 
             'packageWeight' => self::XPATH_WEIGHT,
             'packageValue' => self::XPATH_INSURED_VALUE,
+            'codAmount' => self::XPATH_COD_AMOUNT,
+            'addCodFee' => self::XPATH_COD_ADD_FEE,
+
+            'packageLength' => self::XPATH_PACKAGE_LENGTH,
+            'packageWidth' => self::XPATH_PACKAGE_WIDTH,
+            'packageHeight' => self::XPATH_PACKAGE_HEIGHT,
         ];
     }
 
@@ -184,7 +196,8 @@ class RequestTypeExpectation
         foreach ($requestData as $sequenceNumber => $shipmentOrderData) {
             $shipmentOrder = $request->xpath("./ShipmentOrder[./sequenceNumber = '$sequenceNumber']")[0];
             foreach ($shipmentOrderData as $key => $expectedValue) {
-                Assert::assertEquals($expectedValue, (string) $shipmentOrder->xpath($xPaths[$key])[0]);
+                $expectedValue = is_bool($expectedValue) ? intval($expectedValue) : $expectedValue;
+                Assert::assertEquals((string) $expectedValue, (string) $shipmentOrder->xpath($xPaths[$key])[0]);
             }
         }
     }
@@ -203,7 +216,7 @@ class RequestTypeExpectation
 
         $xml = '<ns2:CreateShipmentOrderRequest';
         $xml.= ' xmlns:ns2="http://dhl.de/webservices/businesscustomershipping/3.0"';
-//        $xml.= ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"';
+        $xml.= ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"';
         $xml.= ' xmlns:ns1="http://dhl.de/webservice/cisbase">';
         foreach ($requestNodes as $requestNode) {
             $xml.= $requestNode->asXML();
