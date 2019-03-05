@@ -141,14 +141,10 @@ class XPath
     const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
     const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
     const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
-    const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/FirstName';
-    const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/LastName';
-    const XPATH_SERVICE_IDENT_STREET = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/Street';
-    const XPATH_SERVICE_IDENT_HOUSE_NUMBER = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/HouseNumber';
-    const XPATH_SERVICE_IDENT_POSTCODE = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/Postcode';
-    const XPATH_SERVICE_IDENT_CITY = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/City';
-    const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/DateOfBirth';
-    const XPATH_SERVICE_IDENT_NATIONALITY = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/Nationality';
+    const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
+    const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/givenName';
+    const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/dateOfBirth';
+    const XPATH_SERVICE_IDENT_MINAGE = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/minimumAge';
     const XPATH_SERVICE_ROUTING = './Shipment/ShipmentDetails/Service/ParcelOutletRouting/@details';
 
     /**
@@ -284,14 +280,10 @@ class XPath
             'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,
             'premium' => self::XPATH_SERVICE_PREMIUM,
             'bulkyGoods' => self::XPATH_SERVICE_BULKY_GOODS,
-            'identFirstName' => self::XPATH_SERVICE_IDENT_FIRSTNAME,
             'identLastName' => self::XPATH_SERVICE_IDENT_LASTNAME,
-            'identStreet' => self::XPATH_SERVICE_IDENT_STREET,
-            'identHouseNumber' => self::XPATH_SERVICE_IDENT_HOUSE_NUMBER,
-            'identPostcode' => self::XPATH_SERVICE_IDENT_POSTCODE,
-            'identCity' => self::XPATH_SERVICE_IDENT_CITY,
+            'identFirstName' => self::XPATH_SERVICE_IDENT_FIRSTNAME,
             'identDob' => self::XPATH_SERVICE_IDENT_DOB,
-            'identNationality' => self::XPATH_SERVICE_IDENT_NATIONALITY,
+            'identMinAge' => self::XPATH_SERVICE_IDENT_MINAGE,
             'parcelOutletRouting' => self::XPATH_SERVICE_ROUTING,
         ];
 

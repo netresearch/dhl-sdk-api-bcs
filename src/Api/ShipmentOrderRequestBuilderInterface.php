@@ -470,25 +470,17 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Book "Ident Check" service.
      *
-     * @param string $firstName
      * @param string $lastName
-     * @param string $street
-     * @param string $houseNumber
-     * @param string $postcode
-     * @param string $city
+     * @param string $firstName
      * @param string $dateOfBirth
-     * @param string $nationality
+     * @param string $minimumAge
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
-        string $firstName,
         string $lastName,
-        string $street,
-        string $houseNumber,
-        string $postcode,
-        string $city,
+        string $firstName,
         string $dateOfBirth,
-        string $nationality
+        string $minimumAge
     ): ShipmentOrderRequestBuilderInterface;
 
     /**

@@ -757,34 +757,22 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Book "Ident Check" service.
      *
-     * @param string $firstName
      * @param string $lastName
-     * @param string $street
-     * @param string $houseNumber
-     * @param string $postcode
-     * @param string $city
+     * @param string $firstName
      * @param string $dateOfBirth
-     * @param string $nationality
+     * @param string $minimumAge
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
-        string $firstName,
         string $lastName,
-        string $street,
-        string $houseNumber,
-        string $postcode,
-        string $city,
+        string $firstName,
         string $dateOfBirth,
-        string $nationality
+        string $minimumAge
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['services']['identCheck']['firstName'] = $firstName;
-        $this->data['services']['identCheck']['lastName'] = $lastName;
-        $this->data['services']['identCheck']['street'] = $street;
-        $this->data['services']['identCheck']['houseNumber'] = $houseNumber;
-        $this->data['services']['identCheck']['postcode'] = $postcode;
-        $this->data['services']['identCheck']['city'] = $city;
+        $this->data['services']['identCheck']['surname'] = $lastName;
+        $this->data['services']['identCheck']['givenName'] = $firstName;
         $this->data['services']['identCheck']['dateOfBirth'] = $dateOfBirth;
-        $this->data['services']['identCheck']['nationality'] = $nationality;
+        $this->data['services']['identCheck']['minimumAge'] = $minimumAge;
 
         return $this;
     }
@@ -1114,14 +1102,10 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
             if (isset($this->data['services']['identCheck'])) {
                 $ident = new Ident(
-                    $this->data['services']['identCheck']['firstName'],
-                    $this->data['services']['identCheck']['lastName'],
-                    $this->data['services']['identCheck']['street'],
-                    $this->data['services']['identCheck']['houseNumber'],
-                    $this->data['services']['identCheck']['postcode'],
-                    $this->data['services']['identCheck']['city'],
+                    $this->data['services']['identCheck']['surname'],
+                    $this->data['services']['identCheck']['givenName'],
                     $this->data['services']['identCheck']['dateOfBirth'],
-                    $this->data['services']['identCheck']['nationality']
+                    $this->data['services']['identCheck']['minimumAge']
                 );
                 $config = new ServiceConfigurationIC(true, $ident);
                 $services->setIdentCheck($config);

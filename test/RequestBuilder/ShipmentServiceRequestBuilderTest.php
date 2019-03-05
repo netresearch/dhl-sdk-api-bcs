@@ -205,14 +205,10 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'returnReceipt' => true,
                 'premium' => true,
                 'bulkyGoods' => true,
-                'identFirstName' => 'Sam',
-                'identLastName' => 'Smith',
-                'identStreet' => 'Sträßchensweg',
-                'identHouseNumber' => '3',
-                'identPostcode' => '53113',
-                'identCity' => 'Bonn',
-                'identDob' => '1970-01-01',
-                'identNationality' => 'US',
+//                'identLastName' => 'Smith',
+//                'identFirstName' => 'Sam',
+//                'identDob' => '1970-01-01',
+//                'identMinAge' => '21',
                 'parcelOutletRouting' => 'route@example.com',
             ],
             's2' => [
@@ -531,16 +527,12 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $requestBuilder->setReturnReceipt();
         $requestBuilder->setPremium();
         $requestBuilder->setBulkyGoods();
-        $requestBuilder->setIdentCheck(
-            $requestData['s1']['identFirstName'],
-            $requestData['s1']['identLastName'],
-            $requestData['s1']['identStreet'],
-            $requestData['s1']['identHouseNumber'],
-            $requestData['s1']['identPostcode'],
-            $requestData['s1']['identCity'],
-            $requestData['s1']['identDob'],
-            $requestData['s1']['identNationality']
-        );
+//        $requestBuilder->setIdentCheck(
+//            $requestData['s1']['identLastName'],
+//            $requestData['s1']['identFirstName'],
+//            $requestData['s1']['identDob'],
+//            $requestData['s1']['identMinAge']
+//        );
         $requestBuilder->setParcelOutletRouting($requestData['s1']['parcelOutletRouting']);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
