@@ -13,11 +13,11 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\AuthenticationStorageProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
-use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 
 /**
  * Class ShipmentServiceRequestBuilderTest

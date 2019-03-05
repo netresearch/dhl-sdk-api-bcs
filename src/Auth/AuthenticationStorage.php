@@ -39,31 +39,23 @@ class AuthenticationStorage implements AuthenticationStorageInterface
     private $signature;
 
     /**
-     * @var string
-     */
-    private $ekp;
-
-    /**
      * AuthenticationStorage constructor.
      *
      * @param string $applicationId
      * @param string $applicationToken
      * @param string $user
      * @param string $signature
-     * @param string $ekp
      */
     public function __construct(
         string $applicationId,
         string $applicationToken,
         string $user,
-        string $signature,
-        string $ekp
+        string $signature
     ) {
         $this->applicationId = $applicationId;
         $this->applicationToken = $applicationToken;
         $this->user = $user;
         $this->signature = $signature;
-        $this->ekp = $ekp;
     }
 
     /**
@@ -96,13 +88,5 @@ class AuthenticationStorage implements AuthenticationStorageInterface
     public function getSignature(): string
     {
         return $this->signature;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEkp(): string
-    {
-        return $this->ekp;
     }
 }

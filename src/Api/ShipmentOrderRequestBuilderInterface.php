@@ -24,10 +24,11 @@ interface ShipmentOrderRequestBuilderInterface
     public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * @param bool $printOnlyIfCodeable
+     * Only create shipment order if the receiver address is valid.
+     *
      * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPrintOnlyIfCodeable(bool $printOnlyIfCodeable): ShipmentOrderRequestBuilderInterface;
+    public function setPrintOnlyIfCodeable(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set shipper account (required).

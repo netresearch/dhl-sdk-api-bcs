@@ -35,9 +35,4 @@ interface AuthenticationStorageInterface
      * @return string
      */
     public function getSignature(): string;
-
-    /**
-     * @return string
-     */
-    public function getEkp(): string;
 }

@@ -38,20 +38,17 @@ class AuthenticationStorageTest extends \PHPUnit\Framework\TestCase
         $applicationToken = 'appToken';
         $user = 'user';
         $signature = 'signature';
-        $ekp = 'ekp';
 
         $authStorage = new AuthenticationStorage(
             $applicationId,
             $applicationToken,
             $user,
-            $signature,
-            $ekp
+            $signature
         );
 
         self::assertSame($applicationId, $authStorage->getApplicationId());
         self::assertSame($applicationToken, $authStorage->getApplicationToken());
         self::assertSame($user, $authStorage->getUser());
         self::assertSame($signature, $authStorage->getSignature());
-        self::assertSame($ekp, $authStorage->getEkp());
     }
 }

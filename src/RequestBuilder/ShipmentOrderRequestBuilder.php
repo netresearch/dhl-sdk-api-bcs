@@ -68,12 +68,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     }
 
     /**
-     * @param bool $printOnlyIfCodeable
+     * Only create shipment order if the receiver address is valid.
+     *
      * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPrintOnlyIfCodeable(bool $printOnlyIfCodeable): ShipmentOrderRequestBuilderInterface
+    public function setPrintOnlyIfCodeable(): ShipmentOrderRequestBuilderInterface
     {
-        $this->data['printOnlyIfCodeable'] = $printOnlyIfCodeable;
+        $this->data['printOnlyIfCodeable'] = true;
 
         return $this;
     }
@@ -1204,7 +1205,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $shipmentOrder = new ShipmentOrderType($sequenceNumber, $shipment);
-        if (!empty($this->data['printOnlyIfCodeable'])) {
+        if (isset($this->data['printOnlyIfCodeable'])) {
             $shipmentOrder->setPrintOnlyIfCodeable(new ServiceConfiguration(true));
         }
 
