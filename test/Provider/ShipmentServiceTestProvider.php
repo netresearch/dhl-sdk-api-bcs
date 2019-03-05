@@ -111,7 +111,6 @@ class ShipmentServiceTestProvider
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
-        //todo(nr): record error response
         $labelResponse = '';
 
         return [

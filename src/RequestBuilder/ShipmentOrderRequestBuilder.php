@@ -81,16 +81,16 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Set shipper account (required).
      *
-     * @param string $accountNumber
-     * @param string|null $returnAccountNumber Provide if return label should included with response.
+     * @param string $billingNumber
+     * @param string|null $returnBillingNumber Provide if return label should included with response.
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
-        string $accountNumber,
-        string $returnAccountNumber = null
+        string $billingNumber,
+        string $returnBillingNumber = null
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['shipper']['account'] = $accountNumber;
-        $this->data['shipper']['returnAccount'] = $returnAccountNumber;
+        $this->data['shipper']['billingNumber'] = $billingNumber;
+        $this->data['shipper']['returnBillingNumber'] = $returnBillingNumber;
 
         return $this;
     }
@@ -102,12 +102,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      *
      * @see setShipperReference
      *
+     * @param string $company
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $company
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -119,12 +119,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAddress(
+        string $company,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $company,
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -134,12 +134,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
+        $this->data['shipper']['address']['company'] = $company;
         $this->data['shipper']['address']['country'] = $country;
         $this->data['shipper']['address']['postalCode'] = $postalCode;
         $this->data['shipper']['address']['city'] = $city;
         $this->data['shipper']['address']['streetName'] = $streetName;
         $this->data['shipper']['address']['streetNumber'] = $streetNumber;
-        $this->data['shipper']['address']['company'] = $company;
         $this->data['shipper']['address']['name'] = $name;
         $this->data['shipper']['address']['nameAddition'] = $nameAddition;
         $this->data['shipper']['address']['email'] = $email;
@@ -185,12 +185,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      *
      * Return address will be discarded if no return billing number is given.
      *
+     * @param string $company
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $company
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -202,12 +202,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnAddress(
+        string $company,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $company,
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -217,12 +217,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
+        $this->data['return']['address']['company'] = $company;
         $this->data['return']['address']['country'] = $country;
         $this->data['return']['address']['postalCode'] = $postalCode;
         $this->data['return']['address']['city'] = $city;
         $this->data['return']['address']['streetName'] = $streetName;
         $this->data['return']['address']['streetNumber'] = $streetNumber;
-        $this->data['return']['address']['company'] = $company;
         $this->data['return']['address']['name'] = $name;
         $this->data['return']['address']['nameAddition'] = $nameAddition;
         $this->data['return']['address']['email'] = $email;
@@ -238,12 +238,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Set consignee address for a shipment (required).
      *
+     * @param string $name
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $name
      * @param string|null $company
      * @param string|null $nameAddition
      * @param string|null $email
@@ -255,12 +255,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setRecipientAddress(
+        string $name,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $name,
         string $company = null,
         string $nameAddition = null,
         string $email = null,
@@ -270,12 +270,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
+        $this->data['recipient']['address']['name'] = $name;
         $this->data['recipient']['address']['country'] = $country;
         $this->data['recipient']['address']['postalCode'] = $postalCode;
         $this->data['recipient']['address']['city'] = $city;
         $this->data['recipient']['address']['streetName'] = $streetName;
         $this->data['recipient']['address']['streetNumber'] = $streetNumber;
-        $this->data['recipient']['address']['name'] = $name;
         $this->data['recipient']['address']['company'] = $company;
         $this->data['recipient']['address']['nameAddition'] = $nameAddition;
         $this->data['recipient']['address']['email'] = $email;
@@ -383,15 +383,15 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Set package dimensions.
      *
-     * @param float $length Length in cm
-     * @param float $width Width in cm
-     * @param float $height Height in cm
+     * @param int $length Length in cm
+     * @param int $width Width in cm
+     * @param int $height Height in cm
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDimensions(
-        float $length,
-        float $width,
-        float $height
+        int $length,
+        int $width,
+        int $height
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['packageDetails']['dimensions']['length'] = $length;
         $this->data['packageDetails']['dimensions']['width'] = $width;
@@ -403,20 +403,20 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Choose Packstation delivery.
      *
+     * @param string $recipientName
      * @param string $packstationNumber
      * @param string $postalCode
      * @param string $city
-     * @param string $recipientName
      * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackstation(
+        string $recipientName,
         string $packstationNumber,
         string $postalCode,
         string $city,
-        string $recipientName,
         string $postNumber = null,
         string $state = null,
         string $country = null
@@ -435,25 +435,25 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Choose Postfiliale delivery.
      *
+     * @param string $recipientName
      * @param string $postfilialNumber
      * @param string $postNumber
      * @param string $postalCode
      * @param string $city
-     * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPostfiliale(
+        string $recipientName,
         string $postfilialNumber,
         string $postNumber,
         string $postalCode,
-        string $city,
-        string $country = null
+        string $city
     ): ShipmentOrderRequestBuilderInterface {
+        $this->data['recipient']['address']['name'] = $recipientName;
         $this->data['recipient']['postfiliale']['number'] = $postfilialNumber;
         $this->data['recipient']['postfiliale']['postNumber'] = $postNumber;
         $this->data['recipient']['postfiliale']['postalCode'] = $postalCode;
         $this->data['recipient']['postfiliale']['city'] = $city;
-        $this->data['recipient']['postfiliale']['country'] = $country;
 
         return $this;
     }
@@ -757,22 +757,34 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     /**
      * Book "Ident Check" service.
      *
-     * @param string $surname
-     * @param string $givenName
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $street
+     * @param string $houseNumber
+     * @param string $postcode
+     * @param string $city
      * @param string $dateOfBirth
-     * @param string $minimumAge
+     * @param string $nationality
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
-        string $surname,
-        string $givenName,
+        string $firstName,
+        string $lastName,
+        string $street,
+        string $houseNumber,
+        string $postcode,
+        string $city,
         string $dateOfBirth,
-        string $minimumAge
+        string $nationality
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['services']['identCheck']['surname'] = $surname;
-        $this->data['services']['identCheck']['givenName'] = $givenName;
+        $this->data['services']['identCheck']['firstName'] = $firstName;
+        $this->data['services']['identCheck']['lastName'] = $lastName;
+        $this->data['services']['identCheck']['street'] = $street;
+        $this->data['services']['identCheck']['houseNumber'] = $houseNumber;
+        $this->data['services']['identCheck']['postcode'] = $postcode;
+        $this->data['services']['identCheck']['city'] = $city;
         $this->data['services']['identCheck']['dateOfBirth'] = $dateOfBirth;
-        $this->data['services']['identCheck']['minimumAge'] = $minimumAge;
+        $this->data['services']['identCheck']['nationality'] = $nationality;
 
         return $this;
     }
@@ -931,14 +943,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $packstation->setOrigin($packstationCountry);
             $receiver->setPackstation($packstation);
         } elseif (isset($this->data['recipient']['postfiliale'])) {
-            $postfilialeCountry = new CountryType($this->data['recipient']['postfiliale']['country']);
             $postfiliale = new PostfilialeType(
                 $this->data['recipient']['postfiliale']['number'],
                 $this->data['recipient']['postfiliale']['postNumber'],
                 $this->data['recipient']['postfiliale']['postalCode'],
                 $this->data['recipient']['postfiliale']['city']
             );
-            $postfiliale->setOrigin($postfilialeCountry);
             $receiver->setPostfiliale($postfiliale);
         } elseif (isset($this->data['recipient']['address'])) {
             $receiverCountry = new CountryType($this->data['recipient']['address']['country']);
@@ -965,19 +975,19 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
         $shipmentItem = new ShipmentItemType($this->data['packageDetails']['weight']);
         if (isset($this->data['packageDetails']['dimensions'])) {
-            $shipmentItem->setLengthInCM((int) $this->data['packageDetails']['dimensions']['length']);
-            $shipmentItem->setWidthInCM((int) $this->data['packageDetails']['dimensions']['width']);
-            $shipmentItem->setHeightInCM((int) $this->data['packageDetails']['dimensions']['height']);
+            $shipmentItem->setLengthInCM($this->data['packageDetails']['dimensions']['length']);
+            $shipmentItem->setWidthInCM($this->data['packageDetails']['dimensions']['width']);
+            $shipmentItem->setHeightInCM($this->data['packageDetails']['dimensions']['height']);
         }
 
         $shipmentDetails = new ShipmentDetailsTypeType(
             $this->data['shipmentDetails']['product'],
-            $this->data['shipper']['account'],
+            $this->data['shipper']['billingNumber'],
             $this->data['shipmentDetails']['date'],
             $shipmentItem
         );
         $shipmentDetails->setCustomerReference($this->data['shipmentDetails']['shipmentReference']);
-        $shipmentDetails->setReturnShipmentAccountNumber($this->data['shipper']['returnAccount']);
+        $shipmentDetails->setReturnShipmentAccountNumber($this->data['shipper']['returnBillingNumber']);
         $shipmentDetails->setReturnShipmentReference($this->data['shipmentDetails']['returnReference']);
         $shipmentDetails->setCostCentre($this->data['shipmentDetails']['costCentre']);
 
@@ -1104,10 +1114,14 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
             if (isset($this->data['services']['identCheck'])) {
                 $ident = new Ident(
-                    $this->data['services']['identCheck']['surname'],
-                    $this->data['services']['identCheck']['givenName'],
+                    $this->data['services']['identCheck']['firstName'],
+                    $this->data['services']['identCheck']['lastName'],
+                    $this->data['services']['identCheck']['street'],
+                    $this->data['services']['identCheck']['houseNumber'],
+                    $this->data['services']['identCheck']['postcode'],
+                    $this->data['services']['identCheck']['city'],
                     $this->data['services']['identCheck']['dateOfBirth'],
-                    $this->data['services']['identCheck']['minimumAge']
+                    $this->data['services']['identCheck']['nationality']
                 );
                 $config = new ServiceConfigurationIC(true, $ident);
                 $services->setIdentCheck($config);
@@ -1143,7 +1157,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $shipment = new Shipment($shipmentDetails, $receiver, $shipper);
         $shipment->setShipperReference($shipperReference);
 
-        if (isset($this->data['return']['address'], $this->data['shipper']['returnAccount'])) {
+        if (isset($this->data['return']['address'], $this->data['shipper']['returnBillingNumber'])) {
             // only add return receiver if account number was provided
             $returnCountry = new CountryType($this->data['return']['address']['country']);
 

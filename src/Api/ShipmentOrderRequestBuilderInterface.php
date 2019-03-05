@@ -32,13 +32,13 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Set shipper account (required).
      *
-     * @param string $accountNumber
-     * @param string|null $returnAccountNumber Provide if return label should included with response.
+     * @param string $billingNumber
+     * @param string|null $returnBillingNumber Provide if return label should included with response.
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
-        string $accountNumber,
-        string $returnAccountNumber = null
+        string $billingNumber,
+        string $returnBillingNumber = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -48,12 +48,12 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see setShipperReference
      *
+     * @param string $company
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $company
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -65,12 +65,12 @@ interface ShipmentOrderRequestBuilderInterface
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAddress(
+        string $company,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $company,
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -104,12 +104,12 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * Return address will be discarded if no return billing number is given.
      *
+     * @param string $company
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $company
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -121,12 +121,12 @@ interface ShipmentOrderRequestBuilderInterface
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnAddress(
+        string $company,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $company,
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -140,12 +140,12 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Set consignee address for a shipment (required).
      *
+     * @param string $name
      * @param string $country
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
      * @param string $streetNumber
-     * @param string $name
      * @param string|null $company
      * @param string|null $nameAddition
      * @param string|null $email
@@ -157,12 +157,12 @@ interface ShipmentOrderRequestBuilderInterface
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setRecipientAddress(
+        string $name,
         string $country,
         string $postalCode,
         string $city,
         string $streetName,
         string $streetNumber,
-        string $name,
         string $company = null,
         string $nameAddition = null,
         string $email = null,
@@ -230,34 +230,34 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Set package dimensions.
      *
-     * @param float $width Width in cm
-     * @param float $length Length in cm
-     * @param float $height Height in cm
+     * @param int $width Width in cm
+     * @param int $length Length in cm
+     * @param int $height Height in cm
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDimensions(
-        float $width,
-        float $length,
-        float $height
+        int $width,
+        int $length,
+        int $height
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Choose Packstation delivery.
      *
+     * @param string $recipientName
      * @param string $packstationNumber
      * @param string $postalCode
      * @param string $city
-     * @param string $recipientName
      * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackstation(
+        string $recipientName,
         string $packstationNumber,
         string $postalCode,
         string $city,
-        string $recipientName,
         string $postNumber = null,
         string $state = null,
         string $country = null
@@ -266,19 +266,19 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Choose Postfiliale delivery.
      *
+     * @param string $recipientName
      * @param string $postfilialNumber
      * @param string $postNumber
      * @param string $postalCode
      * @param string $city
-     * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPostfiliale(
+        string $recipientName,
         string $postfilialNumber,
         string $postNumber,
         string $postalCode,
-        string $city,
-        string $country = null
+        string $city
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -470,17 +470,25 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Book "Ident Check" service.
      *
-     * @param string $surname
-     * @param string $givenName
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $street
+     * @param string $houseNumber
+     * @param string $postcode
+     * @param string $city
      * @param string $dateOfBirth
-     * @param string $minimumAge
+     * @param string $nationality
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
-        string $surname,
-        string $givenName,
+        string $firstName,
+        string $lastName,
+        string $street,
+        string $houseNumber,
+        string $postcode,
+        string $city,
         string $dateOfBirth,
-        string $minimumAge
+        string $nationality
     ): ShipmentOrderRequestBuilderInterface;
 
     /**

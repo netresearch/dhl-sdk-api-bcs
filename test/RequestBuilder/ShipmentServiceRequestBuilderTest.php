@@ -39,7 +39,7 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $requestData = [
             's0' => [
                 'sequenceNumber' => 's0',
-                'accountNumber' => '22222222220101',
+                'billingNumber' => '22222222220101',
                 'shipperCountry' => 'DE',
                 'shipperPostalCode' => '04229',
                 'shipperCity' => 'Leipzig',
@@ -70,21 +70,21 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function complexDataProvider()
     {
-        $tsShip = time() + 60 * 60 * 24; // tomorrow;
+        $tsShip = time() + 60 * 60 * 24; // tomorrow
         $wsdl = __DIR__ . '/../Provider/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [
             's0' => [
                 'sequenceNumber' => 's0',
-                'accountNumber' => '22222222220101',
+                'billingNumber' => '22222222220101',
                 'productCode' => 'V53PAK',
                 'shipDate' => date('Y-m-d', $tsShip),
+                'shipperCompany' => 'Netresearch GmbH & Co.KG',
                 'shipperCountry' => 'DE',
                 'shipperPostalCode' => '04229',
                 'shipperCity' => 'Leipzig',
                 'shipperStreet' => 'Nonnenstraße',
                 'shipperStreetNumber' => '11d',
-                'shipperCompany' => 'Netresearch GmbH & Co.KG',
                 'recipientCountry' => 'US',
                 'recipientPostalCode' => '89109',
                 'recipientCity' => 'Las Vegas',
@@ -118,19 +118,19 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             's1' => [
                 'printOnlyIfCodeable' => true,
                 'sequenceNumber' => 's1',
-                'accountNumber' => '22222222220101',
-                'returnAccountNumber' => '22222222220701',
+                'billingNumber' => '22222222220101',
+                'returnBillingNumber' => '22222222220701',
                 'productCode' => 'V01PAK',
                 'shipDate' => date('Y-m-d', $tsShip),
                 'customerReference' => 'Customer Reference',
                 'returnReference' => 'Return Shipment Reference',
                 'costCentre' => 'Cost Centre XY',
+                'shipperCompany' => 'Netresearch GmbH & Co.KG',
                 'shipperCountry' => 'DE',
                 'shipperPostalCode' => '04229',
                 'shipperCity' => 'Leipzig',
                 'shipperStreet' => 'Nonnenstraße',
                 'shipperStreetNumber' => '11d',
-                'shipperCompany' => 'Netresearch GmbH & Co.KG',
                 'shipperName' => 'Foo Bar',
                 'shipperNameAddition' => 'Sr.',
                 'shipperEmail' => 'foo@example.com',
@@ -148,12 +148,12 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'shipperBankNote1' => 'Bank Note 1',
                 'shipperBankNote2' => 'Bank Note 2',
 
+                'returnCompany' => 'Returns Center',
                 'returnCountry' => 'DE',
                 'returnPostalCode'=> '22419',
                 'returnCity' => 'Hamburg',
                 'returnStreet' => 'Essener Straße',
                 'returnStreetNumber' => '89',
-                'returnCompany' => 'Returns Center',
                 'returnName' => 'Sandy Smith',
                 'returnNameAddition' => 'SXO',
                 'returnEmail' => 'returns@example.com',
@@ -164,12 +164,12 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'returnAddressAddition1' => 'add something return',
                 'returnAddressAddition2' => 'add more return',
 
+                'recipientName' => 'Jane Doe',
                 'recipientCountry' => 'DE',
                 'recipientPostalCode' => '53113',
                 'recipientCity' => 'Bonn',
                 'recipientStreet' => 'Sträßchensweg',
                 'recipientStreetNumber' => '2',
-                'recipientName' => 'Jane Doe',
                 'recipientNameAddition' => 'XXO',
                 'recipientCompany' => 'Organisation AG',
                 'recipientEmail' => 'doe@example.org',
@@ -205,15 +205,19 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'returnReceipt' => true,
                 'premium' => true,
                 'bulkyGoods' => true,
-//                'identSurname' => 'Sam',
-//                'identGivenName' => 'Smith',
-//                'identDob' => '1970-01-01',
-//                'identMinAge' => '21',
+                'identFirstName' => 'Sam',
+                'identLastName' => 'Smith',
+                'identStreet' => 'Sträßchensweg',
+                'identHouseNumber' => '3',
+                'identPostcode' => '53113',
+                'identCity' => 'Bonn',
+                'identDob' => '1970-01-01',
+                'identNationality' => 'US',
                 'parcelOutletRouting' => 'route@example.com',
             ],
             's2' => [
                 'sequenceNumber' => 's2',
-                'accountNumber' => '22222222220101',
+                'billingNumber' => '22222222220101',
                 'productCode' => 'V53PAK',
                 'shipDate' => date('Y-m-d', $tsShip),
                 'shipperReference' => 'Shipper Reference #123',
@@ -225,7 +229,20 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
                 'packstationState' => 'NW',
                 'packstationCountry' => 'DE',
                 'packageWeight' => 4.5,
-            ]
+            ],
+            's3' => [
+                'sequenceNumber' => 's3',
+                'billingNumber' => '22222222220101',
+                'productCode' => 'V53PAK',
+                'shipDate' => date('Y-m-d', $tsShip),
+                'shipperReference' => 'Shipper Reference #123',
+                'postfilialRecipientName' => 'Jane Doe',
+                'postfilialNumber' => '502',
+                'postfilialPostNumber' => '12345678',
+                'postfilialPostalCode' => '53113',
+                'postfilialCity' => 'Bonn',
+                'packageWeight' => 1.2,
+            ],
         ];
 
         // response does not matter really, just to make it not fail
@@ -276,22 +293,22 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
         $requestBuilder->setSequenceNumber($requestData['s0']['sequenceNumber']);
-        $requestBuilder->setShipperAccount($requestData['s0']['accountNumber']);
+        $requestBuilder->setShipperAccount($requestData['s0']['billingNumber']);
         $requestBuilder->setShipperAddress(
+            $requestData['s0']['shipperCompany'],
             $requestData['s0']['shipperCountry'],
             $requestData['s0']['shipperPostalCode'],
             $requestData['s0']['shipperCity'],
             $requestData['s0']['shipperStreet'],
-            $requestData['s0']['shipperStreetNumber'],
-            $requestData['s0']['shipperCompany']
+            $requestData['s0']['shipperStreetNumber']
         );
         $requestBuilder->setRecipientAddress(
+            $requestData['s0']['recipientName'],
             $requestData['s0']['recipientCountry'],
             $requestData['s0']['recipientPostalCode'],
             $requestData['s0']['recipientCity'],
             $requestData['s0']['recipientStreet'],
-            $requestData['s0']['recipientStreetNumber'],
-            $requestData['s0']['recipientName']
+            $requestData['s0']['recipientStreetNumber']
         );
         $requestBuilder->setShipmentDetails(
             $requestData['s0']['productCode'],
@@ -356,22 +373,22 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             $requestData['s0']['productCode'],
             $requestData['s0']['shipDate']
         );
-        $requestBuilder->setShipperAccount($requestData['s0']['accountNumber']);
+        $requestBuilder->setShipperAccount($requestData['s0']['billingNumber']);
         $requestBuilder->setShipperAddress(
+            $requestData['s0']['shipperCompany'],
             $requestData['s0']['shipperCountry'],
             $requestData['s0']['shipperPostalCode'],
             $requestData['s0']['shipperCity'],
             $requestData['s0']['shipperStreet'],
-            $requestData['s0']['shipperStreetNumber'],
-            $requestData['s0']['shipperCompany']
+            $requestData['s0']['shipperStreetNumber']
         );
         $requestBuilder->setRecipientAddress(
+            $requestData['s0']['recipientName'],
             $requestData['s0']['recipientCountry'],
             $requestData['s0']['recipientPostalCode'],
             $requestData['s0']['recipientCity'],
             $requestData['s0']['recipientStreet'],
-            $requestData['s0']['recipientStreetNumber'],
-            $requestData['s0']['recipientName']
+            $requestData['s0']['recipientStreetNumber']
         );
         $requestBuilder->setPackageDetails(
             $requestData['s0']['packageWeight']
@@ -417,16 +434,16 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             $requestData['s1']['costCentre']
         );
         $requestBuilder->setShipperAccount(
-            $requestData['s1']['accountNumber'],
-            $requestData['s1']['returnAccountNumber']
+            $requestData['s1']['billingNumber'],
+            $requestData['s1']['returnBillingNumber']
         );
         $requestBuilder->setShipperAddress(
+            $requestData['s1']['shipperCompany'],
             $requestData['s1']['shipperCountry'],
             $requestData['s1']['shipperPostalCode'],
             $requestData['s1']['shipperCity'],
             $requestData['s1']['shipperStreet'],
             $requestData['s1']['shipperStreetNumber'],
-            $requestData['s1']['shipperCompany'],
             $requestData['s1']['shipperName'],
             $requestData['s1']['shipperNameAddition'],
             $requestData['s1']['shipperEmail'],
@@ -451,12 +468,12 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
         $requestBuilder->setReturnAddress(
+            $requestData['s1']['returnCompany'],
             $requestData['s1']['returnCountry'],
             $requestData['s1']['returnPostalCode'],
             $requestData['s1']['returnCity'],
             $requestData['s1']['returnStreet'],
             $requestData['s1']['returnStreetNumber'],
-            $requestData['s1']['returnCompany'],
             $requestData['s1']['returnName'],
             $requestData['s1']['returnNameAddition'],
             $requestData['s1']['returnEmail'],
@@ -470,12 +487,12 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
         $requestBuilder->setRecipientAddress(
+            $requestData['s1']['recipientName'],
             $requestData['s1']['recipientCountry'],
             $requestData['s1']['recipientPostalCode'],
             $requestData['s1']['recipientCity'],
             $requestData['s1']['recipientStreet'],
             $requestData['s1']['recipientStreetNumber'],
-            $requestData['s1']['recipientName'],
             $requestData['s1']['recipientCompany'],
             $requestData['s1']['recipientNameAddition'],
             $requestData['s1']['recipientEmail'],
@@ -514,13 +531,16 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $requestBuilder->setReturnReceipt();
         $requestBuilder->setPremium();
         $requestBuilder->setBulkyGoods();
-        //fixme(nr): check properties, Ident is defined twice in XSD
-//        $requestBuilder->setIdentCheck(
-//            $requestData['s1']['identSurname'],
-//            $requestData['s1']['identGivenName'],
-//            $requestData['s1']['identDob'],
-//            $requestData['s1']['identMinAge']
-//        );
+        $requestBuilder->setIdentCheck(
+            $requestData['s1']['identFirstName'],
+            $requestData['s1']['identLastName'],
+            $requestData['s1']['identStreet'],
+            $requestData['s1']['identHouseNumber'],
+            $requestData['s1']['identPostcode'],
+            $requestData['s1']['identCity'],
+            $requestData['s1']['identDob'],
+            $requestData['s1']['identNationality']
+        );
         $requestBuilder->setParcelOutletRouting($requestData['s1']['parcelOutletRouting']);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -531,13 +551,13 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             $requestData['s2']['productCode'],
             $requestData['s2']['shipDate']
         );
-        $requestBuilder->setShipperAccount($requestData['s2']['accountNumber']);
+        $requestBuilder->setShipperAccount($requestData['s2']['billingNumber']);
         $requestBuilder->setShipperReference($requestData['s2']['shipperReference']);
         $requestBuilder->setPackstation(
+            $requestData['s2']['packstationRecipientName'],
             $requestData['s2']['packstationNumber'],
             $requestData['s2']['packstationPostalCode'],
             $requestData['s2']['packstationCity'],
-            $requestData['s2']['packstationRecipientName'],
             $requestData['s2']['packstationPostNumber'],
             $requestData['s2']['packstationState'],
             $requestData['s2']['packstationCountry']
@@ -546,10 +566,28 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 
+        // shipment order 3
+        $requestBuilder->setSequenceNumber($requestData['s3']['sequenceNumber']);
+        $requestBuilder->setShipmentDetails(
+            $requestData['s3']['productCode'],
+            $requestData['s3']['shipDate']
+        );
+        $requestBuilder->setShipperAccount($requestData['s3']['billingNumber']);
+        $requestBuilder->setShipperReference($requestData['s3']['shipperReference']);
+        $requestBuilder->setPostfiliale(
+            $requestData['s3']['postfilialRecipientName'],
+            $requestData['s3']['postfilialNumber'],
+            $requestData['s3']['postfilialPostNumber'],
+            $requestData['s3']['postfilialPostalCode'],
+            $requestData['s3']['postfilialCity']
+        );
+        $requestBuilder->setPackageDetails($requestData['s3']['packageWeight']);
+        $shipmentOrder = $requestBuilder->create();
+        $shipmentOrders[]= $shipmentOrder;
+
         $service->createShipments($shipmentOrders);
 
         $requestXml = $soapClient->__getLastRequest();
         Expectation::assertRequestContentsAvailable($requestData, $requestXml);
-//        Expectation::assertRequestContentsValid($requestXml, $wsdl);
     }
 }

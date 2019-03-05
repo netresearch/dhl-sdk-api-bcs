@@ -19,37 +19,30 @@ class PostfilialeType
     /**
      * Number of the Postfiliale.
      *
-     * @var string $postfilialNumber
+     * @var string $PostfilialNumber
      */
-    protected $postfilialNumber;
+    protected $PostfilialNumber = null;
 
     /**
      * Postnummer of the receiver.
      *
-     * @var string $postNumber
+     * @var string $PostNumber
      */
-    protected $postNumber;
+    protected $PostNumber = null;
 
     /**
-     * Type of zip code.
+     * Zip code.
      *
-     * @var string $zip
+     * @var string $Zip
      */
-    protected $zip;
+    protected $Zip = null;
 
     /**
      * City name.
      *
-     * @var string $city
+     * @var string $City
      */
-    protected $city;
-
-    /**
-     * Country.
-     *
-     * @var CountryType|null $Origin
-     */
-    protected $Origin = null;
+    protected $City = null;
 
     /**
      * @param string $postfilialNumber
@@ -57,21 +50,11 @@ class PostfilialeType
      * @param string $zip
      * @param string $city
      */
-    public function __construct(string $postfilialNumber, string $postNumber, string $zip, string $city)
+    public function __construct($postfilialNumber, $postNumber, $zip, $city)
     {
-        $this->postfilialNumber = $postfilialNumber;
-        $this->postNumber = $postNumber;
-        $this->zip = $zip;
-        $this->city = $city;
-    }
-
-    /**
-     * @param CountryType|null $Origin
-     * @return PostfilialeType
-     */
-    public function setOrigin($Origin = null): self
-    {
-        $this->Origin = $Origin;
-        return $this;
+        $this->PostfilialNumber = $postfilialNumber;
+        $this->PostNumber = $postNumber;
+        $this->Zip = $zip;
+        $this->City = $city;
     }
 }

@@ -17,44 +17,88 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class Ident
 {
     /**
-     * Surname (family name) of the person for ident check.
-     *
-     * @var string $surname
-     */
-    protected $surname;
-
-    /**
      * Given name (first name) of the person for ident check.
      *
      * @var string $givenName
      */
-    protected $givenName;
+    protected $FirstName = null;
 
     /**
-     * Date of birth (DOB) of the person for ident check. Format: yyyy-mm-dd.
+     * Surname (family name) of the person for ident check.
      *
-     * @var string $dateOfBirth
+     * @var string $surname
      */
-    protected $dateOfBirth;
+    protected $LastName = null;
 
     /**
-     * Minimum age of the person for ident check.
+     * Name of the street of registered address.
      *
-     * @var string $minimumAge
+     * @var string $Street
      */
-    protected $minimumAge;
+    protected $Street = null;
 
     /**
-     * @param string $surname
-     * @param string $givenName
+     * House number of registered address.
+     *
+     * @var string $HouseNumber
+     */
+    protected $HouseNumber = null;
+
+    /**
+     * Postcode of registered address.
+     *
+     * @var string $Postcode
+     */
+    protected $Postcode = null;
+
+    /**
+     * City of registered address.
+     *
+     * @var string $City
+     */
+    protected $City = null;
+
+    /**
+     * Person's date of birth. Format must be yyyy-mm-dd.
+     *
+     * @var string $DateOfBirth
+     */
+    protected $DateOfBirth = null;
+
+    /**
+     * Person's nationality.
+     *
+     * @var string $Nationality
+     */
+    protected $Nationality = null;
+
+    /**
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $street
+     * @param string $houseNumber
+     * @param string $postcode
+     * @param string $city
      * @param string $dateOfBirth
-     * @param string $minimumAge
+     * @param string $nationality
      */
-    public function __construct(string $surname, string $givenName, string $dateOfBirth, string $minimumAge)
-    {
-        $this->surname = $surname;
-        $this->givenName = $givenName;
-        $this->dateOfBirth = $dateOfBirth;
-        $this->minimumAge = $minimumAge;
+    public function __construct(
+        string $firstName,
+        string $lastName,
+        string $street,
+        string $houseNumber,
+        string $postcode,
+        string $city,
+        string $dateOfBirth,
+        string $nationality
+    ) {
+        $this->FirstName = $firstName;
+        $this->LastName = $lastName;
+        $this->Street = $street;
+        $this->HouseNumber = $houseNumber;
+        $this->Postcode = $postcode;
+        $this->City = $city;
+        $this->DateOfBirth = $dateOfBirth;
+        $this->Nationality = $nationality;
     }
 }
