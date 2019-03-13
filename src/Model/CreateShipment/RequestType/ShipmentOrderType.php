@@ -33,6 +33,8 @@ class ShipmentOrderType
     protected $Shipment;
 
     /**
+     * If set to true (=1), the label will be only be printable, if the receiver address is valid.
+     *
      * @var ServiceConfiguration|null $PrintOnlyIfCodeable
      */
     protected $PrintOnlyIfCodeable = null;
