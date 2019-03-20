@@ -12,6 +12,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
@@ -52,7 +53,18 @@ class ErrorHandlerDecorator extends AbstractDecorator
                 throw new ServerException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
             case 1101:
                 // Hard validation error occured
-                throw new ClientException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+                /** @var CreateShipmentOrderResponse $response */
+                $creationStates = $response->getCreationState();
+                /** @var CreationState[] $creationStates */
+                $messages = array_reduce($creationStates, function (array $messages, CreationState $creationState) {
+                    $messages = array_merge($messages, $creationState->getLabelData()->getStatus()->getStatusMessage());
+                    return $messages;
+                }, []);
+
+                array_unshift($messages, $responseStatus->getStatusText());
+                $messages = array_unique($messages);
+                $messages = implode(' ', $messages);
+                throw new ClientException($messages, $responseStatus->getStatusCode());
             case 2000:
                 // Unknown shipment number, check item status
                 /** @var DeleteShipmentOrderResponse $response */
@@ -76,6 +88,8 @@ class ErrorHandlerDecorator extends AbstractDecorator
     }
 
     /**
+     * Transform SOAP Faults into appropriate exceptions.
+     *
      * @param \SoapFault $fault
      * @throws AuthenticationException
      * @throws ClientException
