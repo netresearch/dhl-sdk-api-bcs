@@ -14,7 +14,6 @@ use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
  *
  * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class DeleteShipmentOrderRequest extends AbstractRequest

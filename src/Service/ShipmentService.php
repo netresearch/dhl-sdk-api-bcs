@@ -24,7 +24,6 @@ use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
  *
  * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class ShipmentService implements ShipmentServiceInterface

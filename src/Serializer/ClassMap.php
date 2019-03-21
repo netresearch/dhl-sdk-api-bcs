@@ -55,7 +55,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
  *
  * @package Dhl\Sdk\Paket\Bcs\Serializer
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class ClassMap

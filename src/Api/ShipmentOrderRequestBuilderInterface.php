@@ -12,7 +12,6 @@ namespace Dhl\Sdk\Paket\Bcs\Api;
  * @api
  * @package Dhl\Sdk\Paket\Bcs\Api
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 interface ShipmentOrderRequestBuilderInterface

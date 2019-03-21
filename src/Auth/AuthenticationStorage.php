@@ -13,7 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
  *
  * @package Dhl\Sdk\Paket\Bcs\Auth
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class AuthenticationStorage implements AuthenticationStorageInterface

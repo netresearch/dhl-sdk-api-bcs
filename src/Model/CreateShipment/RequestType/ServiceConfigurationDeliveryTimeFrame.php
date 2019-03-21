@@ -11,7 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
  *
  * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class ServiceConfigurationDeliveryTimeFrame
