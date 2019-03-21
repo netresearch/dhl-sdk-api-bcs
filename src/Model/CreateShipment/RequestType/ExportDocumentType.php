@@ -83,7 +83,7 @@ class ExportDocumentType
     /**
      * Sets an electronic export notification.
      *
-     * @var ServiceConfiguration $WithElectronicExportNtfctn
+     * @var ServiceConfiguration|null $WithElectronicExportNtfctn
      */
     protected $WithElectronicExportNtfctn = null;
 

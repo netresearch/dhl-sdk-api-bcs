@@ -18,7 +18,7 @@ class CreationState
     /**
      * Identifier for ShipmentOrder set by client application in CreateShipment request.
      *
-     * @var string|null $sequenceNumber
+     * @var string $sequenceNumber
      */
     protected $sequenceNumber;
 
@@ -52,7 +52,7 @@ class CreationState
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getShipmentNumber()
     {
@@ -60,7 +60,7 @@ class CreationState
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getReturnShipmentNumber()
     {

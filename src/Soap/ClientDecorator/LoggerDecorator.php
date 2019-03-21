@@ -41,6 +41,7 @@ class LoggerDecorator extends AbstractDecorator
 
     /**
      * LoggerDecorator constructor.
+     *
      * @param AbstractClient $client
      * @param \SoapClient $soapClient
      * @param LoggerInterface $logger
@@ -111,7 +112,7 @@ class LoggerDecorator extends AbstractDecorator
             $this->logger->log($logLevel, $lastRequest);
             $this->logger->log($logLevel, $lastResponse);
 
-            if (isset($exception) && $exception instanceof \Exception) {
+            if (isset($exception)) {
                 $this->logger->log($logLevel, $exception->getMessage());
             }
         }
@@ -121,10 +122,10 @@ class LoggerDecorator extends AbstractDecorator
      * Log status information from responses.
      *
      * @param StatusInformation $status
-     * @param string $shipmentNumber
-     * @param int $sequenceNumber
+     * @param string|null $shipmentNumber
+     * @param string|null $sequenceNumber
      */
-    private function logStatus(StatusInformation $status, $shipmentNumber = '', $sequenceNumber = 0)
+    private function logStatus(StatusInformation $status, $shipmentNumber = '', $sequenceNumber = '0')
     {
         $shipmentNumber = $shipmentNumber ?: $sequenceNumber;
         $statusCode = $status->getStatusCode();
@@ -167,7 +168,11 @@ class LoggerDecorator extends AbstractDecorator
 
         /** @var CreationState $creationState */
         foreach ($response->getCreationState() as $creationState) {
-            $this->logStatus($creationState->getLabelData()->getStatus(), $creationState->getShipmentNumber());
+            $this->logStatus(
+                $creationState->getLabelData()->getStatus(),
+                $creationState->getShipmentNumber(),
+                $creationState->getSequenceNumber()
+            );
         }
 
         return $response;

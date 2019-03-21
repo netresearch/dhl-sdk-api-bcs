@@ -24,7 +24,7 @@ interface ShipmentServiceInterface
     /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
-     * @param \object[] $shipmentOrders
+     * @param \stdClass[] $shipmentOrders
      * @return ShipmentInterface[]
      * @throws AuthenticationException
      * @throws ClientException

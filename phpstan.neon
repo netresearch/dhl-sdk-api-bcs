@@ -1,0 +1,5 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+parameters:
+  ignoreErrors:
+    - "#Access to an undefined property SoapFault*#"

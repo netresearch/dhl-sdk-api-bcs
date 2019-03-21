@@ -32,9 +32,9 @@ class Shipment
     /**
      * Contains relevant information about the Shipper.
      *
-     * @var ShipperType $Shipper
+     * @var ShipperType|null $Shipper
      */
-    protected $Shipper;
+    protected $Shipper = null;
 
     /**
      * To be used if a return label address shall be generated.

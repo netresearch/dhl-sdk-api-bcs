@@ -22,7 +22,7 @@ class CreateShipmentOrderRequest extends AbstractRequest
     /**
      * ShipmentOrder is the highest parent element that contains all data with respect to one shipment order.
      *
-     * @var ShipmentOrderType[] $ShipmentOrder
+     * @var \stdClass[]|ShipmentOrderType[] $ShipmentOrder
      */
     protected $ShipmentOrder;
 
@@ -63,7 +63,7 @@ class CreateShipmentOrderRequest extends AbstractRequest
 
     /**
      * @param Version $version
-     * @param ShipmentOrderType[] $shipmentOrders
+     * @param \stdClass[]|ShipmentOrderType[] $shipmentOrders
      */
     public function __construct(Version $version, array $shipmentOrders)
     {

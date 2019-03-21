@@ -9,6 +9,7 @@ namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
@@ -36,7 +37,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @return AbstractResponse
      * @throws AuthenticationException
      * @throws ServerException
-     * @throws ClientException
+     * @see https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
     private function handleResponseError(AbstractResponse $response)
     {
@@ -53,34 +54,10 @@ class ErrorHandlerDecorator extends AbstractDecorator
                 throw new ServerException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
             case 1101:
                 // Hard validation error occured
-                /** @var CreateShipmentOrderResponse $response */
-                $creationStates = $response->getCreationState();
-                /** @var CreationState[] $creationStates */
-                $messages = array_reduce($creationStates, function (array $messages, CreationState $creationState) {
-                    $messages = array_merge($messages, $creationState->getLabelData()->getStatus()->getStatusMessage());
-                    return $messages;
-                }, []);
-
-                array_unshift($messages, $responseStatus->getStatusText());
-                $messages = array_unique($messages);
-                $messages = implode(' ', $messages);
-                throw new ClientException($messages, $responseStatus->getStatusCode());
+                // needs specific handling
             case 2000:
                 // Unknown shipment number, check item status
-                /** @var DeleteShipmentOrderResponse $response */
-                $deletionStates = $response->getDeletionState();
-                /** @var DeletionState[] $deletionStates */
-                $allFailed = array_reduce($deletionStates, function (bool $fail, DeletionState $deletionState) {
-                    return ($fail && ($deletionState->getStatus()->getStatusCode() !== 0));
-                }, true);
-
-                if ($allFailed) {
-                    // no successfully cancelled shipments in response
-                    throw new ClientException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
-                }
-
-                // some shipments were cancelled successfully
-                return $response;
+                // needs specific handling
             default:
                 // ok | Weak validation error occured.
                 return $response;
@@ -91,25 +68,23 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * Transform SOAP Faults into appropriate exceptions.
      *
      * @param \SoapFault $fault
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @return AuthenticationException|ClientException|ClientException|ServerException
      */
-    private function handleSoapFault(\SoapFault $fault)
+    private function handleSoapFault(\SoapFault $fault): ServiceException
     {
         if ($fault->faultcode === 'HTTP' && $fault->faultstring === 'Unauthorized') {
-            throw new AuthenticationException($fault->getMessage(), 401, $fault);
+            return new AuthenticationException($fault->getMessage(), 401, $fault);
         }
 
         if (false !== strpos($fault->faultcode, 'Client')) {
-            throw new ClientException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 400, $fault);
+            return new ClientException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 400, $fault);
         }
 
         if (false !== strpos($fault->faultcode, 'Server')) {
-            throw new ServerException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 500, $fault);
+            return new ServerException(sprintf('[%s] %s', $fault->faultcode, $fault->getMessage()), 500, $fault);
         }
 
-        throw new ClientException($fault->getMessage(), $fault->getCode(), $fault);
+        return new ClientException($fault->getMessage(), $fault->getCode(), $fault);
     }
 
     /**
@@ -120,18 +95,18 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @throws AuthenticationException
      * @throws ServerException
      * @throws ClientException
+     * @throws ServiceException
      */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
         try {
+            /** @var CreateShipmentOrderResponse $response */
             $response = parent::createShipmentOrder($requestType);
         } catch (\SoapFault $fault) {
-            $exception = $this->handleSoapFault($fault);
-            throw $exception;
+            throw $this->handleSoapFault($fault);
         }
 
-        /** @var CreateShipmentOrderResponse $response */
-        $response = $this->handleResponseError($response);
+        $response = $this->handleCreateShipmentResponseErrors($response);
 
         return $response;
     }
@@ -144,19 +119,90 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @throws AuthenticationException
      * @throws ServerException
      * @throws ClientException
+     * @throws ServiceException
      */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
         try {
+            /** @var DeleteShipmentOrderResponse $response */
             $response = parent::deleteShipmentOrder($requestType);
         } catch (\SoapFault $fault) {
-            $exception = $this->handleSoapFault($fault);
-            throw $exception;
+            throw $this->handleSoapFault($fault);
         }
 
-        /** @var DeleteShipmentOrderResponse $response */
-        $response = $this->handleResponseError($response);
+        $response = $this->handleDeleteShipmentResponseErrors($response);
 
+        return $response;
+    }
+
+    /**
+     * @param CreateShipmentOrderResponse $response
+     * @return CreateShipmentOrderResponse
+     * @throws AuthenticationException
+     * @throws ServerException
+     * @throws ClientException
+     */
+    private function handleCreateShipmentResponseErrors(
+        CreateShipmentOrderResponse $response
+    ): CreateShipmentOrderResponse {
+        $this->handleResponseError($response);
+
+        $responseStatus = $response->getStatus();
+        if ($responseStatus->getStatusCode() === 1101) {
+            // Hard validation error occured
+            $creationStates = $response->getCreationState();
+            /** @var CreationState[] $creationStates */
+            $messages = array_reduce(
+                $creationStates,
+                function (array $messages, CreationState $creationState) {
+                    $messages = array_merge($messages, $creationState->getLabelData()->getStatus()->getStatusMessage());
+
+                    return $messages;
+                },
+                []
+            );
+
+            array_unshift($messages, $responseStatus->getStatusText());
+            $messages = array_unique($messages);
+
+            $message = implode(' ', $messages);
+            throw new ClientException($message, $responseStatus->getStatusCode());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param DeleteShipmentOrderResponse $response
+     * @return DeleteShipmentOrderResponse
+     * @throws AuthenticationException
+     * @throws ServerException
+     * @throws ClientException
+     */
+    private function handleDeleteShipmentResponseErrors(
+        DeleteShipmentOrderResponse $response
+    ): DeleteShipmentOrderResponse {
+        $this->handleResponseError($response);
+        $responseStatus = $response->getStatus();
+        if ($responseStatus->getStatusCode() === 2000) {
+            // Unknown shipment number, check item status
+            $deletionStates = $response->getDeletionState();
+            /** @var DeletionState[] $deletionStates */
+            $allFailed = array_reduce(
+                $deletionStates,
+                function (bool $fail, DeletionState $deletionState) {
+                    return ($fail && ($deletionState->getStatus()->getStatusCode() !== 0));
+                },
+                true
+            );
+
+            if ($allFailed) {
+                // no successfully cancelled shipments in response
+                throw new ClientException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+            }
+        }
+
+        // some or all shipments were cancelled successfully
         return $response;
     }
 }

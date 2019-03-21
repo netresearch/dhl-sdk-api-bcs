@@ -40,7 +40,7 @@ class CreateShipmentResponseMapper
 
             $shipment = new Shipment(
                 $creationState->getSequenceNumber(),
-                $creationState->getShipmentNumber(),
+                (string) $creationState->getShipmentNumber(),
                 (string) $creationState->getReturnShipmentNumber(),
                 (string) $creationState->getLabelData()->getLabelData(),
                 (string) $creationState->getLabelData()->getReturnLabelData(),

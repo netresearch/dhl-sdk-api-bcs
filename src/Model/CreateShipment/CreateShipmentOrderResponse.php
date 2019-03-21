@@ -22,15 +22,22 @@ class CreateShipmentOrderResponse extends AbstractResponse
      * The operation's success status for every single ShipmentOrder will be returned by one CreationState element.
      * It is identifiable via SequenceNumber.
      *
-     * @var CreationState|null $CreationState
+     * @var CreationState[]|CreationState|null $CreationState
      */
     protected $CreationState = null;
 
     /**
-     * @return CreationState|null
+     * @return CreationState[]
      */
-    public function getCreationState()
+    public function getCreationState(): array
     {
-        return $this->CreationState;
+        if (empty($this->CreationState)) {
+            return [];
+        }
+        if (\is_array($this->CreationState)) {
+            return $this->CreationState;
+        }
+
+        return [];
     }
 }

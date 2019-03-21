@@ -22,15 +22,22 @@ class DeleteShipmentOrderResponse extends AbstractResponse
      * For every ShipmentNumber requested, one DeletionState node is returned
      * that contains the status of the respective deletion operation.
      *
-     * @var DeletionState $DeletionState
+     * @var DeletionState|DeletionState[]|null $DeletionState
      */
-    protected $DeletionState;
+    protected $DeletionState = null;
 
     /**
-     * @return DeletionState|null
+     * @return DeletionState[]
      */
-    public function getDeletionState()
+    public function getDeletionState(): array
     {
-        return $this->DeletionState;
+        if (empty($this->DeletionState)) {
+            return [];
+        }
+        if (\is_array($this->DeletionState)) {
+            return $this->DeletionState;
+        }
+
+        return [];
     }
 }

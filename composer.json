@@ -23,7 +23,8 @@
     },
     "require-dev": {
         "ext-simplexml": "*",
-        "phpunit/phpunit": "^6.0.0"
+        "phpunit/phpunit": "^6.0.0",
+        "phpstan/phpstan": "^0.11.4"
     },
     "autoload": {
         "psr-4": {
