@@ -34,10 +34,7 @@ class CreateShipmentOrderResponse extends AbstractResponse
         if (empty($this->CreationState)) {
             return [];
         }
-        if (\is_array($this->CreationState)) {
-            return $this->CreationState;
-        }
 
-        return [];
+        return (array) $this->CreationState;
     }
 }

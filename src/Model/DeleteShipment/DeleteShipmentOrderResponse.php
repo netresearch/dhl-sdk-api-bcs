@@ -34,10 +34,7 @@ class DeleteShipmentOrderResponse extends AbstractResponse
         if (empty($this->DeletionState)) {
             return [];
         }
-        if (\is_array($this->DeletionState)) {
-            return $this->DeletionState;
-        }
 
-        return [];
+        return (array) $this->DeletionState;
     }
 }
