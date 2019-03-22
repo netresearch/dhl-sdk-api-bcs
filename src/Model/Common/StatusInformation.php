@@ -34,9 +34,9 @@ class StatusInformation
     /**
      * Explanation of the statuscode and potential errors.
      *
-     * @var string[] $statusMessage
+     * @var string[]|string|null $statusMessage
      */
-    protected $statusMessage = [];
+    protected $statusMessage = null;
 
     /**
      * @return int
@@ -59,6 +59,14 @@ class StatusInformation
      */
     public function getStatusMessage(): array
     {
+        if (empty($this->statusMessage)) {
+            return [];
+        }
+
+        if (!\is_array($this->statusMessage)) {
+            return [$this->statusMessage];
+        }
+
         return $this->statusMessage;
     }
 }
