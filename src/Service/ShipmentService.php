@@ -72,7 +72,7 @@ class ShipmentService implements ShipmentServiceInterface
     public function createShipments(array $shipmentOrders): array
     {
         $version = new Version('3', '0');
-        $createShipmentRequest = new CreateShipmentOrderRequest($version, $shipmentOrders);
+        $createShipmentRequest = new CreateShipmentOrderRequest($version, array_values($shipmentOrders));
         $createShipmentRequest->setLabelResponseType('B64');
 
         $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
