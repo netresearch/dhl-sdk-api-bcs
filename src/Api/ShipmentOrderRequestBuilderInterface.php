@@ -219,6 +219,14 @@ interface ShipmentOrderRequestBuilderInterface
     public function setPackageDetails(float $weight): ShipmentOrderRequestBuilderInterface;
 
     /**
+     * Set the amount the package should be insured with. Omit if standard amount is sufficient.
+     *
+     * @param float $insuredValue
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setInsuredValue(float $insuredValue): ShipmentOrderRequestBuilderInterface;
+
+    /**
      * Set COD amount (optional).
      *
      * @param float $codAmount Money amount to be collected.
