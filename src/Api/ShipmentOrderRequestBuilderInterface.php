@@ -196,7 +196,7 @@ interface ShipmentOrderRequestBuilderInterface
      * - V82PARCEL
      *
      * @param string $productCode Product to be ordered.
-     * @param string $cetDate Date in CET.
+     * @param \DateTime $shipmentDate.
      * @param string|null $shipmentReference
      * @param string|null $returnReference
      * @param string|null $costCentre
@@ -204,7 +204,7 @@ interface ShipmentOrderRequestBuilderInterface
      */
     public function setShipmentDetails(
         string $productCode,
-        string $cetDate,
+        \DateTime $shipmentDate,
         string $shipmentReference = null,
         string $returnReference = null,
         string $costCentre = null

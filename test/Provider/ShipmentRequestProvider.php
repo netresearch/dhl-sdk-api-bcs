@@ -30,7 +30,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -52,7 +52,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -61,7 +61,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('Jane Doe', 'DE', '53113', 'Bonn', 'Sträßchensweg', '2');
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -86,7 +86,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -96,7 +96,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('Jane Doe', 'DE', '04229', 'Bonn', 'Sträßchensweg', '2'); // wrong zip code
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -120,7 +120,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -129,7 +129,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('Jane Doe', 'DE', '04229', 'Bonn', 'Sträßchensweg', '2'); // wrong zip code
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -154,7 +154,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('Jane Doe', 'DE', '04229', 'Bonn', 'Sträßchensweg', '2'); // wrong zip code
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -177,9 +177,23 @@ class ShipmentRequestProvider
         $requestBuilder->setPrintOnlyIfCodeable(true);
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
-        $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
-        $requestBuilder->setRecipientAddress('John Doe', 'DE', '04229', 'Bonn', 'Charles-de-Gaulle-Straße', '20'); // wrong zip code
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipperAddress(
+            'Netresearch GmbH & Co.KG',
+            'DE',
+            '04229',
+            'Leipzig',
+            'Nonnenstraße',
+            '11d'
+        );
+        $requestBuilder->setRecipientAddress(
+            'John Doe',
+            'DE',
+            '04229',
+            'Bonn',
+            'Charles-de-Gaulle-Straße',
+            '20'
+        ); // wrong zip code
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
@@ -189,7 +203,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('Jane Doe', 'DE', '04229', 'Bonn', 'Sträßchensweg', '2'); // wrong zip code
-        $requestBuilder->setShipmentDetails('V01PAK', date('Y-m-d', $tsShip));
+        $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;

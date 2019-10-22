@@ -316,7 +316,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      * - V82PARCEL
      *
      * @param string $productCode Product to be ordered.
-     * @param string $cetDate Date in CET.
+     * @param \DateTime $shipmentDate.
      * @param string|null $shipmentReference
      * @param string|null $returnReference
      * @param string|null $costCentre
@@ -324,14 +324,15 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      */
     public function setShipmentDetails(
         string $productCode,
-        string $cetDate,
+        \DateTime $shipmentDate,
         string $shipmentReference = null,
         string $returnReference = null,
         string $costCentre = null
     ): ShipmentOrderRequestBuilderInterface {
-
+        $timezone = new \DateTimeZone('Europe/Berlin');
+        $convertDate = $shipmentDate->setTimezone($timezone)->format('Y-m-d');
         $this->data['shipmentDetails']['product'] = $productCode;
-        $this->data['shipmentDetails']['date'] = $cetDate;
+        $this->data['shipmentDetails']['date'] = $convertDate;
         $this->data['shipmentDetails']['shipmentReference'] = $shipmentReference;
         $this->data['shipmentDetails']['returnReference'] = $returnReference;
         $this->data['shipmentDetails']['costCentre'] = $costCentre;
