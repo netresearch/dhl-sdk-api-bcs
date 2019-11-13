@@ -354,6 +354,26 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     }
 
     /**
+     * Set package dimensions.
+     *
+     * @param int $width Width in cm
+     * @param int $length Length in cm
+     * @param int $height Height in cm
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setPackageDimensions(
+        int $width,
+        int $length,
+        int $height
+    ): ShipmentOrderRequestBuilderInterface {
+        $this->data['packageDetails']['dimensions']['length'] = $length;
+        $this->data['packageDetails']['dimensions']['width'] = $width;
+        $this->data['packageDetails']['dimensions']['height'] = $height;
+
+        return $this;
+    }
+
+    /**
      * Set the amount the package should be insured with. Omit if standard amount is sufficient.
      *
      * @param float $insuredValue
@@ -377,26 +397,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     {
         $this->data['services']['cod']['codAmount'] = $codAmount;
         $this->data['services']['cod']['addCodFee'] = $addFee;
-
-        return $this;
-    }
-
-    /**
-     * Set package dimensions.
-     *
-     * @param int $length Length in cm
-     * @param int $width Width in cm
-     * @param int $height Height in cm
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPackageDimensions(
-        int $length,
-        int $width,
-        int $height
-    ): ShipmentOrderRequestBuilderInterface {
-        $this->data['packageDetails']['dimensions']['length'] = $length;
-        $this->data['packageDetails']['dimensions']['width'] = $width;
-        $this->data['packageDetails']['dimensions']['height'] = $height;
 
         return $this;
     }
