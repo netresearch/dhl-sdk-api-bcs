@@ -7,8 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService;
@@ -39,14 +39,6 @@ class SoapServiceFactory implements ServiceFactoryInterface
         $this->soapClient = $soapClient;
     }
 
-    /**
-     * Create the shipment service able to perform shipment operations (create, delete).
-     *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param LoggerInterface $logger
-     * @param bool $sandboxMode
-     * @return ShipmentServiceInterface
-     */
     public function createShipmentService(
         AuthenticationStorageInterface $authStorage,
         LoggerInterface $logger,

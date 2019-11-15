@@ -7,12 +7,11 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Exception;
 
 /**
- * Class AuthenticationException
+ * A detailed authentication error exception.
  *
- * @api
- * @author Christoph Aßmann <christoph.assmann@netresearch.de>
+ * @author Rico Sonntag <rico.sonntag@netresearch.de>
  * @link   https://www.netresearch.de/
  */
-class AuthenticationException extends DetailedServiceException
+class AuthenticationErrorException extends \Exception
 {
 }

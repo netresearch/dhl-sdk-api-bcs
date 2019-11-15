@@ -34,7 +34,7 @@ class ServiceConfigurationIC
      */
     public function __construct(bool $active, Ident $ident)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
         $this->Ident = $ident;
     }
 }

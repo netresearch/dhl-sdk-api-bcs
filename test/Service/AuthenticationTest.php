@@ -8,15 +8,17 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
+use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\ErrorHandlerDecorator;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\AuthenticationTestProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
 /**
@@ -25,20 +27,22 @@ use Psr\Log\Test\TestLogger;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class AuthenticationTest extends \PHPUnit\Framework\TestCase
+class AuthenticationTest extends TestCase
 {
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function unauthorizedDataProvider()
+    public function unauthorizedDataProvider(): array
     {
         return AuthenticationTestProvider::appAuthFailure();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function loginFailedDataProvider()
+    public function loginFailedDataProvider(): array
     {
         return AuthenticationTestProvider::userAuthFailure();
     }
@@ -53,9 +57,7 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param \SoapFault $soapFault
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createShipmentsAppAuthenticationError(
         string $wsdl,
@@ -65,7 +67,7 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
     ) {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionCode(401);
-        $this->expectExceptionMessage('Unauthorized');
+        $this->expectExceptionMessage(ErrorHandlerDecorator::AUTH_ERROR_MESSAGE);
 
         $logger = new TestLogger();
 
@@ -92,7 +94,7 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
         } catch (AuthenticationException $exception) {
             CommunicationExpectation::assertErrorsLogged(
                 $soapClient->__getLastRequest(),
-                $soapFault->getMessage(),
+                ErrorHandlerDecorator::AUTH_ERROR_MESSAGE,
                 $logger
             );
 
@@ -110,9 +112,8 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function createShipmentsUserAuthenticationError(
         string $wsdl,
@@ -125,7 +126,6 @@ class AuthenticationTest extends \PHPUnit\Framework\TestCase
         $xml->registerXPathNamespace('bcs', 'http://dhl.de/webservices/businesscustomershipping/3.0');
         $statusCode = $xml->xpath('/soap:Envelope/soap:Body/bcs:CreateShipmentOrderResponse/Status/statusCode');
         $statusText = $xml->xpath('/soap:Envelope/soap:Body/bcs:CreateShipmentOrderResponse/Status/statusText');
-
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionCode((int) $statusCode[0]);

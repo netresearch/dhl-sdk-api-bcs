@@ -41,7 +41,7 @@ class ServiceConfigurationCashOnDelivery
      */
     public function __construct(bool $active, float $codAmount)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
         $this->codAmount = $codAmount;
     }
 
@@ -50,6 +50,6 @@ class ServiceConfigurationCashOnDelivery
      */
     public function setAddFee(bool $addFee = null)
     {
-        $this->addFee = intval($addFee);
+        $this->addFee = (int) $addFee;
     }
 }

@@ -7,9 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
@@ -18,6 +17,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expecta
 use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
 /**
@@ -26,7 +26,7 @@ use Psr\Log\Test\TestLogger;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
+class ShipmentServiceCancelTest extends TestCase
 {
     /**
      * @param AuthenticationStorageInterface $authStorage
@@ -48,7 +48,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function cancellationSuccessDataProvider()
+    public function cancellationSuccessDataProvider(): array
     {
         return ShipmentServiceTestProvider::cancelShipmentsSuccess();
     }
@@ -56,7 +56,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function cancellationPartialSuccessDataProvider()
+    public function cancellationPartialSuccessDataProvider(): array
     {
         return ShipmentServiceTestProvider::cancelShipmentsPartialSuccess();
     }
@@ -64,7 +64,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function cancellationErrorDataProvider()
+    public function cancellationErrorDataProvider(): array
     {
         return ShipmentServiceTestProvider::cancelShipmentsError();
     }
@@ -72,7 +72,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function cancellationValidationErrorDataProvider()
+    public function cancellationValidationErrorDataProvider(): array
     {
         return ShipmentServiceTestProvider::cancelShipmentsValidationError();
     }
@@ -87,9 +87,8 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param string[] $shipmentNumbers
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function cancelShipmentsSuccess(
         string $wsdl,
@@ -135,9 +134,8 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param string[] $shipmentNumbers
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function cancelShipmentsPartialSuccess(
         string $wsdl,
@@ -184,9 +182,8 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param array $shipmentNumbers
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function cancelShipmentsError(
         string $wsdl,
@@ -194,7 +191,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
         array $shipmentNumbers,
         string $responseXml
     ) {
-        $this->expectException(ClientException::class);
+        $this->expectException(DetailedServiceException::class);
         $this->expectExceptionCode(2000);
         $this->expectExceptionMessage('Unknown shipment number.');
 
@@ -214,7 +211,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
 
         try {
             $service->cancelShipments($shipmentNumbers);
-        } catch (ClientException $exception) {
+        } catch (DetailedServiceException $exception) {
             // assert successful communication gets logged.
             CommunicationExpectation::assertErrorsLogged(
                 $soapClient->__getLastRequest(),
@@ -236,9 +233,8 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param \SoapFault $soapFault
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function cancelShipmentsValidationError(
         string $wsdl,
@@ -246,9 +242,9 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
         array $shipmentOrders,
         \SoapFault $soapFault
     ) {
-        $this->expectException(ClientException::class);
-        $this->expectExceptionCode(400);
-        $this->expectExceptionMessageRegExp('#\[.*\]\s\w+#');
+        $this->expectException(ServiceException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Invalid XML: cvc-minLength-valid.');
 
         $logger = new TestLogger();
 
@@ -266,7 +262,7 @@ class ShipmentServiceCancelTest extends \PHPUnit\Framework\TestCase
 
         try {
             $service->createShipments($shipmentOrders);
-        } catch (ClientException $exception) {
+        } catch (ServiceException $exception) {
             // assert errors are logged.
             CommunicationExpectation::assertErrorsLogged(
                 $soapClient->__getLastRequest(),

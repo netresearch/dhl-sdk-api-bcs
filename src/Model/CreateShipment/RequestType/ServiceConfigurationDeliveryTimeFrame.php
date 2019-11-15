@@ -34,7 +34,7 @@ class ServiceConfigurationDeliveryTimeFrame
      */
     public function __construct(bool $active, string $type)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
         $this->type = $type;
     }
 }

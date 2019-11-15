@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Api;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,12 +23,14 @@ interface ServiceFactoryInterface
     const BASE_URL_SANDBOX = 'https://cig.dhl.de/services/sandbox/soap';
 
     /**
-     * Create the shipment service able to perform shipment operations (create, delete).
+     * Create the service instance able to perform shipment create and delete operations.
      *
      * @param AuthenticationStorageInterface $authStorage
      * @param LoggerInterface $logger
      * @param bool $sandboxMode
+     *
      * @return ShipmentServiceInterface
+     * @throws ServiceException
      */
     public function createShipmentService(
         AuthenticationStorageInterface $authStorage,

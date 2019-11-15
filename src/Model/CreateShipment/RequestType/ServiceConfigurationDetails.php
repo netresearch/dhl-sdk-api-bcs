@@ -34,7 +34,7 @@ class ServiceConfigurationDetails
      */
     public function __construct(bool $active, string $details)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
         $this->details = $details;
     }
 }

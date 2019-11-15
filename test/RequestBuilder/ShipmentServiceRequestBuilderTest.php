@@ -7,9 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
@@ -17,6 +15,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\AuthenticationStorageProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
 /**
@@ -25,10 +24,11 @@ use Psr\Log\NullLogger;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
+class ShipmentServiceRequestBuilderTest extends TestCase
 {
     /**
      * @return mixed[]
+     * @throws \Exception
      */
     public function simpleDataProvider()
     {
@@ -66,6 +66,7 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @return mixed[]
+     * @throws \Exception
      */
     public function complexDataProvider()
     {
@@ -256,9 +257,7 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param mixed[][] $requestData
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createMinimalShipmentRequest(
         string $wsdl,
@@ -329,9 +328,7 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param mixed[][] $requestData
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createMultiShipmentRequest(
         string $wsdl,
@@ -419,7 +416,9 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
         $shipmentOrders[]= $shipmentOrder;
 
         // shipment order 2
-        $requestBuilder->setPrintOnlyIfCodeable($requestData['s1']['printOnlyIfCodeable']);
+        if ($requestData['s1']['printOnlyIfCodeable'] ?? false) {
+            $requestBuilder->setPrintOnlyIfCodeable();
+        }
         $requestBuilder->setSequenceNumber($requestData['s1']['sequenceNumber']);
         $requestBuilder->setShipmentDetails(
             $requestData['s1']['productCode'],

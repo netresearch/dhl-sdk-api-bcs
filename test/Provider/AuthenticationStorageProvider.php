@@ -27,8 +27,7 @@ class AuthenticationStorageProvider
             'magento_1',
             'eeeeehh…',
             '2222222222_01',
-            'pass',
-            '2222222222'
+            'pass'
         );
 
         return $authStorage;
@@ -45,8 +44,7 @@ class AuthenticationStorageProvider
             'magento_1',
             '2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f',
             '2222222222_01',
-            'no-pass',
-            '2222222222'
+            'no-pass'
         );
 
         return $authStorage;
@@ -63,8 +61,7 @@ class AuthenticationStorageProvider
             'magento_1',
             '2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f',
             '2222222222_01',
-            'pass',
-            '2222222222'
+            'pass'
         );
 
         return $authStorage;

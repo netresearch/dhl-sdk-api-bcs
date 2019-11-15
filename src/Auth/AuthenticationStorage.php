@@ -56,33 +56,21 @@ class AuthenticationStorage implements AuthenticationStorageInterface
         $this->signature = $signature;
     }
 
-    /**
-     * @return string
-     */
     public function getApplicationId(): string
     {
         return $this->applicationId;
     }
 
-    /**
-     * @return string
-     */
     public function getApplicationToken(): string
     {
         return $this->applicationToken;
     }
 
-    /**
-     * @return string
-     */
     public function getUser(): string
     {
         return $this->user;
     }
 
-    /**
-     * @return string
-     */
     public function getSignature(): string
     {
         return $this->signature;

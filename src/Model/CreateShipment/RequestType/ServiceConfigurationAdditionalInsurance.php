@@ -34,7 +34,7 @@ class ServiceConfigurationAdditionalInsurance
      */
     public function __construct(bool $active, float $insuranceAmount)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
         $this->insuranceAmount = $insuranceAmount;
     }
 }

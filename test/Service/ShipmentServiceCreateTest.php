@@ -8,8 +8,9 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
@@ -18,6 +19,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expecta
 use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
 /**
@@ -26,7 +28,7 @@ use Psr\Log\Test\TestLogger;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
+class ShipmentServiceCreateTest extends TestCase
 {
     /**
      * @param AuthenticationStorageInterface $authStorage
@@ -47,48 +49,54 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function successDataProvider()
+    public function successDataProvider(): array
     {
         return ShipmentServiceTestProvider::createShipmentsSuccess();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function partialSuccessDataProvider()
+    public function partialSuccessDataProvider(): array
     {
         return ShipmentServiceTestProvider::createShipmentsPartialSuccess();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function validationWarningDataProvider()
+    public function validationWarningDataProvider(): array
     {
         return ShipmentServiceTestProvider::createShipmentsValidationWarning();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function validationErrorDataProvider()
+    public function validationErrorDataProvider(): array
     {
         return ShipmentServiceTestProvider::createShipmentsError();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function serverErrorDataProvider()
+    public function serverErrorDataProvider(): array
     {
         return ShipmentServiceTestProvider::createServerError();
     }
 
     /**
      * @return mixed[]
+     * @throws RequestValidatorException
      */
-    public function serverFaultDataProvider()
+    public function serverFaultDataProvider(): array
     {
         return ShipmentServiceTestProvider::createServerFault();
     }
@@ -103,9 +111,9 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     *
      * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createShipmentsSuccess(
         string $wsdl,
@@ -152,9 +160,9 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     *
      * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createShipmentsPartialSuccess(
         string $wsdl,
@@ -201,9 +209,9 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     *
      * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     * @throws ServiceException
      */
     public function createShipmentsValidationWarning(
         string $wsdl,
@@ -249,9 +257,8 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function createShipmentsValidationError(
         string $wsdl,
@@ -259,7 +266,7 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
         array $shipmentOrders,
         string $responseXml
     ) {
-        $this->expectException(ClientException::class);
+        $this->expectException(DetailedServiceException::class);
         $this->expectExceptionCode(1101);
         $this->expectExceptionMessage('Hard validation error occured.');
 
@@ -279,7 +286,7 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
 
         try {
             $service->createShipments($shipmentOrders);
-        } catch (ClientException $exception) {
+        } catch (DetailedServiceException $exception) {
             // assert hard validation errors are logged.
             CommunicationExpectation::assertErrorsLogged(
                 $soapClient->__getLastRequest(),
@@ -301,9 +308,6 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
      */
     public function createShipmentsError(
         string $wsdl,
@@ -324,9 +328,8 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param \SoapFault $soapFault
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
+     *
+     * @throws ServiceException
      */
     public function createShipmentsServerError(
         string $wsdl,
@@ -334,9 +337,9 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
         array $shipmentOrders,
         \SoapFault $soapFault
     ) {
-        $this->expectException(ServerException::class);
-        $this->expectExceptionCode(500);
-        $this->expectExceptionMessageRegExp('#\[.*\]\s\w+#');
+        $this->expectException(ServiceException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('INVALID_CONFIGURATION');
 
         $logger = new TestLogger();
 
@@ -354,7 +357,7 @@ class ShipmentServiceCreateTest extends \PHPUnit\Framework\TestCase
 
         try {
             $service->createShipments($shipmentOrders);
-        } catch (ServerException $exception) {
+        } catch (ServiceException $exception) {
             // assert errors are logged.
             CommunicationExpectation::assertErrorsLogged(
                 $soapClient->__getLastRequest(),

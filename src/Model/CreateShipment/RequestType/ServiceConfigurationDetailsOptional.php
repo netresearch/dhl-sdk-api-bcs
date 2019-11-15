@@ -33,7 +33,7 @@ class ServiceConfigurationDetailsOptional
      */
     public function __construct(bool $active)
     {
-        $this->active = intval($active);
+        $this->active = (int) $active;
     }
 
     /**

@@ -9,6 +9,7 @@ namespace Dhl\Sdk\Paket\Bcs\Service;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Psr\Log\LoggerInterface;
@@ -21,14 +22,6 @@ use Psr\Log\LoggerInterface;
  */
 class ServiceFactory implements ServiceFactoryInterface
 {
-    /**
-     * Create the shipment service able to perform shipment operations (create, delete).
-     *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param LoggerInterface $logger
-     * @param bool $sandboxMode
-     * @return ShipmentServiceInterface
-     */
     public function createShipmentService(
         AuthenticationStorageInterface $authStorage,
         LoggerInterface $logger,
@@ -54,7 +47,12 @@ class ServiceFactory implements ServiceFactoryInterface
             $options['location'] = self::BASE_URL_SANDBOX;
         }
 
-        $soapClient = new \SoapClient($wsdl, $options);
+        try {
+            $soapClient = new \SoapClient($wsdl, $options);
+        } catch (\SoapFault $soapFault) {
+            throw new ServiceException($soapFault->getMessage(), $soapFault->getCode(), $soapFault);
+        }
+
         $soapServiceFactory = new SoapServiceFactory($soapClient);
         $shipmentService = $soapServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
 

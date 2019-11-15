@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 
@@ -19,6 +20,8 @@ class ShipmentRequestProvider
 {
     /**
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createSingleShipmentSuccess()
     {
@@ -39,6 +42,8 @@ class ShipmentRequestProvider
 
     /**
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createMultiShipmentSuccess()
     {
@@ -72,6 +77,8 @@ class ShipmentRequestProvider
      * wrong address and "print only if codeable" is active.
      *
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createMultiShipmentPartialSuccess()
     {
@@ -80,7 +87,7 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable(true);
+        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -90,7 +97,7 @@ class ShipmentRequestProvider
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 
-        $requestBuilder->setPrintOnlyIfCodeable(true);
+        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -107,6 +114,8 @@ class ShipmentRequestProvider
      * wrong address but "print only if codeable" is not active.
      *
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createShipmentsValidationWarning()
     {
@@ -140,6 +149,8 @@ class ShipmentRequestProvider
      * wrong address and "print only if codeable" is active.
      *
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createSingleShipmentError()
     {
@@ -148,7 +159,7 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable(true);
+        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -165,6 +176,8 @@ class ShipmentRequestProvider
      * wrong address and "print only if codeable" is active.
      *
      * @return ShipmentOrderType[]
+     * @throws RequestValidatorException
+     * @throws \Exception
      */
     public static function createMultiShipmentError()
     {
@@ -173,7 +186,7 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable(true);
+        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress(
@@ -197,7 +210,7 @@ class ShipmentRequestProvider
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[]= $shipmentOrder;
 
-        $requestBuilder->setPrintOnlyIfCodeable(true);
+        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');

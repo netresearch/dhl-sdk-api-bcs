@@ -6,19 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Auth;
 
-use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
-use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
-use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\AuthenticationTestProvider;
-use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\Test\TestLogger;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AuthenticationStorageTest
@@ -26,7 +15,7 @@ use Psr\Log\Test\TestLogger;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class AuthenticationStorageTest extends \PHPUnit\Framework\TestCase
+class AuthenticationStorageTest extends TestCase
 {
     /**
      * @test

@@ -79,66 +79,41 @@ class Shipment implements ShipmentInterface
         $this->codLabel = $codLabel;
     }
 
-
-    /**
-     * @return string
-     */
     public function getSequenceNumber(): string
     {
         return $this->sequenceNumber;
     }
 
-    /**
-     * @return string
-     */
     public function getShipmentNumber(): string
     {
         return $this->shipmentNumber;
     }
 
-    /**
-     * @return string
-     */
     public function getReturnShipmentNumber(): string
     {
         return $this->returnShipmentNumber;
     }
 
-    /**
-     * @return string
-     */
     public function getShipmentLabel(): string
     {
         return $this->shipmentLabel;
     }
 
-    /**
-     * @return string
-     */
     public function getReturnLabel(): string
     {
         return $this->returnLabel;
     }
 
-    /**
-     * @return string
-     */
     public function getExportLabel(): string
     {
         return $this->exportLabel;
     }
 
-    /**
-     * @return string
-     */
     public function getCodLabel(): string
     {
         return $this->codLabel;
     }
 
-    /**
-     * @return string[]
-     */
     public function getLabels(): array
     {
         return [

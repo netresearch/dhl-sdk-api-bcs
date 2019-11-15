@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Api;
 
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+
 /**
  * ShipmentOrderRequestBuilderInterface
  *
@@ -212,7 +214,7 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Set package details.
      *
-     * @param float $weight Weight in KG
+     * @param float $weight Weight in KG, two digits after the decimal point
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDetails(float $weight): ShipmentOrderRequestBuilderInterface;
@@ -289,7 +291,7 @@ interface ShipmentOrderRequestBuilderInterface
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Set reference to the shipper data configured in GKP (optional).
+     * Set reference to the shipper data configured in business customer portal (optional).
      *
      * If not given, set address details.
      *
@@ -510,7 +512,7 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $permitNumber
      * @param string|null $attestationNumber
      * @param bool|null $electronicExportNotification
-     * @return $this
+     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setCustomsDetails(
         string $exportType,
@@ -530,7 +532,7 @@ interface ShipmentOrderRequestBuilderInterface
      * @param int $qty
      * @param string $description
      * @param float $value Customs value in EUR
-     * @param float $weight Weight in kg
+     * @param float $weight Weight in kg, two digits after the decimal point
      * @param string $hsCode
      * @param string $countryOfOrigin
      * @return ShipmentOrderRequestBuilderInterface
@@ -548,7 +550,7 @@ interface ShipmentOrderRequestBuilderInterface
      * Create the shipment request and reset the builder data.
      *
      * @return object
-     * @throws \InvalidArgumentException
+     * @throws RequestValidatorException
      */
     public function create();
 }

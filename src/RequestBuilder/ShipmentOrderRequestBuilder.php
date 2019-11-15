@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\BankType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CommunicationType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\CountryType;
@@ -54,10 +55,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      */
     private $data = [];
 
-    /**
-     * @param string $sequenceNumber
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface
     {
         $this->data['sequenceNumber'] = $sequenceNumber;
@@ -65,11 +62,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Only create shipment order if the receiver address is valid.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPrintOnlyIfCodeable(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['printOnlyIfCodeable'] = true;
@@ -77,13 +69,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set shipper account (required).
-     *
-     * @param string $billingNumber
-     * @param string|null $returnBillingNumber Provide if return label should included with response.
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipperAccount(
         string $billingNumber,
         string $returnBillingNumber = null
@@ -94,29 +79,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set shipper address (optional).
-     *
-     * The shipper address is already stored in GKP but may be overridden if necessary.
-     *
-     * @see setShipperReference
-     *
-     * @param string $company
-     * @param string $country
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
-     * @param string|null $name
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
-     * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipperAddress(
         string $company,
         string $country,
@@ -151,15 +113,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * @param string $accountOwner
-     * @param string $bankName
-     * @param string $iban
-     * @param string|null $bic
-     * @param string|null $accountReference
-     * @param string[] $notes
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipperBankData(
         string $accountOwner,
         string $bankName,
@@ -178,28 +131,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-
-    /**
-     * Set return address (optional).
-     *
-     * Return address will be discarded if no return billing number is given.
-     *
-     * @param string $company
-     * @param string $country
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
-     * @param string|null $name
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
-     * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setReturnAddress(
         string $company,
         string $country,
@@ -234,25 +165,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set consignee address for a shipment (required).
-     *
-     * @param string $name
-     * @param string $country
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
-     * @param string|null $company
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
-     * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setRecipientAddress(
         string $name,
         string $country,
@@ -287,12 +199,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Enable sending recipient notifications by email after successful manifesting of shipment.
-     *
-     * @param string $email
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setRecipientNotification(string $email): ShipmentOrderRequestBuilderInterface
     {
         $this->data['recipient']['notification'] = $email;
@@ -300,27 +206,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set shipment details (required).
-     *
-     * Possible product code values:
-     * - V01PAK
-     * - V53WPAK
-     * - V54EPAK
-     * - V06PAK
-     * - V06TG
-     * - V06WZ
-     * - V86PARCEL
-     * - V87PARCEL
-     * - V82PARCEL
-     *
-     * @param string $productCode Product to be ordered.
-     * @param \DateTime $shipmentDate.
-     * @param string|null $shipmentReference
-     * @param string|null $returnReference
-     * @param string|null $costCentre
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipmentDetails(
         string $productCode,
         \DateTime $shipmentDate,
@@ -339,12 +224,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set package details.
-     *
-     * @param float $weight Weight in KG, two digits after the decimal point
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPackageDetails(float $weight): ShipmentOrderRequestBuilderInterface
     {
         $this->data['packageDetails']['weight'] = $weight;
@@ -352,32 +231,15 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set package dimensions.
-     *
-     * @param int $width Width in cm
-     * @param int $length Length in cm
-     * @param int $height Height in cm
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPackageDimensions(
-        int $width,
-        int $length,
-        int $height
-    ): ShipmentOrderRequestBuilderInterface {
-        $this->data['packageDetails']['dimensions']['length'] = $length;
+    public function setPackageDimensions(int $width, int $length, int $height): ShipmentOrderRequestBuilderInterface
+    {
         $this->data['packageDetails']['dimensions']['width'] = $width;
+        $this->data['packageDetails']['dimensions']['length'] = $length;
         $this->data['packageDetails']['dimensions']['height'] = $height;
 
         return $this;
     }
 
-    /**
-     * Set the amount the package should be insured with. Omit if standard amount is sufficient.
-     *
-     * @param float $insuredValue
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setInsuredValue(float $insuredValue): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['insuredValue'] = $insuredValue;
@@ -385,13 +247,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set COD amount (optional).
-     *
-     * @param float $codAmount Money amount to be collected.
-     * @param bool $addFee Indicate whether or not transmission fee should be added to the COD amount automatically.
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setCodAmount(float $codAmount, bool $addFee = null): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['cod']['codAmount'] = $codAmount;
@@ -400,18 +255,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Choose Packstation delivery.
-     *
-     * @param string $recipientName
-     * @param string $packstationNumber
-     * @param string $postalCode
-     * @param string $city
-     * @param string|null $postNumber
-     * @param string|null $state
-     * @param string|null $country
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPackstation(
         string $recipientName,
         string $packstationNumber,
@@ -432,16 +275,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Choose Postfiliale delivery.
-     *
-     * @param string $recipientName
-     * @param string $postfilialNumber
-     * @param string $postNumber
-     * @param string $postalCode
-     * @param string $city
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPostfiliale(
         string $recipientName,
         string $postfilialNumber,
@@ -458,16 +291,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set reference to the shipper data configured in GKP (optional).
-     *
-     * If not given, set address details.
-     *
-     * @see setShipperAddress
-     *
-     * @param string $reference
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipperReference(string $reference): ShipmentOrderRequestBuilderInterface
     {
         $this->data['shipper']['reference'] = $reference;
@@ -475,12 +298,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Day of Delivery" service (V06TG and V06WZ only).
-     *
-     * @param string $cetDate
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setDayOfDelivery(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['dayOfDelivery'] = $cetDate;
@@ -488,12 +305,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Delivery Time Frame" service (V06TG and V06WZ only).
-     *
-     * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setDeliveryTimeFrame(string $timeFrameType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['deliveryTimeFrame'] = $timeFrameType;
@@ -501,12 +312,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Preferred Day" service.
-     *
-     * @param string $cetDate
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredDay'] = $cetDate;
@@ -514,12 +319,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Preferred Time" service (V01PAK and V06PAK only).
-     *
-     * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPreferredTime(string $timeFrameType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredTime'] = $timeFrameType;
@@ -527,12 +326,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Preferred Location" service.
-     *
-     * @param string $location
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPreferredLocation(string $location): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredLocation'] = $location;
@@ -540,12 +333,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Preferred Neighbour" service.
-     *
-     * @param string $neighbour
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPreferredNeighbour(string $neighbour): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredNeighbour'] = $neighbour;
@@ -553,12 +340,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Add individual details for handling (free text).
-     *
-     * @param string $handlingDetails
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setIndividualSenderRequirement(string $handlingDetails): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['individualSenderRequirement'] = $handlingDetails;
@@ -566,11 +347,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book service for package return.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPackagingReturn(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['packagingReturn'] = true;
@@ -578,11 +354,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book service of immediate shipment return in case of non-successful delivery (V06PA only).
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setReturnImmediately(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['returnImmediately'] = true;
@@ -590,11 +361,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book service notice in case of non-deliverability.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setNoticeOfNonDeliverability(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['noticeOfNonDeliverability'] = true;
@@ -602,19 +368,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Specify how DHL should handle the parcel container (V06WZ only).
-     *
-     * Possible values:
-     * - a
-     * - b
-     * - c
-     * - d
-     * - e
-     *
-     * @param string $handlingType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setContainerHandlingType(string $handlingType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['shipmentHandling'] = $handlingType;
@@ -622,19 +375,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Specify how DHL should handle the shipment if recipient is not met.
-     *
-     * Possible values:
-     * - SOZU
-     * - ZWZU
-     * - IMMEDIATE
-     * - AFTER_DEADLINE
-     * - ABANDONMENT
-     *
-     * @param string $endorsementType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setShipmentEndorsementType(string $endorsementType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['endorsement'] = $endorsementType;
@@ -642,16 +382,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Visual Age Check" service.
-     *
-     * Possible values:
-     * - A16
-     * - A18
-     *
-     * @param string $ageType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['visualCheckOfAge'] = $ageType;
@@ -659,10 +389,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book GoGreen
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setGoGreen(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['goGreen'] = true;
@@ -670,11 +396,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Indicate delivery as perishable goods.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPerishables(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['perishables'] = true;
@@ -682,11 +403,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Personal Shipment Handover" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPersonally(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['personally'] = true;
@@ -694,11 +410,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Prohibit delivery to neighbours.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setNoNeighbourDelivery(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['noNeighbourDelivery'] = true;
@@ -706,11 +417,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Named Person Only" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setNamedPersonOnly(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['namedPersonOnly'] = true;
@@ -718,11 +424,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Return Receipt" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setReturnReceipt(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['returnReceipt'] = true;
@@ -730,11 +431,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Premium" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setPremium(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['premium'] = true;
@@ -742,11 +438,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Indicate shipment containing bulky goods.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setBulkyGoods(): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['bulkyGoods'] = true;
@@ -754,15 +445,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Ident Check" service.
-     *
-     * @param string $lastName
-     * @param string $firstName
-     * @param string $dateOfBirth
-     * @param string $minimumAge
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setIdentCheck(
         string $lastName,
         string $firstName,
@@ -777,12 +459,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Book "Parcel Outlet Routing" service.
-     *
-     * @param string|null $email If not set, receiver email will be used.
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['parcelOutletRouting']['active'] = true;
@@ -791,20 +467,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Set customs details for international shipments.
-     *
-     * @param string $exportType
-     * @param string $placeOfCommital
-     * @param float $additionalFee
-     * @param string|null $exportTypeDescription
-     * @param string|null $termsOfTrade
-     * @param string|null $invoiceNumber
-     * @param string|null $permitNumber
-     * @param string|null $attestationNumber
-     * @param bool|null $electronicExportNotification
-     * @return $this
-     */
     public function setCustomsDetails(
         string $exportType,
         string $placeOfCommital,
@@ -833,17 +495,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Add a package item's customs details (optional).
-     *
-     * @param int $qty
-     * @param string $description
-     * @param float $value Customs value in EUR
-     * @param float $weight Weight in kg, two digits after the decimal point
-     * @param string $hsCode
-     * @param string $countryOfOrigin
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function addExportItem(
         int $qty,
         string $description,
@@ -868,18 +519,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    /**
-     * Create the shipment request and reset the builder data.
-     *
-     * @return object|ShipmentOrderType
-     * @throws \InvalidArgumentException
-     */
     public function create()
     {
         $sequenceNumber = $this->data['sequenceNumber'] ?? '0';
 
         if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
-            throw new \InvalidArgumentException("No sender included with shipment order $sequenceNumber.");
+            throw new RequestValidatorException("No sender included with shipment order $sequenceNumber.");
         }
 
         if (isset($this->data['shipper']['address'])) {
@@ -914,7 +559,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         if (!isset($this->data['recipient'])) {
-            throw new \InvalidArgumentException("No recipient included with shipment order $sequenceNumber.");
+            throw new RequestValidatorException("No recipient included with shipment order $sequenceNumber.");
         }
 
         $receiver = new ReceiverType($this->data['recipient']['address']['name']);

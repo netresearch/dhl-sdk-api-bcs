@@ -6,9 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
 
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
@@ -19,6 +18,7 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * LoggerDecorator
@@ -57,10 +57,12 @@ class LoggerDecorator extends AbstractDecorator
      * Log entire webservice requests and responses.
      *
      * @param \Closure $performRequest
+     *
      * @return CreateShipmentOrderResponse|DeleteShipmentOrderResponse
-     * @throws AuthenticationException
-     * @throws ServerException
-     * @throws ClientException
+     *
+     * @throws AuthenticationErrorException
+     * @throws DetailedErrorException
+     * @throws \SoapFault
      */
     private function logCommunication(\Closure $performRequest)
     {
@@ -71,30 +73,30 @@ class LoggerDecorator extends AbstractDecorator
             // adjust log level on successful responses
             if ($response->getStatus()->getStatusCode() === 2000) {
                 // unknown shipment number errors contained in response.
-                $logLevel = \Psr\Log\LogLevel::ERROR;
+                $logLevel = LogLevel::ERROR;
             } elseif ($response->getStatus()->getStatusText() === 'Some Shipments had errors.') {
                 // hard validation errors contained in response.
-                $logLevel = \Psr\Log\LogLevel::ERROR;
+                $logLevel = LogLevel::ERROR;
             } elseif ($response->getStatus()->getStatusText() === 'Weak validation error occured.') {
                 // weak validation errors contained in response.
-                $logLevel = \Psr\Log\LogLevel::WARNING;
+                $logLevel = LogLevel::WARNING;
             } else {
-                $logLevel = \Psr\Log\LogLevel::INFO;
+                $logLevel = LogLevel::INFO;
             }
 
             return $response;
-        } catch (AuthenticationException $exception) {
-            $logLevel = \Psr\Log\LogLevel::ERROR;
+        } catch (AuthenticationErrorException $fault) {
+            $logLevel = LogLevel::ERROR;
 
-            throw $exception;
-        } catch (ServerException $exception) {
-            $logLevel = \Psr\Log\LogLevel::ERROR;
+            throw $fault;
+        } catch (DetailedErrorException $fault) {
+            $logLevel = LogLevel::ERROR;
 
-            throw $exception;
-        } catch (ClientException $exception) {
-            $logLevel = \Psr\Log\LogLevel::ERROR;
+            throw $fault;
+        } catch (\SoapFault $fault) {
+            $logLevel = LogLevel::ERROR;
 
-            throw $exception;
+            throw $fault;
         } finally {
             $lastRequest = sprintf(
                 "%s\n%s",
@@ -111,8 +113,8 @@ class LoggerDecorator extends AbstractDecorator
             $this->logger->log($logLevel, $lastRequest);
             $this->logger->log($logLevel, $lastResponse);
 
-            if (isset($exception)) {
-                $this->logger->log($logLevel, $exception->getMessage());
+            if (isset($fault)) {
+                $this->logger->log($logLevel, $fault->getMessage());
             }
         }
     }
@@ -147,15 +149,6 @@ class LoggerDecorator extends AbstractDecorator
         }
     }
 
-    /**
-     * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
-     *
-     * @param CreateShipmentOrderRequest $requestType
-     * @return CreateShipmentOrderResponse
-     * @throws AuthenticationException
-     * @throws ServerException
-     * @throws ClientException
-     */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
         $performRequest = function () use ($requestType) {
@@ -177,15 +170,6 @@ class LoggerDecorator extends AbstractDecorator
         return $response;
     }
 
-    /**
-     * Cancel earlier created shipments. Cancellation is only possible before the end-of-the-day manifest.
-     *
-     * @param DeleteShipmentOrderRequest $requestType
-     * @return DeleteShipmentOrderResponse
-     * @throws AuthenticationException
-     * @throws ServerException
-     * @throws ClientException
-     */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
         $performRequest = function () use ($requestType) {

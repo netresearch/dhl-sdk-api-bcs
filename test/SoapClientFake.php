@@ -19,6 +19,7 @@ class SoapClientFake extends \SoapClient
      *
      * @param $wsdl
      * @param mixed[]|null $options
+     * @throws \SoapFault
      */
     public function __construct($wsdl, array $options = null)
     {

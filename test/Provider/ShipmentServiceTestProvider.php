@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+
 /**
  * Class ShipmentServiceTestProvider
  *
@@ -19,6 +21,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, all label(s) successfully booked.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createShipmentsSuccess()
     {
@@ -42,6 +45,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, some label(s) successfully booked.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createShipmentsPartialSuccess()
     {
@@ -61,6 +65,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, all label(s) successfully booked, weak validation error occurred.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createShipmentsValidationWarning()
     {
@@ -80,6 +85,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, no label(s) successfully booked, hard validation error occurred.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createShipmentsError()
     {
@@ -103,6 +109,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, no label(s) successfully booked, server error occurred (500/1000).
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createServerError()
     {
@@ -122,6 +129,7 @@ class ShipmentServiceTestProvider
      * - shipment(s) sent to the API, soap fault thrown.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function createServerFault()
     {

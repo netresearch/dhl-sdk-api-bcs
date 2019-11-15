@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+
 /**
  * Class AuthenticationTestProvider
  *
@@ -19,6 +21,7 @@ class AuthenticationTestProvider
      * - invalid app credentials sent to the API, soap fault thrown.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function appAuthFailure()
     {
@@ -37,6 +40,7 @@ class AuthenticationTestProvider
      * - invalid user credentials sent to the API, error returned.
      *
      * @return mixed[]
+     * @throws RequestValidatorException
      */
     public static function userAuthFailure()
     {
