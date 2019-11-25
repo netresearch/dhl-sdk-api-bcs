@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 /**
  * LabelData
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

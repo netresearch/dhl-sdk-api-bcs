@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 /**
  * Class DeleteShipmentResponseMapper
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

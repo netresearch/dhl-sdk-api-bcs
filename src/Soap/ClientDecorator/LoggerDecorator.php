@@ -23,7 +23,6 @@ use Psr\Log\LoggerInterface;
 /**
  * LoggerDecorator
  *
- * @package Dhl\Sdk\Paket\Bcs\Soap
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

@@ -20,7 +20,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class SoapServiceFactory
  *
- * @package Dhl\Sdk\Paket\Bcs\Soap
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

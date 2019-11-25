@@ -12,7 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 /**
  * CreateShipmentOrderResponse
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

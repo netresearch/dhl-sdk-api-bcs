@@ -9,7 +9,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\Common;
 /**
  * The version of the webservice implementation for which the requesting client is developed.
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\Common
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

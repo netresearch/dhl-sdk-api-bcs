@@ -22,7 +22,6 @@ use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 /**
  * ShipmentService
  *
- * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

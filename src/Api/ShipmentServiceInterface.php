@@ -15,7 +15,6 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
  * Interface ShipmentServiceInterface
  *
  * @api
- * @package Dhl\Sdk\Paket\Bcs\Api
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

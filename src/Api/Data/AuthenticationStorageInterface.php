@@ -10,7 +10,6 @@ namespace Dhl\Sdk\Paket\Bcs\Api\Data;
  * Interface AuthenticationStorageInterface
  *
  * @api
- * @package Dhl\Sdk\Paket\Bcs\Api
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

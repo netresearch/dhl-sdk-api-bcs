@@ -42,7 +42,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipperType;
 /**
  * ShipmentOrderRequestBuilder
  *
- * @package Dhl\Sdk\Paket\Bcs\Serializer
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

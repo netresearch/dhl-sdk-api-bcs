@@ -9,7 +9,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\Common;
 /**
  * Success status after processing the overall request.
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\Common
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

@@ -16,7 +16,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class ServiceFactory
  *
- * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

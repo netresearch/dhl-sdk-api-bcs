@@ -53,7 +53,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 /**
  * ClassMap
  *
- * @package Dhl\Sdk\Paket\Bcs\Serializer
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

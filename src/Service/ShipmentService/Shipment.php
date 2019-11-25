@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 /**
  * Class Shipment
  *
- * @package Dhl\Sdk\Paket\Bcs\Service
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

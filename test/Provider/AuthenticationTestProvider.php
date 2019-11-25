@@ -9,7 +9,6 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 /**
  * Class AuthenticationTestProvider
  *
- * @package Dhl\Sdk\Paket\Bcs\Test
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

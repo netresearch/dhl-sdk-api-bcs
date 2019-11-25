@@ -13,7 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 /**
  * CreateShipmentOrderRequest
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

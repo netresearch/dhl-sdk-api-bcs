@@ -11,7 +11,6 @@ use PHPUnit\Framework\Assert;
 /**
  * Class RequestTypeExpectation
  *
- * @package Dhl\Sdk\Paket\Bcs\Test
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

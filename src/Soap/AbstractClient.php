@@ -17,7 +17,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 /**
  * AbstractClient
  *
- * @package Dhl\Sdk\Paket\Bcs\Soap
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

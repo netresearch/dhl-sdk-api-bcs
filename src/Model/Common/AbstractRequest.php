@@ -9,7 +9,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\Common;
 /**
  * AbstractRequest
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\Common
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

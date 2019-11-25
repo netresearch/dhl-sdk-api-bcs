@@ -12,7 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 /**
  * DeleteShipmentOrderRequest
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

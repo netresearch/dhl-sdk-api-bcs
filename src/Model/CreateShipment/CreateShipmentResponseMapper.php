@@ -13,7 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 /**
  * Class CreateShipmentResponseMapper
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

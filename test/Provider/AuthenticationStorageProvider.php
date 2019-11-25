@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
 /**
  * Class AuthenticationStorageProvider
  *
- * @package Dhl\Sdk\Paket\Bcs\Test
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

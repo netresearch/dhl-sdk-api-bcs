@@ -9,7 +9,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 /**
  * CommunicationType
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\CreateShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

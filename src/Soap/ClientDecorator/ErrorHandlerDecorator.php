@@ -24,7 +24,6 @@ use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
  *
  * Handle errors when a response was received, i.e. no soap fault occurred.
  *
- * @package Dhl\Sdk\Paket\Bcs\Soap
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

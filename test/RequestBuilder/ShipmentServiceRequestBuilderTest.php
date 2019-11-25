@@ -22,7 +22,6 @@ use Psr\Log\NullLogger;
 /**
  * Class ShipmentServiceRequestBuilderTest
  *
- * @package Dhl\Sdk\Paket\Bcs\Test
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
@@ -509,8 +508,8 @@ class ShipmentServiceRequestBuilderTest extends \PHPUnit\Framework\TestCase
             $requestData['s1']['addCodFee']
         );
         $requestBuilder->setPackageDimensions(
-            $requestData['s1']['packageLength'],
             $requestData['s1']['packageWidth'],
+            $requestData['s1']['packageLength'],
             $requestData['s1']['packageHeight']
         );
         $requestBuilder->setPreferredDay($requestData['s1']['preferredDay']);

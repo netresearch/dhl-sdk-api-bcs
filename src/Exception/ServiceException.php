@@ -13,7 +13,6 @@ namespace Dhl\Sdk\Paket\Bcs\Exception;
  * cases where the exact type does not matter.
  *
  * @api
- * @package Dhl\Sdk\Paket\Bcs\Exception
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

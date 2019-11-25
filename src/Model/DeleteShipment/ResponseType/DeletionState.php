@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 /**
  * Status of the respective deletion operation.
  *
- * @package Dhl\Sdk\Paket\Bcs\Model\DeleteShipment
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

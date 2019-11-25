@@ -7,7 +7,6 @@ namespace Dhl\Sdk\Paket\Bcs\Test;
 /**
  * Fake SOAP client used in tests.
  *
- * @package Dhl\Sdk\Paket\Bcs\Test
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

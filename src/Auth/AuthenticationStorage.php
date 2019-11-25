@@ -11,7 +11,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 /**
  * AuthenticationStorage
  *
- * @package Dhl\Sdk\Paket\Bcs\Auth
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
