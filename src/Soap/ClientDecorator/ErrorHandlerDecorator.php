@@ -63,8 +63,8 @@ class ErrorHandlerDecorator extends AbstractDecorator
      */
     private function validateResponse(StatusInformation $responseStatus)
     {
-        if (in_array($responseStatus->getStatusCode(), [1001, 112], true)) {
-            // login failed | password expired
+        if (in_array($responseStatus->getStatusCode(), [112, 118, 1001], true)) {
+            // login failed | password expired | invalid credentials
             throw new AuthenticationException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
         } elseif (in_array($responseStatus->getStatusCode(), [500, 1000], true)) {
             // Service temporary not available | General error
