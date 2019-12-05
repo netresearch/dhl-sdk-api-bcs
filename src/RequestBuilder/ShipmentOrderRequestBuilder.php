@@ -257,18 +257,20 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setPackstation(
         string $recipientName,
+        string $recipientPostNumber,
         string $packstationNumber,
+        string $countryCode,
         string $postalCode,
         string $city,
-        string $postNumber = null,
         string $state = null,
         string $country = null
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['address']['name'] = $recipientName;
+        $this->data['recipient']['packstation']['postNumber'] = $recipientPostNumber;
         $this->data['recipient']['packstation']['number'] = $packstationNumber;
+        $this->data['recipient']['packstation']['countryCode'] = $countryCode;
         $this->data['recipient']['packstation']['postalCode'] = $postalCode;
         $this->data['recipient']['packstation']['city'] = $city;
-        $this->data['recipient']['packstation']['postNumber'] = $postNumber;
         $this->data['recipient']['packstation']['state'] = $state;
         $this->data['recipient']['packstation']['country'] = $country;
 
@@ -278,15 +280,21 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     public function setPostfiliale(
         string $recipientName,
         string $postfilialNumber,
-        string $postNumber,
+        string $countryCode,
         string $postalCode,
-        string $city
+        string $city,
+        string $postNumber = null,
+        string $state = null,
+        string $country = null
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['address']['name'] = $recipientName;
         $this->data['recipient']['postfiliale']['number'] = $postfilialNumber;
-        $this->data['recipient']['postfiliale']['postNumber'] = $postNumber;
+        $this->data['recipient']['postfiliale']['countryCode'] = $countryCode;
         $this->data['recipient']['postfiliale']['postalCode'] = $postalCode;
         $this->data['recipient']['postfiliale']['city'] = $city;
+        $this->data['recipient']['postfiliale']['postNumber'] = $postNumber;
+        $this->data['recipient']['postfiliale']['state'] = $state;
+        $this->data['recipient']['postfiliale']['country'] = $country;
 
         return $this;
     }
@@ -565,23 +573,35 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $receiver = new ReceiverType($this->data['recipient']['address']['name']);
 
         if (isset($this->data['recipient']['packstation'])) {
-            $packstationCountry = new CountryType($this->data['recipient']['packstation']['country']);
+            $packstationCountry = new CountryType($this->data['recipient']['packstation']['countryCode']);
+            $packstationCountry->setCountry($this->data['recipient']['packstation']['country']);
+            $packstationCountry->setState($this->data['recipient']['packstation']['state']);
             $packstation = new PackStationType(
+                $this->data['recipient']['packstation']['postNumber'],
                 $this->data['recipient']['packstation']['number'],
                 $this->data['recipient']['packstation']['postalCode'],
                 $this->data['recipient']['packstation']['city']
             );
-            $packstation->setPostNumber($this->data['recipient']['packstation']['postNumber']);
             $packstation->setProvince($this->data['recipient']['packstation']['state']);
             $packstation->setOrigin($packstationCountry);
             $receiver->setPackstation($packstation);
         } elseif (isset($this->data['recipient']['postfiliale'])) {
+            if (!$this->data['recipient']['address']['email']
+                && !$this->data['recipient']['postfiliale']['postNumber']) {
+                $msg = 'Either recipient email or post number must be set for Postfiliale delivery.';
+                throw new RequestValidatorException($msg);
+            }
+
+            $postfilialeCountry = new CountryType($this->data['recipient']['postfiliale']['countryCode']);
+            $postfilialeCountry->setCountry($this->data['recipient']['postfiliale']['country']);
+            $postfilialeCountry->setState($this->data['recipient']['postfiliale']['state']);
             $postfiliale = new PostfilialeType(
                 $this->data['recipient']['postfiliale']['number'],
-                $this->data['recipient']['postfiliale']['postNumber'],
                 $this->data['recipient']['postfiliale']['postalCode'],
                 $this->data['recipient']['postfiliale']['city']
             );
+            $postfiliale->setPostNumber($this->data['recipient']['postfiliale']['postNumber']);
+            $postfiliale->setOrigin($postfilialeCountry);
             $receiver->setPostfiliale($postfiliale);
         } elseif (isset($this->data['recipient']['address'])) {
             $receiverCountry = new CountryType($this->data['recipient']['address']['country']);
@@ -598,13 +618,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $receiverAddress->setProvince($this->data['recipient']['address']['state']);
             $receiverAddress->setOrigin($receiverCountry);
             $receiver->setAddress($receiverAddress);
-
-            $receiverCommunication = new CommunicationType();
-            $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson']);
-            $receiverCommunication->setEmail($this->data['recipient']['address']['email']);
-            $receiverCommunication->setPhone($this->data['recipient']['address']['phone']);
-            $receiver->setCommunication($receiverCommunication);
         }
+
+        $receiverCommunication = new CommunicationType();
+        $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson']);
+        $receiverCommunication->setEmail($this->data['recipient']['address']['email']);
+        $receiverCommunication->setPhone($this->data['recipient']['address']['phone']);
+        $receiver->setCommunication($receiverCommunication);
 
         $shipmentItem = new ShipmentItemType($this->data['packageDetails']['weight']);
         if (isset($this->data['packageDetails']['dimensions'])) {

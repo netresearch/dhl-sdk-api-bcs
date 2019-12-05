@@ -222,8 +222,9 @@ class ShipmentServiceRequestBuilderTest extends TestCase
                 'packstationCity' => 'Bonn',
                 'packstationRecipientName' => 'Jane Doe',
                 'packstationPostNumber' => '12345678',
-                'packstationState' => 'NW',
-                'packstationCountry' => 'DE',
+                'packstationState' => 'NRW',
+                'packstationCountryCode' => 'DE',
+                'packstationCountry' => 'Deutschland',
                 'packageWeight' => 4.5,
             ],
             's3' => [
@@ -237,6 +238,9 @@ class ShipmentServiceRequestBuilderTest extends TestCase
                 'postfilialPostNumber' => '12345678',
                 'postfilialPostalCode' => '53113',
                 'postfilialCity' => 'Bonn',
+                'postfilialCountry' => 'Deutschland',
+                'postfilialCountryCode' => 'DE',
+                'postfilialState' => 'NRW',
                 'packageWeight' => 1.2,
             ],
         ];
@@ -545,10 +549,11 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $requestBuilder->setShipperReference($requestData['s2']['shipperReference']);
         $requestBuilder->setPackstation(
             $requestData['s2']['packstationRecipientName'],
+            $requestData['s2']['packstationPostNumber'],
             $requestData['s2']['packstationNumber'],
+            $requestData['s2']['packstationCountryCode'],
             $requestData['s2']['packstationPostalCode'],
             $requestData['s2']['packstationCity'],
-            $requestData['s2']['packstationPostNumber'],
             $requestData['s2']['packstationState'],
             $requestData['s2']['packstationCountry']
         );
@@ -567,9 +572,12 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $requestBuilder->setPostfiliale(
             $requestData['s3']['postfilialRecipientName'],
             $requestData['s3']['postfilialNumber'],
-            $requestData['s3']['postfilialPostNumber'],
+            $requestData['s3']['postfilialCountryCode'],
             $requestData['s3']['postfilialPostalCode'],
-            $requestData['s3']['postfilialCity']
+            $requestData['s3']['postfilialCity'],
+            $requestData['s3']['postfilialPostNumber'],
+            $requestData['s3']['postfilialState'],
+            $requestData['s3']['postfilialCountry']
         );
         $requestBuilder->setPackageDetails($requestData['s3']['packageWeight']);
         $shipmentOrder = $requestBuilder->create();

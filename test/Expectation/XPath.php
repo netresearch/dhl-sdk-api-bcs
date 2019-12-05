@@ -88,12 +88,18 @@ class XPath
     const XPATH_PACKSTATION_POSTAL_CODE = './Shipment/Receiver/Packstation/ns1:zip';
     const XPATH_PACKSTATION_CITY = './Shipment/Receiver/Packstation/ns1:city';
     const XPATH_PACKSTATION_POST_NUMBER = './Shipment/Receiver/Packstation/ns1:postNumber';
-    const XPATH_PACKSTATION_STATE = './Shipment/Receiver/Packstation/ns1:province';
-    const XPATH_PACKSTATION_COUNTRY = './Shipment/Receiver/Packstation/ns1:Origin/ns1:countryISOCode';
-    const XPATH_POSTFILIALE_NUMBER = './Shipment/Receiver/Postfiliale/PostfilialNumber';
-    const XPATH_POSTFILIALE_POST_NUMBER = './Shipment/Receiver/Postfiliale/PostNumber';
-    const XPATH_POSTFILIALE_POSTAL_CODE = './Shipment/Receiver/Postfiliale/Zip';
-    const XPATH_POSTFILIALE_CITY = './Shipment/Receiver/Postfiliale/City';
+    const XPATH_PACKSTATION_PROVINCE = './Shipment/Receiver/Packstation/ns1:province';
+    const XPATH_PACKSTATION_COUNTRY_CODE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:countryISOCode';
+    const XPATH_PACKSTATION_COUNTRY = './Shipment/Receiver/Packstation/ns1:Origin/ns1:country';
+    const XPATH_PACKSTATION_STATE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:state';
+
+    const XPATH_POSTFILIALE_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postfilialNumber';
+    const XPATH_POSTFILIALE_POST_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postNumber';
+    const XPATH_POSTFILIALE_POSTAL_CODE = './Shipment/Receiver/Postfiliale/ns1:zip';
+    const XPATH_POSTFILIALE_CITY = './Shipment/Receiver/Postfiliale/ns1:city';
+    const XPATH_POSTFILIALE_COUNTRY = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:country';
+    const XPATH_POSTFILIALE_COUNTRY_CODE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:countryISOCode';
+    const XPATH_POSTFILIALE_STATE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:state';
 
     const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
     const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
@@ -227,12 +233,18 @@ class XPath
             'packstationCity' => self::XPATH_PACKSTATION_CITY,
             'packstationPostNumber' => self::XPATH_PACKSTATION_POST_NUMBER,
             'packstationState' => self::XPATH_PACKSTATION_STATE,
+            'packstationProvince' => self::XPATH_PACKSTATION_PROVINCE,
             'packstationCountry' => self::XPATH_PACKSTATION_COUNTRY,
+            'packstationCountryCode' => self::XPATH_PACKSTATION_COUNTRY_CODE,
+
             'postfilialRecipientName' => self::XPATH_RECIPIENT_NAME,
             'postfilialNumber' => self::XPATH_POSTFILIALE_NUMBER,
             'postfilialPostNumber' => self::XPATH_POSTFILIALE_POST_NUMBER,
             'postfilialPostalCode' => self::XPATH_POSTFILIALE_POSTAL_CODE,
             'postfilialCity' => self::XPATH_POSTFILIALE_CITY,
+            'postfilialCountry' => self::XPATH_POSTFILIALE_COUNTRY,
+            'postfilialCountryCode' => self::XPATH_POSTFILIALE_COUNTRY_CODE,
+            'postfilialState' => self::XPATH_POSTFILIALE_STATE,
 
             'packageWeight' => self::XPATH_WEIGHT,
             'packageValue' => self::XPATH_INSURED_VALUE,

@@ -253,21 +253,25 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Choose Packstation delivery.
      *
+     * Post number of the receiver is required.
+     *
      * @param string $recipientName
+     * @param string $recipientPostNumber
      * @param string $packstationNumber
+     * @param string $countryCode
      * @param string $postalCode
      * @param string $city
-     * @param string|null $postNumber
      * @param string|null $state
      * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackstation(
         string $recipientName,
+        string $recipientPostNumber,
         string $packstationNumber,
+        string $countryCode,
         string $postalCode,
         string $city,
-        string $postNumber = null,
         string $state = null,
         string $country = null
     ): ShipmentOrderRequestBuilderInterface;
@@ -275,19 +279,27 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Choose Postfiliale delivery.
      *
+     * Post number of the receiver may be omitted.
+     *
      * @param string $recipientName
      * @param string $postfilialNumber
-     * @param string $postNumber
+     * @param string $countryCode
      * @param string $postalCode
      * @param string $city
+     * @param string|null $postNumber If not set, receiver email will be used.
+     * @param string|null $state
+     * @param string|null $country
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPostfiliale(
         string $recipientName,
         string $postfilialNumber,
-        string $postNumber,
+        string $countryCode,
         string $postalCode,
-        string $city
+        string $city,
+        string $postNumber = null,
+        string $state = null,
+        string $country = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**

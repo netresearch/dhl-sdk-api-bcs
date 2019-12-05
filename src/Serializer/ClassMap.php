@@ -109,7 +109,7 @@ class ClassMap
             'ReceiverTypeType' => ReceiverTypeType::class,
             'ReceiverNativeAddressType' => ReceiverNativeAddressType::class,
             'PackStationType' => PackStationType::class,
-            'PostfilialeType' => PostfilialeType::class,
+            'cis:PostfilialeType' => PostfilialeType::class,
             'ExportDocumentType' => ExportDocumentType::class,
             'ExportDocPosition' => ExportDocPosition::class,
             // CREATE SHIPMENT - response types

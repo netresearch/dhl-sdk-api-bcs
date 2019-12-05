@@ -15,6 +15,13 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class PackStationType
 {
     /**
+     * Post Number of the receiver.
+     *
+     * @var string $postNumber
+     */
+    protected $postNumber;
+
+    /**
      * Number of the Packstation.
      *
      * @var string $packstationNumber
@@ -36,13 +43,6 @@ class PackStationType
     protected $city;
 
     /**
-     * Post Nummer of the receiver, if not set receiver e-mail and/or mobilephone number needs to be set.
-     *
-     * @var string|null $postNumber
-     */
-    protected $postNumber = null;
-
-    /**
      * Province name.
      *
      * @var string|null $province
@@ -57,25 +57,17 @@ class PackStationType
     protected $Origin = null;
 
     /**
+     * @param string $postNumber
      * @param string $packstationNumber
      * @param string $zip
      * @param string $city
      */
-    public function __construct(string $packstationNumber, string $zip, string $city)
+    public function __construct(string $postNumber, string $packstationNumber, string $zip, string $city)
     {
+        $this->postNumber = $postNumber;
         $this->packstationNumber = $packstationNumber;
         $this->zip = $zip;
         $this->city = $city;
-    }
-
-    /**
-     * @param string|null $postNumber
-     * @return PackStationType
-     */
-    public function setPostNumber(string $postNumber = null): self
-    {
-        $this->postNumber = $postNumber;
-        return $this;
     }
 
     /**
