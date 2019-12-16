@@ -36,10 +36,5 @@
         "psr-4": {
             "Dhl\\Sdk\\Paket\\Bcs\\Test\\": "test/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "0.2.x-dev"
-        }
     }
 }
