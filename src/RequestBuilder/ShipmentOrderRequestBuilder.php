@@ -114,9 +114,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     }
 
     public function setShipperBankData(
-        string $accountOwner,
-        string $bankName,
-        string $iban,
+        string $accountOwner = null,
+        string $bankName = null,
+        string $iban = null,
         string $bic = null,
         string $accountReference = null,
         array $notes = []
@@ -586,8 +586,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $packstation->setOrigin($packstationCountry);
             $receiver->setPackstation($packstation);
         } elseif (isset($this->data['recipient']['postfiliale'])) {
-            if (!$this->data['recipient']['address']['email']
-                && !$this->data['recipient']['postfiliale']['postNumber']) {
+            if (empty($this->data['recipient']['address']['email'])
+                && empty($this->data['recipient']['postfiliale']['postNumber'])) {
                 $msg = 'Either recipient email or post number must be set for Postfiliale delivery.';
                 throw new RequestValidatorException($msg);
             }
@@ -621,9 +621,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $receiverCommunication = new CommunicationType();
-        $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson']);
-        $receiverCommunication->setEmail($this->data['recipient']['address']['email']);
-        $receiverCommunication->setPhone($this->data['recipient']['address']['phone']);
+        $receiverCommunication->setContactPerson($this->data['recipient']['address']['contactPerson'] ?? null);
+        $receiverCommunication->setEmail($this->data['recipient']['address']['email'] ?? null);
+        $receiverCommunication->setPhone($this->data['recipient']['address']['phone'] ?? null);
         $receiver->setCommunication($receiverCommunication);
 
         $shipmentItem = new ShipmentItemType($this->data['packageDetails']['weight']);
@@ -791,13 +791,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         if (isset($this->data['shipper']['bankData'])) {
-            $bankData = new BankType(
-                $this->data['shipper']['bankData']['owner'],
-                $this->data['shipper']['bankData']['bankName'],
-                $this->data['shipper']['bankData']['iban']
-            );
-            $bankData->setBic($this->data['shipper']['bankData']['bic']);
-            $bankData->setAccountReference($this->data['shipper']['bankData']['accountReference']);
+            $bankData = new BankType();
+            $bankData->setAccountOwner($this->data['shipper']['bankData']['owner'] ?? null);
+            $bankData->setBankName($this->data['shipper']['bankData']['bankName'] ?? null);
+            $bankData->setIban($this->data['shipper']['bankData']['iban']?? null);
+            $bankData->setBic($this->data['shipper']['bankData']['bic'] ?? null);
+            $bankData->setAccountReference($this->data['shipper']['bankData']['accountReference'] ?? null);
             $bankData->setNote1($this->data['shipper']['bankData']['notes'][0] ?? null);
             $bankData->setNote2($this->data['shipper']['bankData']['notes'][1] ?? null);
             $shipmentDetails->setBankData($bankData);

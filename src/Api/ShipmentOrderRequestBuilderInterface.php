@@ -83,18 +83,25 @@ interface ShipmentOrderRequestBuilderInterface
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * @param string $accountOwner
-     * @param string $bankName
-     * @param string $iban
+     * Overwrite bank account defaults (configured in Business Customer Portal).
+     *
+     * If no default bank data is configured in the portal, then these fields
+     * are required for COD payments.
+     * If defaults are configured in the portal, then only the individual notes
+     * (reason for payment) fields may be set per shipment order.
+     *
+     * @param string|null $accountOwner
+     * @param string|null $bankName
+     * @param string|null $iban
      * @param string|null $bic
      * @param string|null $accountReference
      * @param string[] $notes
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperBankData(
-        string $accountOwner,
-        string $bankName,
-        string $iban,
+        string $accountOwner = null,
+        string $bankName = null,
+        string $iban = null,
         string $bic = null,
         string $accountReference = null,
         array $notes = []

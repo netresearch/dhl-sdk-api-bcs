@@ -17,33 +17,33 @@ class BankType
     /**
      * Name of bank account owner.
      *
-     * @var string $accountOwner
+     * @var string|null $accountOwner
      */
-    protected $accountOwner;
+    protected $accountOwner = null;
 
     /**
      * Name of bank.
      *
-     * @var string $bankName
+     * @var string|null $bankName
      */
-    protected $bankName;
+    protected $bankName = null;
 
     /**
      * IBAN code of bank account.
      *
-     * @var string $iban
+     * @var string|null $iban
      */
-    protected $iban;
+    protected $iban = null;
 
     /**
-     * IBAN code of bank account.
+     * Reason for payment (line 1).
      *
      * @var string|null $note1
      */
     protected $note1 = null;
 
     /**
-     * Purpose of bank information.
+     * Reason for payment (line 2).
      *
      * @var string|null $note2
      */
@@ -64,15 +64,33 @@ class BankType
     protected $accountreference = null;
 
     /**
-     * @param string $accountOwner
-     * @param string $bankName
-     * @param string $iban
+     * @param string|null $accountOwner
+     * @return BankType
      */
-    public function __construct(string $accountOwner, string $bankName, string $iban)
+    public function setAccountOwner(string $accountOwner = null): self
     {
         $this->accountOwner = $accountOwner;
+        return $this;
+    }
+
+    /**
+     * @param string|null $bankName
+     * @return BankType
+     */
+    public function setBankName(string $bankName = null): self
+    {
         $this->bankName = $bankName;
+        return $this;
+    }
+
+    /**
+     * @param string|null $iban
+     * @return BankType
+     */
+    public function setIban(string $iban = null): self
+    {
         $this->iban = $iban;
+        return $this;
     }
 
     /**
