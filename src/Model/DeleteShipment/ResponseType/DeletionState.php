@@ -39,7 +39,7 @@ class DeletionState
     }
 
     /**
-     * @return Statusinformation
+     * @return StatusInformation
      */
     public function getStatus(): StatusInformation
     {

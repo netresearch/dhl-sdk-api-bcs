@@ -66,6 +66,8 @@ class LoggerDecorator extends AbstractDecorator
      */
     private function logCommunication(\Closure $performRequest)
     {
+        $logLevel = LogLevel::INFO;
+
         try {
             /** @var CreateShipmentOrderResponse|DeleteShipmentOrderResponse $response */
             $response = $performRequest();
@@ -80,8 +82,6 @@ class LoggerDecorator extends AbstractDecorator
             } elseif ($response->getStatus()->getStatusText() === 'Weak validation error occured.') {
                 // weak validation errors contained in response.
                 $logLevel = LogLevel::WARNING;
-            } else {
-                $logLevel = LogLevel::INFO;
             }
 
             return $response;
