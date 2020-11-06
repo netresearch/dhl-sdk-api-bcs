@@ -20,6 +20,7 @@ class StatusInformation
      * of returned status codes is contained in the list.
      *
      * @var int $statusCode
+     * Note: in PHP 7.4 this will become "protected int $statusCode"
      */
     protected $statusCode;
 
@@ -42,7 +43,7 @@ class StatusInformation
      */
     public function getStatusCode(): int
     {
-        return $this->statusCode;
+        return intval($this->statusCode);
     }
 
     /**
