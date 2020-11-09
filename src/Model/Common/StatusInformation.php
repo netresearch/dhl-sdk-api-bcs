@@ -19,8 +19,7 @@ class StatusInformation
      * A value greater than zero indicates that an error occurred. The detailed mapping and explanation
      * of returned status codes is contained in the list.
      *
-     * @var int $statusCode
-     * Note: in PHP 7.4 this will become "protected int $statusCode"
+     * @var int|string $statusCode
      */
     protected $statusCode;
 
@@ -43,7 +42,7 @@ class StatusInformation
      */
     public function getStatusCode(): int
     {
-        return intval($this->statusCode);
+        return (int) $this->statusCode;
     }
 
     /**
