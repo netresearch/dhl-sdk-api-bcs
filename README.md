@@ -59,7 +59,7 @@ Create shipments for DHL Paket including the relevant shipping documents.
 
 #### Public API
 
-The library's components suitable for consumption comprise of
+The library's components suitable for consumption comprise
 
 * services:
   * service factory
