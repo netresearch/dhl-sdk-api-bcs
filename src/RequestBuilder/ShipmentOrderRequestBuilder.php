@@ -208,15 +208,22 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setShipmentDetails(
         string $productCode,
-        \DateTime $shipmentDate,
+        \DateTimeInterface $shipmentDate,
         string $shipmentReference = null,
         string $returnReference = null,
         string $costCentre = null
     ): ShipmentOrderRequestBuilderInterface {
         $timezone = new \DateTimeZone('Europe/Berlin');
-        $convertDate = $shipmentDate->setTimezone($timezone)->format('Y-m-d');
+
+        if ($shipmentDate instanceof \DateTime) {
+            $shipmentDate = \DateTimeImmutable::createFromMutable($shipmentDate);
+            $shipmentDate = $shipmentDate->setTimezone($timezone);
+        } elseif ($shipmentDate instanceof \DateTimeImmutable) {
+            $shipmentDate = $shipmentDate->setTimezone($timezone);
+        }
+
         $this->data['shipmentDetails']['product'] = $productCode;
-        $this->data['shipmentDetails']['date'] = $convertDate;
+        $this->data['shipmentDetails']['date'] = $shipmentDate->format('Y-m-d');
         $this->data['shipmentDetails']['shipmentReference'] = $shipmentReference;
         $this->data['shipmentDetails']['returnReference'] = $returnReference;
         $this->data['shipmentDetails']['costCentre'] = $costCentre;
