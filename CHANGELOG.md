@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Connect to DHL Business Customer Shipping API version 3.1.2 (previously 3.0).
 - Argument type of `$shipmentDate` in `ShipmentOrderRequestBuilderInterface::setShipmentDetails`
   was changed from `\DateTime` to `\DateTimeInterface`.
 

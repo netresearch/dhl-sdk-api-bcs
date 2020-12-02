@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
@@ -19,6 +21,7 @@ class ExportDocumentType
      * - OTHER
      * - PRESENT
      * - COMMERCIAL_SAMPLE
+     * - COMMERCIAL_GOODS
      * - DOCUMENT
      * - RETURN_OF_GOODS
      *
@@ -78,6 +81,20 @@ class ExportDocumentType
      * @var string|null $attestationNumber
      */
     protected $attestationNumber = null;
+
+    /**
+     * The addressees customer reference.
+     *
+     * @var string|null
+     */
+    protected $addresseesCustomsReference = null;
+
+    /**
+     * The senders customer reference.
+     *
+     * @var string|null
+     */
+    protected $sendersCustomsReference = null;
 
     /**
      * Sets an electronic export notification.
@@ -152,6 +169,26 @@ class ExportDocumentType
     public function setAttestationNumber(string $attestationNumber = null): self
     {
         $this->attestationNumber = $attestationNumber;
+        return $this;
+    }
+
+    /**
+     * @param string|null $addresseesCustomsReference
+     * @return ExportDocumentType
+     */
+    public function setAddresseesCustomsReference(string $addresseesCustomsReference = null): self
+    {
+        $this->addresseesCustomsReference = $addresseesCustomsReference;
+        return $this;
+    }
+
+    /**
+     * @param string|null $sendersCustomsReference
+     * @return ExportDocumentType
+     */
+    public function setSendersCustomsReference(string $sendersCustomsReference = null): self
+    {
+        $this->sendersCustomsReference = $sendersCustomsReference;
         return $this;
     }
 

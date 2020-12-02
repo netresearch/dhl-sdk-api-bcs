@@ -23,7 +23,7 @@ class SoapClientFake extends \SoapClient
      */
     public function __construct($wsdl, array $options = null)
     {
-        $wsdl = __DIR__ . '/Provider/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = __DIR__ . '/Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         parent::__construct($wsdl, $options);
     }
 }

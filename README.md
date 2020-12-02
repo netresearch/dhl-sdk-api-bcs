@@ -2,7 +2,7 @@
 
 The DHL Business Customer Shipping API SDK package offers an interface to the following web services:
 
-- Geschäftskundenversand 3.0
+- Geschäftskundenversand 3.1.2
 
 ## Requirements
 

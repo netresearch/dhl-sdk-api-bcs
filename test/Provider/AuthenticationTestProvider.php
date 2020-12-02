@@ -25,7 +25,7 @@ class AuthenticationTestProvider
      */
     public static function appAuthFailure()
     {
-        $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::appAuthFailure();
         $shipmentOrders = ShipmentRequestProvider::createSingleShipmentSuccess();
         $soapFault = new \SoapFault('HTTP', 'Unauthorized');
@@ -44,7 +44,7 @@ class AuthenticationTestProvider
      */
     public static function userAuthFailure()
     {
-        $wsdl = __DIR__ . '/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::userAuthFailure();
         $shipmentOrders = ShipmentRequestProvider::createSingleShipmentSuccess();
         $responseXml = \file_get_contents(__DIR__ . '/_files/auth/passwordExpired.xml');

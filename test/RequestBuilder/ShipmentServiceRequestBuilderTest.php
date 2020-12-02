@@ -33,7 +33,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
     public function simpleDataProvider()
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow;
-        $wsdl = __DIR__ . '/../Provider/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [
             's0' => [
@@ -71,7 +71,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
     public function complexDataProvider()
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow
-        $wsdl = __DIR__ . '/../Provider/_files/gvapi-3.0/geschaeftskundenversand-api-3.0.wsdl';
+        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [
             's0' => [

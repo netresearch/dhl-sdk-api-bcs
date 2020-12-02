@@ -491,7 +491,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $invoiceNumber = null,
         string $permitNumber = null,
         string $attestationNumber = null,
-        bool $electronicExportNotification = null
+        bool $electronicExportNotification = null,
+        string $sendersCustomsReference = null,
+        string $addresseesCustomsReference = null
     ) {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
@@ -506,6 +508,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $this->data['customsDetails']['permitNumber'] = $permitNumber;
         $this->data['customsDetails']['attestationNumber'] = $attestationNumber;
         $this->data['customsDetails']['electronicExportNotification'] = $electronicExportNotification;
+        $this->data['customsDetails']['sendersCustomsReference'] = $sendersCustomsReference;
+        $this->data['customsDetails']['addresseesCustomsReference'] = $addresseesCustomsReference;
 
         return $this;
     }
@@ -853,6 +857,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $exportDocument->setInvoiceNumber($this->data['customsDetails']['invoiceNumber']);
             $exportDocument->setPermitNumber($this->data['customsDetails']['permitNumber']);
             $exportDocument->setAttestationNumber($this->data['customsDetails']['attestationNumber']);
+            $exportDocument->setAddresseesCustomsReference($this->data['customsDetails']['addresseesCustomsReference']);
+            $exportDocument->setSendersCustomsReference($this->data['customsDetails']['sendersCustomsReference']);
             if (isset($this->data['customsDetails']['electronicExportNotification'])) {
                 $notification = new ServiceConfiguration($this->data['customsDetails']['electronicExportNotification']);
                 $exportDocument->setWithElectronicExportNtfctn($notification);

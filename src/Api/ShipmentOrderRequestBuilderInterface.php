@@ -531,6 +531,8 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $permitNumber
      * @param string|null $attestationNumber
      * @param bool|null $electronicExportNotification
+     * @param string|null $sendersCustomsReference
+     * @param string|null $addresseesCustomsReference
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setCustomsDetails(
@@ -542,7 +544,9 @@ interface ShipmentOrderRequestBuilderInterface
         string $invoiceNumber = null,
         string $permitNumber = null,
         string $attestationNumber = null,
-        bool $electronicExportNotification = null
+        bool $electronicExportNotification = null,
+        string $sendersCustomsReference = null,
+        string $addresseesCustomsReference = null
     );
 
     /**

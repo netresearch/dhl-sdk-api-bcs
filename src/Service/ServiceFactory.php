@@ -30,8 +30,8 @@ class ServiceFactory implements ServiceFactoryInterface
         $wsdl = sprintf(
             '%s/%s/%s',
             'https://cig.dhl.de/cig-wsdls/com/dpdhl/wsdl/geschaeftskundenversand-api',
-            '3.0',
-            'geschaeftskundenversand-api-3.0.wsdl'
+            '3.1.2',
+            'geschaeftskundenversand-api-3.1.2.wsdl'
         );
 
         $options = [
