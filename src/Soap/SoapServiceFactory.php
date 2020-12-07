@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap;
@@ -17,12 +19,6 @@ use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\ErrorHandlerDecorator;
 use Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator\LoggerDecorator;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class SoapServiceFactory
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class SoapServiceFactory implements ServiceFactoryInterface
 {
     /**
@@ -30,10 +26,6 @@ class SoapServiceFactory implements ServiceFactoryInterface
      */
     private $soapClient;
 
-    /**
-     * SoapServiceFactory constructor.
-     * @param \SoapClient $soapClient
-     */
     public function __construct(\SoapClient $soapClient)
     {
         $this->soapClient = $soapClient;

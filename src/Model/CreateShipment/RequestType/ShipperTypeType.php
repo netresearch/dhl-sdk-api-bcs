@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ShipperTypeType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipperTypeType
 {
     /**
@@ -29,10 +25,6 @@ class ShipperTypeType
      */
     protected $Communication = null;
 
-    /**
-     * @param NameType $name
-     * @param NativeAddressType $address
-     */
     public function __construct(NameType $name, NativeAddressType $address)
     {
         $this->Name = $name;

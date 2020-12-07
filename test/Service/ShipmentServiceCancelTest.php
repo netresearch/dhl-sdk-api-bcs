@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
@@ -20,12 +22,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
-/**
- * Class ShipmentServiceCancelTest
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentServiceCancelTest extends TestCase
 {
     /**
@@ -95,7 +91,7 @@ class ShipmentServiceCancelTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,
         string $responseXml
-    ) {
+    ): void {
         $logger = new TestLogger();
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
@@ -142,7 +138,7 @@ class ShipmentServiceCancelTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,
         string $responseXml
-    ) {
+    ): void {
         $logger = new TestLogger();
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
@@ -190,7 +186,7 @@ class ShipmentServiceCancelTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,
         string $responseXml
-    ) {
+    ): void {
         $this->expectException(DetailedServiceException::class);
         $this->expectExceptionCode(2000);
         $this->expectExceptionMessage('Unknown shipment number.');
@@ -241,7 +237,7 @@ class ShipmentServiceCancelTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         \SoapFault $soapFault
-    ) {
+    ): void {
         $this->expectException(ServiceException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Invalid XML: cvc-minLength-valid.');

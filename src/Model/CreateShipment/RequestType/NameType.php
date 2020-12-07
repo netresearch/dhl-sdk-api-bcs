@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * NameType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class NameType
 {
     /**
@@ -35,9 +31,6 @@ class NameType
      */
     protected $name3 = null;
 
-    /**
-     * @param string $name1
-     */
     public function __construct(string $name1)
     {
         $this->name1 = $name1;

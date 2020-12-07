@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
 use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
 
-/**
- * Class AuthenticationStorageProvider
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class AuthenticationStorageProvider
 {
     /**
@@ -21,7 +17,7 @@ class AuthenticationStorageProvider
      *
      * @return AuthenticationStorage
      */
-    public static function appAuthFailure()
+    public static function appAuthFailure(): AuthenticationStorage
     {
         $authStorage = new AuthenticationStorage(
             'magento_1',
@@ -38,7 +34,7 @@ class AuthenticationStorageProvider
      *
      * @return AuthenticationStorage
      */
-    public static function userAuthFailure()
+    public static function userAuthFailure(): AuthenticationStorage
     {
         $authStorage = new AuthenticationStorage(
             'magento_1',
@@ -55,7 +51,7 @@ class AuthenticationStorageProvider
      *
      * @return AuthenticationStorage
      */
-    public static function authSuccess()
+    public static function authSuccess(): AuthenticationStorage
     {
         $authStorage = new AuthenticationStorage(
             'magento_1',

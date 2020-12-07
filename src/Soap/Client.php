@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap;
@@ -11,12 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 
-/**
- * Class Client
- *
- * @author Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link   https://www.netresearch.de/
- */
 class Client extends AbstractClient
 {
     /**
@@ -24,10 +20,6 @@ class Client extends AbstractClient
      */
     private $soapClient;
 
-    /**
-     * Client constructor.
-     * @param \SoapClient $soapClient
-     */
     public function __construct(\SoapClient $soapClient)
     {
         $this->soapClient = $soapClient;

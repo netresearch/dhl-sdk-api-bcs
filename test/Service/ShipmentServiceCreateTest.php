@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
@@ -22,12 +24,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
-/**
- * Class ShipmentServiceCreateTest
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentServiceCreateTest extends TestCase
 {
     /**
@@ -120,7 +116,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         $logger = new TestLogger();
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
@@ -169,7 +165,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         $logger = new TestLogger();
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
@@ -218,7 +214,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         $logger = new TestLogger();
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
@@ -265,7 +261,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         $this->expectException(DetailedServiceException::class);
         $this->expectExceptionCode(1101);
         $this->expectExceptionMessage('Hard validation error occured.');
@@ -314,7 +310,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         self::markTestIncomplete('No such response observed/recorded yet.');
     }
 
@@ -336,7 +332,7 @@ class ShipmentServiceCreateTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         \SoapFault $soapFault
-    ) {
+    ): void {
         $this->expectException(ServiceException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('INVALID_CONFIGURATION');

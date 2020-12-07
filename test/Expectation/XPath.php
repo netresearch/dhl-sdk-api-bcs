@@ -1,162 +1,159 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 
-/**
- * Class XPath
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class XPath
 {
-    const XPATH_PRINT_CODEABLE = './PrintOnlyIfCodeable/@active';
-    const XPATH_SEQUENCE_NUMBER = './sequenceNumber';
-    const XPATH_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/ns1:accountNumber';
-    const XPATH_RETURN_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/returnShipmentAccountNumber';
+    public const XPATH_PRINT_CODEABLE = './PrintOnlyIfCodeable/@active';
+    public const XPATH_SEQUENCE_NUMBER = './sequenceNumber';
+    public const XPATH_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/ns1:accountNumber';
+    public const XPATH_RETURN_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/returnShipmentAccountNumber';
 
-    const XPATH_PRODUCT = './Shipment/ShipmentDetails/product';
-    const XPATH_SHIPMENT_DATE = './Shipment/ShipmentDetails/shipmentDate';
+    public const XPATH_PRODUCT = './Shipment/ShipmentDetails/product';
+    public const XPATH_SHIPMENT_DATE = './Shipment/ShipmentDetails/shipmentDate';
 
-    const XPATH_CUSTOMER_REFERENCE = './Shipment/ShipmentDetails/customerReference';
-    const XPATH_RETURN_REFERENCE = './Shipment/ShipmentDetails/returnShipmentReference';
-    const XPATH_COST_CENTRE = './Shipment/ShipmentDetails/costCentre';
+    public const XPATH_CUSTOMER_REFERENCE = './Shipment/ShipmentDetails/customerReference';
+    public const XPATH_RETURN_REFERENCE = './Shipment/ShipmentDetails/returnShipmentReference';
+    public const XPATH_COST_CENTRE = './Shipment/ShipmentDetails/costCentre';
 
-    const XPATH_SHIPPER_COMPANY = './Shipment/Shipper/Name/ns1:name1';
-    const XPATH_SHIPPER_NAME = './Shipment/Shipper/Name/ns1:name2';
-    const XPATH_SHIPPER_NAME_ADDITION = './Shipment/Shipper/Name/ns1:name3';
-    const XPATH_SHIPPER_EMAIL = './Shipment/Shipper/Communication/ns1:email';
-    const XPATH_SHIPPER_PHONE = './Shipment/Shipper/Communication/ns1:phone';
-    const XPATH_SHIPPER_CONTACT_PERSON = './Shipment/Shipper/Communication/ns1:contactPerson';
-    const XPATH_SHIPPER_COUNTRY = './Shipment/Shipper/Address/ns1:Origin/ns1:countryISOCode';
-    const XPATH_SHIPPER_STATE = './Shipment/Shipper/Address/ns1:province';
-    const XPATH_SHIPPER_POSTAL_CODE = './Shipment/Shipper/Address/ns1:zip';
-    const XPATH_SHIPPER_CITY = './Shipment/Shipper/Address/ns1:city';
-    const XPATH_SHIPPER_STREET_NAME = './Shipment/Shipper/Address/ns1:streetName';
-    const XPATH_SHIPPER_STREET_NUMBER = './Shipment/Shipper/Address/ns1:streetNumber';
-    const XPATH_SHIPPER_ADDRESS_ADD1 = './Shipment/Shipper/Address/ns1:addressAddition[1]';
-    const XPATH_SHIPPER_ADDRESS_ADD2 = './Shipment/Shipper/Address/ns1:addressAddition[2]';
-    const XPATH_SHIPPER_DISPATCH_INFO = './Shipment/Shipper/Address/ns1:dispatchingInformation';
-    const XPATH_SHIPPER_REFERENCE = './Shipment/ShipperReference';
+    public const XPATH_SHIPPER_COMPANY = './Shipment/Shipper/Name/ns1:name1';
+    public const XPATH_SHIPPER_NAME = './Shipment/Shipper/Name/ns1:name2';
+    public const XPATH_SHIPPER_NAME_ADDITION = './Shipment/Shipper/Name/ns1:name3';
+    public const XPATH_SHIPPER_EMAIL = './Shipment/Shipper/Communication/ns1:email';
+    public const XPATH_SHIPPER_PHONE = './Shipment/Shipper/Communication/ns1:phone';
+    public const XPATH_SHIPPER_CONTACT_PERSON = './Shipment/Shipper/Communication/ns1:contactPerson';
+    public const XPATH_SHIPPER_COUNTRY = './Shipment/Shipper/Address/ns1:Origin/ns1:countryISOCode';
+    public const XPATH_SHIPPER_STATE = './Shipment/Shipper/Address/ns1:province';
+    public const XPATH_SHIPPER_POSTAL_CODE = './Shipment/Shipper/Address/ns1:zip';
+    public const XPATH_SHIPPER_CITY = './Shipment/Shipper/Address/ns1:city';
+    public const XPATH_SHIPPER_STREET_NAME = './Shipment/Shipper/Address/ns1:streetName';
+    public const XPATH_SHIPPER_STREET_NUMBER = './Shipment/Shipper/Address/ns1:streetNumber';
+    public const XPATH_SHIPPER_ADDRESS_ADD1 = './Shipment/Shipper/Address/ns1:addressAddition[1]';
+    public const XPATH_SHIPPER_ADDRESS_ADD2 = './Shipment/Shipper/Address/ns1:addressAddition[2]';
+    public const XPATH_SHIPPER_DISPATCH_INFO = './Shipment/Shipper/Address/ns1:dispatchingInformation';
+    public const XPATH_SHIPPER_REFERENCE = './Shipment/ShipperReference';
 
-    const XPATH_SHIPPER_BANK_OWNER = './Shipment/ShipmentDetails/BankData/ns1:accountOwner';
-    const XPATH_SHIPPER_BANK_NAME = './Shipment/ShipmentDetails/BankData/ns1:bankName';
-    const XPATH_SHIPPER_BANK_IBAN = './Shipment/ShipmentDetails/BankData/ns1:iban';
-    const XPATH_SHIPPER_BANK_BIC = './Shipment/ShipmentDetails/BankData/ns1:bic';
-    const XPATH_SHIPPER_BANK_REFERENCE = './Shipment/ShipmentDetails/BankData/ns1:accountreference';
-    const XPATH_SHIPPER_BANK_NOTE1 = './Shipment/ShipmentDetails/BankData/ns1:note1';
-    const XPATH_SHIPPER_BANK_NOTE2 = './Shipment/ShipmentDetails/BankData/ns1:note2';
+    public const XPATH_SHIPPER_BANK_OWNER = './Shipment/ShipmentDetails/BankData/ns1:accountOwner';
+    public const XPATH_SHIPPER_BANK_NAME = './Shipment/ShipmentDetails/BankData/ns1:bankName';
+    public const XPATH_SHIPPER_BANK_IBAN = './Shipment/ShipmentDetails/BankData/ns1:iban';
+    public const XPATH_SHIPPER_BANK_BIC = './Shipment/ShipmentDetails/BankData/ns1:bic';
+    public const XPATH_SHIPPER_BANK_REFERENCE = './Shipment/ShipmentDetails/BankData/ns1:accountreference';
+    public const XPATH_SHIPPER_BANK_NOTE1 = './Shipment/ShipmentDetails/BankData/ns1:note1';
+    public const XPATH_SHIPPER_BANK_NOTE2 = './Shipment/ShipmentDetails/BankData/ns1:note2';
 
-    const XPATH_RETURN_COMPANY = './Shipment/ReturnReceiver/Name/ns1:name1';
-    const XPATH_RETURN_NAME = './Shipment/ReturnReceiver/Name/ns1:name2';
-    const XPATH_RETURN_NAME_ADDITION = './Shipment/ReturnReceiver/Name/ns1:name3';
-    const XPATH_RETURN_EMAIL = './Shipment/ReturnReceiver/Communication/ns1:email';
-    const XPATH_RETURN_PHONE = './Shipment/ReturnReceiver/Communication/ns1:phone';
-    const XPATH_RETURN_CONTACT_PERSON = './Shipment/ReturnReceiver/Communication/ns1:contactPerson';
-    const XPATH_RETURN_COUNTRY = './Shipment/ReturnReceiver/Address/ns1:Origin/ns1:countryISOCode';
-    const XPATH_RETURN_STATE = './Shipment/ReturnReceiver/Address/ns1:province';
-    const XPATH_RETURN_POSTAL_CODE = './Shipment/ReturnReceiver/Address/ns1:zip';
-    const XPATH_RETURN_CITY = './Shipment/ReturnReceiver/Address/ns1:city';
-    const XPATH_RETURN_STREET_NAME = './Shipment/ReturnReceiver/Address/ns1:streetName';
-    const XPATH_RETURN_STREET_NUMBER = './Shipment/ReturnReceiver/Address/ns1:streetNumber';
-    const XPATH_RETURN_ADDRESS_ADD1 = './Shipment/ReturnReceiver/Address/ns1:addressAddition[1]';
-    const XPATH_RETURN_ADDRESS_ADD2 = './Shipment/ReturnReceiver/Address/ns1:addressAddition[2]';
-    const XPATH_RETURN_DISPATCH_INFO = './Shipment/ReturnReceiver/Address/ns1:dispatchingInformation';
+    public const XPATH_RETURN_COMPANY = './Shipment/ReturnReceiver/Name/ns1:name1';
+    public const XPATH_RETURN_NAME = './Shipment/ReturnReceiver/Name/ns1:name2';
+    public const XPATH_RETURN_NAME_ADDITION = './Shipment/ReturnReceiver/Name/ns1:name3';
+    public const XPATH_RETURN_EMAIL = './Shipment/ReturnReceiver/Communication/ns1:email';
+    public const XPATH_RETURN_PHONE = './Shipment/ReturnReceiver/Communication/ns1:phone';
+    public const XPATH_RETURN_CONTACT_PERSON = './Shipment/ReturnReceiver/Communication/ns1:contactPerson';
+    public const XPATH_RETURN_COUNTRY = './Shipment/ReturnReceiver/Address/ns1:Origin/ns1:countryISOCode';
+    public const XPATH_RETURN_STATE = './Shipment/ReturnReceiver/Address/ns1:province';
+    public const XPATH_RETURN_POSTAL_CODE = './Shipment/ReturnReceiver/Address/ns1:zip';
+    public const XPATH_RETURN_CITY = './Shipment/ReturnReceiver/Address/ns1:city';
+    public const XPATH_RETURN_STREET_NAME = './Shipment/ReturnReceiver/Address/ns1:streetName';
+    public const XPATH_RETURN_STREET_NUMBER = './Shipment/ReturnReceiver/Address/ns1:streetNumber';
+    public const XPATH_RETURN_ADDRESS_ADD1 = './Shipment/ReturnReceiver/Address/ns1:addressAddition[1]';
+    public const XPATH_RETURN_ADDRESS_ADD2 = './Shipment/ReturnReceiver/Address/ns1:addressAddition[2]';
+    public const XPATH_RETURN_DISPATCH_INFO = './Shipment/ReturnReceiver/Address/ns1:dispatchingInformation';
 
-    const XPATH_RECIPIENT_NAME = './Shipment/Receiver/ns1:name1';
-    const XPATH_RECIPIENT_COMPANY = './Shipment/Receiver/Address/ns1:name2';
-    const XPATH_RECIPIENT_NAME_ADDITION = './Shipment/Receiver/Address/ns1:name3';
-    const XPATH_RECIPIENT_EMAIL = './Shipment/Receiver/Communication/ns1:email';
-    const XPATH_RECIPIENT_PHONE = './Shipment/Receiver/Communication/ns1:phone';
-    const XPATH_RECIPIENT_CONTACT_PERSON = './Shipment/Receiver/Communication/ns1:contactPerson';
-    const XPATH_RECIPIENT_COUNTRY = './Shipment/Receiver/Address/ns1:Origin/ns1:countryISOCode';
-    const XPATH_RECIPIENT_STATE = './Shipment/Receiver/Address/ns1:province';
-    const XPATH_RECIPIENT_POSTAL_CODE = './Shipment/Receiver/Address/ns1:zip';
-    const XPATH_RECIPIENT_CITY = './Shipment/Receiver/Address/ns1:city';
-    const XPATH_RECIPIENT_STREET_NAME = './Shipment/Receiver/Address/ns1:streetName';
-    const XPATH_RECIPIENT_STREET_NUMBER = './Shipment/Receiver/Address/ns1:streetNumber';
-    const XPATH_RECIPIENT_ADDRESS_ADD1 = './Shipment/Receiver/Address/ns1:addressAddition[1]';
-    const XPATH_RECIPIENT_ADDRESS_ADD2 = './Shipment/Receiver/Address/ns1:addressAddition[2]';
-    const XPATH_RECIPIENT_DISPATCH_INFO = './Shipment/Receiver/Address/ns1:dispatchingInformation';
-    const XPATH_RECIPIENT_NOTIFICATION = './Shipment/ShipmentDetails/Notification/recipientEmailAddress';
+    public const XPATH_RECIPIENT_NAME = './Shipment/Receiver/ns1:name1';
+    public const XPATH_RECIPIENT_COMPANY = './Shipment/Receiver/Address/ns1:name2';
+    public const XPATH_RECIPIENT_NAME_ADDITION = './Shipment/Receiver/Address/ns1:name3';
+    public const XPATH_RECIPIENT_EMAIL = './Shipment/Receiver/Communication/ns1:email';
+    public const XPATH_RECIPIENT_PHONE = './Shipment/Receiver/Communication/ns1:phone';
+    public const XPATH_RECIPIENT_CONTACT_PERSON = './Shipment/Receiver/Communication/ns1:contactPerson';
+    public const XPATH_RECIPIENT_COUNTRY = './Shipment/Receiver/Address/ns1:Origin/ns1:countryISOCode';
+    public const XPATH_RECIPIENT_STATE = './Shipment/Receiver/Address/ns1:province';
+    public const XPATH_RECIPIENT_POSTAL_CODE = './Shipment/Receiver/Address/ns1:zip';
+    public const XPATH_RECIPIENT_CITY = './Shipment/Receiver/Address/ns1:city';
+    public const XPATH_RECIPIENT_STREET_NAME = './Shipment/Receiver/Address/ns1:streetName';
+    public const XPATH_RECIPIENT_STREET_NUMBER = './Shipment/Receiver/Address/ns1:streetNumber';
+    public const XPATH_RECIPIENT_ADDRESS_ADD1 = './Shipment/Receiver/Address/ns1:addressAddition[1]';
+    public const XPATH_RECIPIENT_ADDRESS_ADD2 = './Shipment/Receiver/Address/ns1:addressAddition[2]';
+    public const XPATH_RECIPIENT_DISPATCH_INFO = './Shipment/Receiver/Address/ns1:dispatchingInformation';
+    public const XPATH_RECIPIENT_NOTIFICATION = './Shipment/ShipmentDetails/Notification/recipientEmailAddress';
 
-    const XPATH_PACKSTATION_NUMBER = './Shipment/Receiver/Packstation/ns1:packstationNumber';
-    const XPATH_PACKSTATION_POSTAL_CODE = './Shipment/Receiver/Packstation/ns1:zip';
-    const XPATH_PACKSTATION_CITY = './Shipment/Receiver/Packstation/ns1:city';
-    const XPATH_PACKSTATION_POST_NUMBER = './Shipment/Receiver/Packstation/ns1:postNumber';
-    const XPATH_PACKSTATION_PROVINCE = './Shipment/Receiver/Packstation/ns1:province';
-    const XPATH_PACKSTATION_COUNTRY_CODE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:countryISOCode';
-    const XPATH_PACKSTATION_COUNTRY = './Shipment/Receiver/Packstation/ns1:Origin/ns1:country';
-    const XPATH_PACKSTATION_STATE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:state';
+    public const XPATH_PACKSTATION_NUMBER = './Shipment/Receiver/Packstation/ns1:packstationNumber';
+    public const XPATH_PACKSTATION_POSTAL_CODE = './Shipment/Receiver/Packstation/ns1:zip';
+    public const XPATH_PACKSTATION_CITY = './Shipment/Receiver/Packstation/ns1:city';
+    public const XPATH_PACKSTATION_POST_NUMBER = './Shipment/Receiver/Packstation/ns1:postNumber';
+    public const XPATH_PACKSTATION_PROVINCE = './Shipment/Receiver/Packstation/ns1:province';
+    public const XPATH_PACKSTATION_COUNTRY_CODE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:countryISOCode';
+    public const XPATH_PACKSTATION_COUNTRY = './Shipment/Receiver/Packstation/ns1:Origin/ns1:country';
+    public const XPATH_PACKSTATION_STATE = './Shipment/Receiver/Packstation/ns1:Origin/ns1:state';
 
-    const XPATH_POSTFILIALE_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postfilialNumber';
-    const XPATH_POSTFILIALE_POST_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postNumber';
-    const XPATH_POSTFILIALE_POSTAL_CODE = './Shipment/Receiver/Postfiliale/ns1:zip';
-    const XPATH_POSTFILIALE_CITY = './Shipment/Receiver/Postfiliale/ns1:city';
-    const XPATH_POSTFILIALE_COUNTRY = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:country';
-    const XPATH_POSTFILIALE_COUNTRY_CODE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:countryISOCode';
-    const XPATH_POSTFILIALE_STATE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:state';
+    public const XPATH_POSTFILIALE_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postfilialNumber';
+    public const XPATH_POSTFILIALE_POST_NUMBER = './Shipment/Receiver/Postfiliale/ns1:postNumber';
+    public const XPATH_POSTFILIALE_POSTAL_CODE = './Shipment/Receiver/Postfiliale/ns1:zip';
+    public const XPATH_POSTFILIALE_CITY = './Shipment/Receiver/Postfiliale/ns1:city';
+    public const XPATH_POSTFILIALE_COUNTRY = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:country';
+    public const XPATH_POSTFILIALE_COUNTRY_CODE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:countryISOCode';
+    public const XPATH_POSTFILIALE_STATE = './Shipment/Receiver/Postfiliale/ns1:Origin/ns1:state';
 
-    const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
-    const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
-    const XPATH_COD_AMOUNT = './Shipment/ShipmentDetails/Service/CashOnDelivery/@codAmount';
-    const XPATH_COD_ADD_FEE = './Shipment/ShipmentDetails/Service/CashOnDelivery/@addFee';
+    public const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
+    public const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
+    public const XPATH_COD_AMOUNT = './Shipment/ShipmentDetails/Service/CashOnDelivery/@codAmount';
+    public const XPATH_COD_ADD_FEE = './Shipment/ShipmentDetails/Service/CashOnDelivery/@addFee';
 
-    const XPATH_PACKAGE_LENGTH = './Shipment/ShipmentDetails/ShipmentItem/lengthInCM';
-    const XPATH_PACKAGE_WIDTH = './Shipment/ShipmentDetails/ShipmentItem/widthInCM';
-    const XPATH_PACKAGE_HEIGHT = './Shipment/ShipmentDetails/ShipmentItem/heightInCM';
+    public const XPATH_PACKAGE_LENGTH = './Shipment/ShipmentDetails/ShipmentItem/lengthInCM';
+    public const XPATH_PACKAGE_WIDTH = './Shipment/ShipmentDetails/ShipmentItem/widthInCM';
+    public const XPATH_PACKAGE_HEIGHT = './Shipment/ShipmentDetails/ShipmentItem/heightInCM';
 
-    const XPATH_EXPORT_TYPE = './Shipment/ExportDocument/exportType';
-    const XPATH_EXPORT_PLACE = './Shipment/ExportDocument/placeOfCommital';
-    const XPATH_EXPORT_FEE = './Shipment/ExportDocument/additionalFee';
-    const XPATH_EXPORT_DESCRIPTION = './Shipment/ExportDocument/exportTypeDescription';
-    const XPATH_EXPORT_INCOTERMS = './Shipment/ExportDocument/termsOfTrade';
-    const XPATH_EXPORT_INVOICE_NO = './Shipment/ExportDocument/invoiceNumber';
-    const XPATH_EXPORT_PERMIT_NO = './Shipment/ExportDocument/permitNumber';
-    const XPATH_EXPORT_ATTESTATION_NO = './Shipment/ExportDocument/attestationNumber';
-    const XPATH_EXPORT_NOTIFICATION = './Shipment/ExportDocument/WithElectronicExportNtfctn/@active';
-    const XPATH_EXPORT_ITEM1_QTY = './Shipment/ExportDocument/ExportDocPosition[1]/amount';
-    const XPATH_EXPORT_ITEM1_DESC = './Shipment/ExportDocument/ExportDocPosition[1]/description';
-    const XPATH_EXPORT_ITEM1_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[1]/netWeightInKG';
-    const XPATH_EXPORT_ITEM1_VALUE = './Shipment/ExportDocument/ExportDocPosition[1]/customsValue';
-    const XPATH_EXPORT_ITEM1_HSCODE = './Shipment/ExportDocument/ExportDocPosition[1]/customsTariffNumber';
-    const XPATH_EXPORT_ITEM1_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[1]/countryCodeOrigin';
-    const XPATH_EXPORT_ITEM2_QTY = './Shipment/ExportDocument/ExportDocPosition[2]/amount';
-    const XPATH_EXPORT_ITEM2_DESC = './Shipment/ExportDocument/ExportDocPosition[2]/description';
-    const XPATH_EXPORT_ITEM2_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[2]/netWeightInKG';
-    const XPATH_EXPORT_ITEM2_VALUE = './Shipment/ExportDocument/ExportDocPosition[2]/customsValue';
-    const XPATH_EXPORT_ITEM2_HSCODE = './Shipment/ExportDocument/ExportDocPosition[2]/customsTariffNumber';
-    const XPATH_EXPORT_ITEM2_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[2]/countryCodeOrigin';
+    public const XPATH_EXPORT_TYPE = './Shipment/ExportDocument/exportType';
+    public const XPATH_EXPORT_PLACE = './Shipment/ExportDocument/placeOfCommital';
+    public const XPATH_EXPORT_FEE = './Shipment/ExportDocument/additionalFee';
+    public const XPATH_EXPORT_DESCRIPTION = './Shipment/ExportDocument/exportTypeDescription';
+    public const XPATH_EXPORT_INCOTERMS = './Shipment/ExportDocument/termsOfTrade';
+    public const XPATH_EXPORT_INVOICE_NO = './Shipment/ExportDocument/invoiceNumber';
+    public const XPATH_EXPORT_PERMIT_NO = './Shipment/ExportDocument/permitNumber';
+    public const XPATH_EXPORT_ATTESTATION_NO = './Shipment/ExportDocument/attestationNumber';
+    public const XPATH_EXPORT_NOTIFICATION = './Shipment/ExportDocument/WithElectronicExportNtfctn/@active';
+    public const XPATH_EXPORT_ITEM1_QTY = './Shipment/ExportDocument/ExportDocPosition[1]/amount';
+    public const XPATH_EXPORT_ITEM1_DESC = './Shipment/ExportDocument/ExportDocPosition[1]/description';
+    public const XPATH_EXPORT_ITEM1_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[1]/netWeightInKG';
+    public const XPATH_EXPORT_ITEM1_VALUE = './Shipment/ExportDocument/ExportDocPosition[1]/customsValue';
+    public const XPATH_EXPORT_ITEM1_HSCODE = './Shipment/ExportDocument/ExportDocPosition[1]/customsTariffNumber';
+    public const XPATH_EXPORT_ITEM1_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[1]/countryCodeOrigin';
+    public const XPATH_EXPORT_ITEM2_QTY = './Shipment/ExportDocument/ExportDocPosition[2]/amount';
+    public const XPATH_EXPORT_ITEM2_DESC = './Shipment/ExportDocument/ExportDocPosition[2]/description';
+    public const XPATH_EXPORT_ITEM2_WEIGHT = './Shipment/ExportDocument/ExportDocPosition[2]/netWeightInKG';
+    public const XPATH_EXPORT_ITEM2_VALUE = './Shipment/ExportDocument/ExportDocPosition[2]/customsValue';
+    public const XPATH_EXPORT_ITEM2_HSCODE = './Shipment/ExportDocument/ExportDocPosition[2]/customsTariffNumber';
+    public const XPATH_EXPORT_ITEM2_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[2]/countryCodeOrigin';
 
-    const XPATH_SERVICE_PREFERRED_DAY = './Shipment/ShipmentDetails/Service/PreferredDay/@details';
-    const XPATH_SERVICE_PREFERRED_TIME = './Shipment/ShipmentDetails/Service/PreferredTime/@type';
-    const XPATH_SERVICE_PREFERRED_LOCATION = './Shipment/ShipmentDetails/Service/PreferredLocation/@details';
-    const XPATH_SERVICE_PREFERRED_NEIGHBOUR = './Shipment/ShipmentDetails/Service/PreferredNeighbour/@details';
-    const XPATH_SERVICE_SENDER_REQUIREMENT = './Shipment/ShipmentDetails/Service/IndividualSenderRequirement/@details';
-    const XPATH_SERVICE_AGECHECK = './Shipment/ShipmentDetails/Service/VisualCheckOfAge/@type';
-    const XPATH_SERVICE_GOGREEN = './Shipment/ShipmentDetails/Service/GoGreen/@active';
-    const XPATH_SERVICE_PERISHABLES = './Shipment/ShipmentDetails/Service/Perishables/@active';
-    const XPATH_SERVICE_PERSONALLY = './Shipment/ShipmentDetails/Service/Personally/@active';
-    const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
-    const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
-    const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
-    const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
-    const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
-    const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
-    const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/givenName';
-    const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/dateOfBirth';
-    const XPATH_SERVICE_IDENT_MINAGE = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/minimumAge';
-    const XPATH_SERVICE_ROUTING = './Shipment/ShipmentDetails/Service/ParcelOutletRouting/@details';
+    public const XPATH_SERVICE_PREFERRED_DAY = './Shipment/ShipmentDetails/Service/PreferredDay/@details';
+    public const XPATH_SERVICE_PREFERRED_TIME = './Shipment/ShipmentDetails/Service/PreferredTime/@type';
+    public const XPATH_SERVICE_PREFERRED_LOCATION = './Shipment/ShipmentDetails/Service/PreferredLocation/@details';
+    public const XPATH_SERVICE_PREFERRED_NEIGHBOUR = './Shipment/ShipmentDetails/Service/PreferredNeighbour/@details';
+    public const XPATH_SERVICE_SENDER_REQUIREMENT = './Shipment/ShipmentDetails/Service/IndividualSenderRequirement/' .
+    '@details';
+    public const XPATH_SERVICE_AGECHECK = './Shipment/ShipmentDetails/Service/VisualCheckOfAge/@type';
+    public const XPATH_SERVICE_GOGREEN = './Shipment/ShipmentDetails/Service/GoGreen/@active';
+    public const XPATH_SERVICE_PERISHABLES = './Shipment/ShipmentDetails/Service/Perishables/@active';
+    public const XPATH_SERVICE_PERSONALLY = './Shipment/ShipmentDetails/Service/Personally/@active';
+    public const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
+    public const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
+    public const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
+    public const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
+    public const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    public const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
+    public const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/givenName';
+    public const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/dateOfBirth';
+    public const XPATH_SERVICE_IDENT_MINAGE = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/minimumAge';
+    public const XPATH_SERVICE_ROUTING = './Shipment/ShipmentDetails/Service/ParcelOutletRouting/@details';
 
     /**
      * @param string $attribute
      * @return string
      */
-    public static function get(string $attribute)
+    public static function get(string $attribute): string
     {
         $map = [
             'printOnlyIfCodeable' => self::XPATH_PRINT_CODEABLE,

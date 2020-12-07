@@ -8,23 +8,21 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Christoph Aßmann",
-            "email": "christoph.assmann@netresearch.de"
-        },
-        {
-            "name": "Rico Sonntag",
-            "email": "rico.sonntag@netresearch.de"
+            "email": "plugins@netresearch.de",
+            "name": "Netresearch DTT GmbH",
+            "role": "Manufacturer",
+            "homepage": "https://www.netresearch.de/"
         }
     ],
     "require": {
-        "php": "^7.0.0",
+        "php": "^7.1.0",
         "ext-soap": "*",
         "psr/log": "^1.1.0"
     },
     "require-dev": {
         "ext-simplexml": "*",
-        "phpunit/phpunit": "^6.0.0",
-        "phpstan/phpstan": "^0.9.0",
+        "phpunit/phpunit": "^7.0.0",
+        "phpstan/phpstan": "^0.12.2",
         "squizlabs/php_codesniffer": "^3.4"
     },
     "autoload": {

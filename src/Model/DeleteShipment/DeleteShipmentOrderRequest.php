@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment;
@@ -9,12 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment;
 use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractRequest;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 
-/**
- * DeleteShipmentOrderRequest
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class DeleteShipmentOrderRequest extends AbstractRequest
 {
     /**

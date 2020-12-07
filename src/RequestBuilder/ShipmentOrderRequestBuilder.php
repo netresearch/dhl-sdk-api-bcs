@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
@@ -40,12 +42,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentService;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipperType;
 
-/**
- * ShipmentOrderRequestBuilder
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterface
 {
     /**
@@ -494,7 +490,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         bool $electronicExportNotification = null,
         string $sendersCustomsReference = null,
         string $addresseesCustomsReference = null
-    ) {
+    ): ShipmentOrderRequestBuilderInterface {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
         }
@@ -526,7 +522,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $this->data['customsDetails']['items'] = [];
         }
 
-        $this->data['customsDetails']['items'][]= [
+        $this->data['customsDetails']['items'][] = [
             'qty' => $qty,
             'description' => $description,
             'weight' => $weight,
@@ -538,7 +534,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function create()
+    public function create(): ShipmentOrderType
     {
         $sequenceNumber = $this->data['sequenceNumber'] ?? '0';
 
@@ -597,8 +593,10 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $packstation->setOrigin($packstationCountry);
             $receiver->setPackstation($packstation);
         } elseif (isset($this->data['recipient']['postfiliale'])) {
-            if (empty($this->data['recipient']['address']['email'])
-                && empty($this->data['recipient']['postfiliale']['postNumber'])) {
+            if (
+                empty($this->data['recipient']['address']['email'])
+                && empty($this->data['recipient']['postfiliale']['postNumber'])
+            ) {
                 $msg = 'Either recipient email or post number must be set for Postfiliale delivery.';
                 throw new RequestValidatorException($msg);
             }
@@ -805,7 +803,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $bankData = new BankType();
             $bankData->setAccountOwner($this->data['shipper']['bankData']['owner'] ?? null);
             $bankData->setBankName($this->data['shipper']['bankData']['bankName'] ?? null);
-            $bankData->setIban($this->data['shipper']['bankData']['iban']?? null);
+            $bankData->setIban($this->data['shipper']['bankData']['iban'] ?? null);
             $bankData->setBic($this->data['shipper']['bankData']['bic'] ?? null);
             $bankData->setAccountReference($this->data['shipper']['bankData']['accountReference'] ?? null);
             $bankData->setNote1($this->data['shipper']['bankData']['notes'][0] ?? null);

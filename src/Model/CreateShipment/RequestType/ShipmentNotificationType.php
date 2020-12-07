@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ShipmentNotificationType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentNotificationType
 {
     /**
@@ -21,9 +17,6 @@ class ShipmentNotificationType
      */
     protected $recipientEmailAddress;
 
-    /**
-     * @param string $recipientEmailAddress
-     */
     public function __construct(string $recipientEmailAddress)
     {
         $this->recipientEmailAddress = $recipientEmailAddress;

@@ -8,12 +8,6 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ExportDocumentType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ExportDocumentType
 {
     /**
@@ -36,10 +30,10 @@ class ExportDocumentType
      */
     protected $placeOfCommital;
 
-    /*
+    /**
      * Additional custom fees to be payed.
      *
-     * @var float $additionalFee
+     * @var float
      */
     protected $additionalFee;
 
@@ -110,11 +104,6 @@ class ExportDocumentType
      */
     protected $ExportDocPosition = null;
 
-    /**
-     * @param string $exportType
-     * @param string $placeOfCommital
-     * @param float $additionalFee
-     */
     public function __construct(string $exportType, string $placeOfCommital, float $additionalFee)
     {
         $this->exportType = $exportType;

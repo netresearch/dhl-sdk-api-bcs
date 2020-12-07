@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment;
@@ -10,12 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 
-/**
- * Class CreateShipmentResponseMapper
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class CreateShipmentResponseMapper
 {
     /**

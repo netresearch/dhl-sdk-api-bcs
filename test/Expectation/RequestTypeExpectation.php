@@ -1,26 +1,22 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 
 use PHPUnit\Framework\Assert;
 
-/**
- * Class RequestTypeExpectation
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class RequestTypeExpectation
 {
     /**
      * @param mixed[] $requestData
      * @param string $requestXml
      */
-    public static function assertRequestContentsAvailable(array $requestData, string $requestXml)
+    public static function assertRequestContentsAvailable(array $requestData, string $requestXml): void
     {
         $request = new \SimpleXMLElement($requestXml);
         $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');

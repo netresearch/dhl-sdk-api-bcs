@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 
-/**
- * Class ShipmentServiceTestProvider
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentServiceTestProvider
 {
     /**
@@ -23,7 +19,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createShipmentsSuccess()
+    public static function createShipmentsSuccess(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -47,7 +43,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createShipmentsPartialSuccess()
+    public static function createShipmentsPartialSuccess(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -67,7 +63,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createShipmentsValidationWarning()
+    public static function createShipmentsValidationWarning(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -87,7 +83,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createShipmentsError()
+    public static function createShipmentsError(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -111,7 +107,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createServerError()
+    public static function createServerError(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -131,7 +127,7 @@ class ShipmentServiceTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function createServerFault()
+    public static function createServerFault(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -154,7 +150,7 @@ class ShipmentServiceTestProvider
      *
      * @return mixed[]
      */
-    public static function cancelShipmentsSuccess()
+    public static function cancelShipmentsSuccess(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -177,7 +173,7 @@ class ShipmentServiceTestProvider
      *
      * @return mixed[]
      */
-    public static function cancelShipmentsPartialSuccess()
+    public static function cancelShipmentsPartialSuccess(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -196,7 +192,7 @@ class ShipmentServiceTestProvider
      *
      * @return mixed[]
      */
-    public static function cancelShipmentsError()
+    public static function cancelShipmentsError(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -219,7 +215,7 @@ class ShipmentServiceTestProvider
      *
      * @return mixed[]
      */
-    public static function cancelShipmentsValidationError()
+    public static function cancelShipmentsValidationError(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();

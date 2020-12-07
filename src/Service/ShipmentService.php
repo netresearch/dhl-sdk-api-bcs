@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service;
@@ -17,12 +19,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 
-/**
- * ShipmentService
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentService implements ShipmentServiceInterface
 {
     /**
@@ -40,13 +36,6 @@ class ShipmentService implements ShipmentServiceInterface
      */
     private $deleteShipmentResponseMapper;
 
-    /**
-     * ShipmentService constructor.
-     *
-     * @param AbstractClient $client
-     * @param CreateShipmentResponseMapper $createShipmentResponseMapper
-     * @param DeleteShipmentResponseMapper $deleteShipmentResponseMapper
-     */
     public function __construct(
         AbstractClient $client,
         CreateShipmentResponseMapper $createShipmentResponseMapper,

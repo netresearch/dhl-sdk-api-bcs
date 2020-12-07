@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType;
 
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 
-/**
- * LabelData
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class LabelData
 {
     /**
@@ -77,7 +73,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getShipmentNumber()
+    public function getShipmentNumber(): ?string
     {
         return $this->shipmentNumber;
     }
@@ -85,7 +81,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getLabelUrl()
+    public function getLabelUrl(): ?string
     {
         return $this->labelUrl;
     }
@@ -93,7 +89,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getLabelData()
+    public function getLabelData(): ?string
     {
         return $this->labelData;
     }
@@ -101,7 +97,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getReturnLabelUrl()
+    public function getReturnLabelUrl(): ?string
     {
         return $this->returnLabelUrl;
     }
@@ -109,7 +105,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getReturnLabelData()
+    public function getReturnLabelData(): ?string
     {
         return $this->returnLabelData;
     }
@@ -117,7 +113,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getExportLabelUrl()
+    public function getExportLabelUrl(): ?string
     {
         return $this->exportLabelUrl;
     }
@@ -125,7 +121,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getExportLabelData()
+    public function getExportLabelData(): ?string
     {
         return $this->exportLabelData;
     }
@@ -133,7 +129,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getCodLabelUrl()
+    public function getCodLabelUrl(): ?string
     {
         return $this->codLabelUrl;
     }
@@ -141,7 +137,7 @@ class LabelData
     /**
      * @return string|null
      */
-    public function getCodLabelData()
+    public function getCodLabelData(): ?string
     {
         return $this->codLabelData;
     }

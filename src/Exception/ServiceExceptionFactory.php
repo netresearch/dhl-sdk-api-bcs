@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Exception;
@@ -10,9 +12,6 @@ namespace Dhl\Sdk\Paket\Bcs\Exception;
  * Class ServiceExceptionFactory
  *
  * A service exception factory to create specific exception instances.
- *
- * @author Rico Sonntag <rico.sonntag@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class ServiceExceptionFactory
 {

@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ServiceConfiguration
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ServiceConfiguration
 {
     /**
@@ -21,9 +17,6 @@ class ServiceConfiguration
      */
     protected $active;
 
-    /**
-     * @param bool $active
-     */
     public function __construct(bool $active)
     {
         $this->active = (int) $active;

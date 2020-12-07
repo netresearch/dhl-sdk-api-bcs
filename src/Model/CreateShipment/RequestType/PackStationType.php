@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * PackStationType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class PackStationType
 {
     /**
@@ -56,12 +52,6 @@ class PackStationType
      */
     protected $Origin = null;
 
-    /**
-     * @param string $postNumber
-     * @param string $packstationNumber
-     * @param string $zip
-     * @param string $city
-     */
     public function __construct(string $postNumber, string $packstationNumber, string $zip, string $city)
     {
         $this->postNumber = $postNumber;

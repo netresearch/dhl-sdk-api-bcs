@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
@@ -14,12 +16,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 
-/**
- * AuthenticationDecorator
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class AuthenticationDecorator extends AbstractDecorator
 {
     /**
@@ -32,12 +28,6 @@ class AuthenticationDecorator extends AbstractDecorator
      */
     private $authStorage;
 
-    /**
-     * AuthenticationDecorator constructor.
-     * @param AbstractClient $client
-     * @param \SoapClient $soapClient
-     * @param AuthenticationStorageInterface $authStorage
-     */
     public function __construct(
         AbstractClient $client,
         \SoapClient $soapClient,
@@ -49,10 +39,7 @@ class AuthenticationDecorator extends AbstractDecorator
         parent::__construct($client);
     }
 
-    /**
-     * @return void
-     */
-    private function addAuthHeader()
+    private function addAuthHeader(): void
     {
         $authHeader = new \SoapHeader(
             'http://dhl.de/webservice/cisbase',

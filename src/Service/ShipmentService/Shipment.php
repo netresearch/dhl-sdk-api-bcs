@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service\ShipmentService;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 
-/**
- * Class Shipment
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Shipment implements ShipmentInterface
 {
     /**
@@ -51,16 +47,6 @@ class Shipment implements ShipmentInterface
      */
     private $codLabel;
 
-    /**
-     * Shipment constructor.
-     * @param string $sequenceNumber
-     * @param string $shipmentNumber
-     * @param string $returnShipmentNumber
-     * @param string $shipmentLabel
-     * @param string $returnLabel
-     * @param string $exportLabel
-     * @param string $codLabel
-     */
     public function __construct(
         string $sequenceNumber,
         string $shipmentNumber,

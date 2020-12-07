@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
@@ -9,12 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 use PHPUnit\Framework\Assert;
 use Psr\Log\Test\TestLogger;
 
-/**
- * Class CommunicationExpectation
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class CommunicationExpectation
 {
     /**
@@ -24,7 +20,7 @@ class CommunicationExpectation
      * @param string $responseXml
      * @param TestLogger $logger
      */
-    public static function assertCommunicationLogged(string $requestXml, string $responseXml, TestLogger $logger)
+    public static function assertCommunicationLogged(string $requestXml, string $responseXml, TestLogger $logger): void
     {
         Assert::assertTrue($logger->hasInfoThatContains($requestXml), 'Logged messages do not contain request');
         Assert::assertTrue($logger->hasInfoThatContains($responseXml), 'Logged messages do not contain response');
@@ -37,7 +33,7 @@ class CommunicationExpectation
      * @param string $responseXml
      * @param TestLogger $logger
      */
-    public static function assertWarningsLogged(string $requestXml, string $responseXml, TestLogger $logger)
+    public static function assertWarningsLogged(string $requestXml, string $responseXml, TestLogger $logger): void
     {
         Assert::assertTrue($logger->hasWarningThatContains($requestXml), 'Logged messages do not contain request');
         Assert::assertTrue($logger->hasWarningThatContains($responseXml), 'Logged messages do not contain response');
@@ -50,7 +46,7 @@ class CommunicationExpectation
      * @param string $responseXml
      * @param TestLogger $logger
      */
-    public static function assertErrorsLogged(string $requestXml, string $responseXml, TestLogger $logger)
+    public static function assertErrorsLogged(string $requestXml, string $responseXml, TestLogger $logger): void
     {
         Assert::assertTrue($logger->hasErrorThatContains($requestXml), 'Logged messages do not contain request');
         Assert::assertTrue($logger->hasErrorThatContains($responseXml), 'Logged messages do not contain response');

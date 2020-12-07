@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * NativeAddressType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class NativeAddressType
 {
     /**
@@ -70,12 +66,6 @@ class NativeAddressType
      */
     protected $Origin = null;
 
-    /**
-     * @param string $streetName
-     * @param string $streetNumber
-     * @param string $zip
-     * @param string $city
-     */
     public function __construct(string $streetName, string $streetNumber, string $zip, string $city)
     {
         $this->streetName = $streetName;

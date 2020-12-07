@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * Ident
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Ident
 {
     /**
@@ -42,12 +38,6 @@ class Ident
      */
     protected $minimumAge;
 
-    /**
-     * @param string $surname
-     * @param string $givenName
-     * @param string $dateOfBirth
-     * @param string $minimumAge
-     */
     public function __construct(string $surname, string $givenName, string $dateOfBirth, string $minimumAge)
     {
         $this->surname = $surname;

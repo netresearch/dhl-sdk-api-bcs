@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment;
 
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
 
-/**
- * Class DeleteShipmentResponseMapper
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class DeleteShipmentResponseMapper
 {
     /**

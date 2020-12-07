@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
@@ -10,12 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 
-/**
- * Class ShipmentRequestProvider
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentRequestProvider
 {
     /**
@@ -23,7 +19,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createSingleShipmentSuccess()
+    public static function createSingleShipmentSuccess(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -35,7 +31,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }
@@ -45,7 +41,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createMultiShipmentSuccess()
+    public static function createMultiShipmentSuccess(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -59,7 +55,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
@@ -68,7 +64,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }
@@ -80,7 +76,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createMultiShipmentPartialSuccess()
+    public static function createMultiShipmentPartialSuccess(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -95,7 +91,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
@@ -105,7 +101,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }
@@ -117,7 +113,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createShipmentsValidationWarning()
+    public static function createShipmentsValidationWarning(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -131,7 +127,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
@@ -140,7 +136,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }
@@ -152,7 +148,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createSingleShipmentError()
+    public static function createSingleShipmentError(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -167,7 +163,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }
@@ -179,7 +175,7 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
-    public static function createMultiShipmentError()
+    public static function createMultiShipmentError(): array
     {
         $shipmentOrders = [];
         $tsShip = time() + 60 * 60 * 24; // tomorrow
@@ -208,7 +204,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
@@ -218,7 +214,7 @@ class ShipmentRequestProvider
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(1.125);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         return $shipmentOrders;
     }

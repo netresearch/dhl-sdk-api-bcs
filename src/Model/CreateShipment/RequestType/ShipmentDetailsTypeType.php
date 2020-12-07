@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ShipmentDetailsTypeType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentDetailsTypeType extends ShipmentDetailsType
 {
     /**
@@ -42,12 +38,6 @@ class ShipmentDetailsTypeType extends ShipmentDetailsType
      */
     protected $BankData = null;
 
-    /**
-     * @param string $product
-     * @param string $accountNumber
-     * @param string $shipmentDate
-     * @param ShipmentItemType $ShipmentItem
-     */
     public function __construct(
         string $product,
         string $accountNumber,

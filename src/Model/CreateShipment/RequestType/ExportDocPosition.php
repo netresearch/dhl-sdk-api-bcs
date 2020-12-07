@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ExportDocPosition
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ExportDocPosition
 {
     /**
@@ -56,14 +52,6 @@ class ExportDocPosition
      */
     protected $customsValue;
 
-    /**
-     * @param string $description
-     * @param string $countryCodeOrigin
-     * @param string $customsTariffNumber
-     * @param int $amount
-     * @param float $netWeightInKG
-     * @param float $customsValue
-     */
     public function __construct(
         string $description,
         string $countryCodeOrigin,

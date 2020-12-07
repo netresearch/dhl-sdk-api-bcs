@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Service;
@@ -21,12 +23,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
-/**
- * Class AuthenticationTest
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class AuthenticationTest extends TestCase
 {
     /**
@@ -64,7 +60,7 @@ class AuthenticationTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         \SoapFault $soapFault
-    ) {
+    ): void {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionCode(401);
         $this->expectExceptionMessage(ErrorHandlerDecorator::AUTH_ERROR_MESSAGE);
@@ -120,7 +116,7 @@ class AuthenticationTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
-    ) {
+    ): void {
         $xml = new \SimpleXMLElement($responseXml);
         $xml->registerXPathNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xml->registerXPathNamespace('bcs', 'http://dhl.de/webservices/businesscustomershipping/3.0');

@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap;
@@ -18,9 +20,6 @@ use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
  * - add authentication
  * - transform errors into exceptions
  * - log communication
- *
- * @author Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 abstract class AbstractDecorator extends AbstractClient
 {
@@ -29,10 +28,6 @@ abstract class AbstractDecorator extends AbstractClient
      */
     private $client;
 
-    /**
-     * AbstractDecorator constructor.
-     * @param AbstractClient $client
-     */
     public function __construct(AbstractClient $client)
     {
         $this->client = $client;

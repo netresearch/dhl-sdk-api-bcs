@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * CountryType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class CountryType
 {
     /**
@@ -35,9 +31,6 @@ class CountryType
      */
     protected $state = null;
 
-    /**
-     * @param string $countryISOCode
-     */
     public function __construct(string $countryISOCode)
     {
         $this->countryISOCode = $countryISOCode;

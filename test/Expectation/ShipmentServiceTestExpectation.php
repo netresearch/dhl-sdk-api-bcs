@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
@@ -9,12 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use PHPUnit\Framework\Assert;
 
-/**
- * Class ShipmentServiceTestExpectation
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentServiceTestExpectation
 {
     /**
@@ -22,7 +18,7 @@ class ShipmentServiceTestExpectation
      * @param string $responseXml
      * @param ShipmentInterface[] $result
      */
-    public static function assertAllShipmentsBooked(string $requestXml, string $responseXml, array $result)
+    public static function assertAllShipmentsBooked(string $requestXml, string $responseXml, array $result): void
     {
         $request = new \SimpleXMLElement($requestXml);
 
@@ -57,7 +53,7 @@ class ShipmentServiceTestExpectation
      * @param string $responseXml
      * @param ShipmentInterface[] $result
      */
-    public static function assertSomeShipmentsBooked(string $requestXml, string $responseXml, array $result)
+    public static function assertSomeShipmentsBooked(string $requestXml, string $responseXml, array $result): void
     {
         $request = new \SimpleXMLElement($requestXml);
 
@@ -89,7 +85,7 @@ class ShipmentServiceTestExpectation
      * @param string $requestXml
      * @param string[] $result
      */
-    public static function assertAllShipmentsCancelled(string $requestXml, array $result)
+    public static function assertAllShipmentsCancelled(string $requestXml, array $result): void
     {
         $request = new \SimpleXMLElement($requestXml);
 
@@ -108,7 +104,7 @@ class ShipmentServiceTestExpectation
      * @param string $responseXml
      * @param string[] $result
      */
-    public static function assertSomeShipmentsCancelled(string $requestXml, string $responseXml, array $result)
+    public static function assertSomeShipmentsCancelled(string $requestXml, string $responseXml, array $result): void
     {
         $request = new \SimpleXMLElement($requestXml);
 

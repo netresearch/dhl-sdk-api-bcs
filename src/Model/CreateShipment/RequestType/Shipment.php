@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * Shipment
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Shipment
 {
     /**
@@ -59,7 +55,7 @@ class Shipment
     /**
      * @param ShipmentDetailsTypeType $shipmentDetails
      * @param ReceiverType $receiver
-     * @param ShipperType $shipper Conditionally mandatory. If omitted, set ShipperReference instead.
+     * @param ShipperType|null $shipper Conditionally mandatory. If omitted, set ShipperReference instead.
      */
     public function __construct(
         ShipmentDetailsTypeType $shipmentDetails,

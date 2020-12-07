@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment;
@@ -9,12 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment;
 use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 
-/**
- * CreateShipmentOrderResponse
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class CreateShipmentOrderResponse extends AbstractResponse
 {
     /**

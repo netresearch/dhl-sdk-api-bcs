@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ShipmentOrderType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentOrderType
 {
     /**
@@ -37,10 +33,6 @@ class ShipmentOrderType
      */
     protected $PrintOnlyIfCodeable = null;
 
-    /**
-     * @param string $sequenceNumber
-     * @param Shipment $shipment
-     */
     public function __construct(string $sequenceNumber, Shipment $shipment)
     {
         $this->sequenceNumber = $sequenceNumber;

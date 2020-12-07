@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * PostfilialeType
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class PostfilialeType
 {
     /**
@@ -43,13 +39,6 @@ class PostfilialeType
      */
     protected $Origin = null;
 
-    /**
-     * Postfiliale constructor.
-     *
-     * @param string $postfilialNumber
-     * @param string $zip
-     * @param string $city
-     */
     public function __construct(string $postfilialNumber, string $zip, string $city)
     {
         $this->postfilialNumber = $postfilialNumber;

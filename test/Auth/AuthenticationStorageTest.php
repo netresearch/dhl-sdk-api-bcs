@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Auth;
@@ -9,12 +11,6 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Auth;
 use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class AuthenticationStorageTest
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class AuthenticationStorageTest extends TestCase
 {
     /**

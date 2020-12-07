@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 
-/**
- * Class AuthenticationTestProvider
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class AuthenticationTestProvider
 {
     /**
@@ -23,7 +19,7 @@ class AuthenticationTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function appAuthFailure()
+    public static function appAuthFailure(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::appAuthFailure();
@@ -42,7 +38,7 @@ class AuthenticationTestProvider
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public static function userAuthFailure()
+    public static function userAuthFailure(): array
     {
         $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
         $authStorage = AuthenticationStorageProvider::userAuthFailure();

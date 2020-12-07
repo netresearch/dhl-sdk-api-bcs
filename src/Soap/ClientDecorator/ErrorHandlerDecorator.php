@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
@@ -21,29 +23,24 @@ use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
  * ErrorHandlerDecorator
  *
  * Handle errors when a response was received, i.e. no soap fault occurred.
- *
- * @author Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class ErrorHandlerDecorator extends AbstractDecorator
 {
-    const AUTH_ERROR_MESSAGE = 'Authentication failed. Please check your access credentials.';
-    const FAULT_CODE_HTTP    = 'HTTP';
-    const FAULT_UNAUTHORIZED = 'Unauthorized';
+    public const AUTH_ERROR_MESSAGE = 'Authentication failed. Please check your access credentials.';
+    public const FAULT_CODE_HTTP = 'HTTP';
+    public const FAULT_UNAUTHORIZED = 'Unauthorized';
 
     /**
      * Transform error responses into appropriate exceptions.
      *
      * @param StatusInformation $responseStatus
      *
-     * @return void
-     *
      * @throws AuthenticationErrorException
      * @throws DetailedErrorException
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateResponse(StatusInformation $responseStatus)
+    private function validateResponse(StatusInformation $responseStatus): void
     {
         if (in_array($responseStatus->getStatusCode(), [112, 118, 1001], true)) {
             // password expired | invalid credentials | login failed
@@ -62,14 +59,12 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @param StatusInformation $responseStatus
      * @param CreationState[] $creationStates
      *
-     * @return void
-     *
      * @throws AuthenticationErrorException
      * @throws DetailedErrorException
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateCreateShipmentResponse(StatusInformation $responseStatus, array $creationStates)
+    private function validateCreateShipmentResponse(StatusInformation $responseStatus, array $creationStates): void
     {
         $this->validateResponse($responseStatus);
 
@@ -99,14 +94,12 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @param StatusInformation $responseStatus
      * @param DeletionState[] $deletionStates
      *
-     * @return void
-     *
      * @throws AuthenticationErrorException
      * @throws DetailedErrorException
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateDeleteShipmentResponse(StatusInformation $responseStatus, array $deletionStates)
+    private function validateDeleteShipmentResponse(StatusInformation $responseStatus, array $deletionStates): void
     {
         $this->validateResponse($responseStatus);
 
@@ -133,7 +126,6 @@ class ErrorHandlerDecorator extends AbstractDecorator
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
         try {
-            /** @var CreateShipmentOrderResponse $response */
             $response = parent::createShipmentOrder($requestType);
         } catch (\SoapFault $fault) {
             if ($fault->faultcode === self::FAULT_CODE_HTTP && $fault->faultstring === self::FAULT_UNAUTHORIZED) {
@@ -151,7 +143,6 @@ class ErrorHandlerDecorator extends AbstractDecorator
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
         try {
-            /** @var DeleteShipmentOrderResponse $response */
             $response = parent::deleteShipmentOrder($requestType);
         } catch (\SoapFault $fault) {
             if ($fault->faultcode === self::FAULT_CODE_HTTP && $fault->faultstring === self::FAULT_UNAUTHORIZED) {

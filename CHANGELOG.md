@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Argument type of `$shipmentDate` in `ShipmentOrderRequestBuilderInterface::setShipmentDetails`
   was changed from `\DateTime` to `\DateTimeInterface`.
 
+### Removed
+
+- PHP 7.0 support
+
 ## 1.0.1
 
 Bugfix release

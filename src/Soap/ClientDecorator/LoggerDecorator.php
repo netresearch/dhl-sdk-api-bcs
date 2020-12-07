@@ -1,13 +1,16 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
+use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
@@ -20,12 +23,6 @@ use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
-/**
- * LoggerDecorator
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class LoggerDecorator extends AbstractDecorator
 {
     /**
@@ -38,13 +35,6 @@ class LoggerDecorator extends AbstractDecorator
      */
     private $logger;
 
-    /**
-     * LoggerDecorator constructor.
-     *
-     * @param AbstractClient $client
-     * @param \SoapClient $soapClient
-     * @param LoggerInterface $logger
-     */
     public function __construct(AbstractClient $client, \SoapClient $soapClient, LoggerInterface $logger)
     {
         $this->soapClient = $soapClient;
@@ -64,7 +54,7 @@ class LoggerDecorator extends AbstractDecorator
      * @throws DetailedErrorException
      * @throws \SoapFault
      */
-    private function logCommunication(\Closure $performRequest)
+    private function logCommunication(\Closure $performRequest): AbstractResponse
     {
         $logLevel = LogLevel::INFO;
 
@@ -85,15 +75,7 @@ class LoggerDecorator extends AbstractDecorator
             }
 
             return $response;
-        } catch (AuthenticationErrorException $fault) {
-            $logLevel = LogLevel::ERROR;
-
-            throw $fault;
-        } catch (DetailedErrorException $fault) {
-            $logLevel = LogLevel::ERROR;
-
-            throw $fault;
-        } catch (\SoapFault $fault) {
+        } catch (AuthenticationErrorException | DetailedErrorException | \SoapFault $fault) {
             $logLevel = LogLevel::ERROR;
 
             throw $fault;
@@ -126,7 +108,7 @@ class LoggerDecorator extends AbstractDecorator
      * @param string|null $shipmentNumber
      * @param string|null $sequenceNumber
      */
-    private function logStatus(StatusInformation $status, $shipmentNumber = '', $sequenceNumber = '0')
+    private function logStatus(StatusInformation $status, $shipmentNumber = '', $sequenceNumber = '0'): void
     {
         $shipmentNumber = $shipmentNumber ?: $sequenceNumber;
         $statusCode = $status->getStatusCode();

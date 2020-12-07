@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Api;
@@ -12,11 +14,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 
 /**
- * Interface ShipmentServiceInterface
- *
  * @api
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 interface ShipmentServiceInterface
 {

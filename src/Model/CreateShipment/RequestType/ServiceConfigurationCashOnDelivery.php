@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 
-/**
- * ServiceConfigurationCashOnDelivery
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ServiceConfigurationCashOnDelivery
 {
     /**
@@ -35,10 +31,6 @@ class ServiceConfigurationCashOnDelivery
      */
     protected $addFee;
 
-    /**
-     * @param bool $active
-     * @param float $codAmount
-     */
     public function __construct(bool $active, float $codAmount)
     {
         $this->active = (int) $active;
@@ -47,9 +39,12 @@ class ServiceConfigurationCashOnDelivery
 
     /**
      * @param bool|null $addFee
+     *
+     * @return ServiceConfigurationCashOnDelivery
      */
-    public function setAddFee(bool $addFee = null)
+    public function setAddFee(bool $addFee = null): self
     {
         $this->addFee = (int) $addFee;
+        return $this;
     }
 }

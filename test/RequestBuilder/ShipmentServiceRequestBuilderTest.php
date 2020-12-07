@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\RequestBuilder;
@@ -18,19 +20,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
-/**
- * Class ShipmentServiceRequestBuilderTest
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentServiceRequestBuilderTest extends TestCase
 {
     /**
      * @return mixed[]
      * @throws \Exception
      */
-    public function simpleDataProvider()
+    public function simpleDataProvider(): array
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow;
         $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
@@ -68,7 +64,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
      * @return mixed[]
      * @throws \Exception
      */
-    public function complexDataProvider()
+    public function complexDataProvider(): array
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow
         $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
@@ -150,7 +146,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
 
                 'returnCompany' => 'Returns Center',
                 'returnCountry' => 'DE',
-                'returnPostalCode'=> '22419',
+                'returnPostalCode' => '22419',
                 'returnCity' => 'Hamburg',
                 'returnStreet' => 'Essener Straße',
                 'returnStreetNumber' => '89',
@@ -268,7 +264,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $requestData,
         string $responseXml
-    ) {
+    ): void {
         $logger = new NullLogger();
 
         $clientOptions = [
@@ -316,7 +312,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
             $requestData['s0']['packageWeight']
         );
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $service->createShipments($shipmentOrders);
 
@@ -339,7 +335,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         AuthenticationStorageInterface $authStorage,
         array $requestData,
         string $responseXml
-    ) {
+    ): void {
         $logger = new NullLogger();
 
         $clientOptions = [
@@ -417,7 +413,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
             $requestData['s0']['exportItem2Origin']
         );
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         // shipment order 2
         if ($requestData['s1']['printOnlyIfCodeable'] ?? false) {
@@ -537,7 +533,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
 //        );
         $requestBuilder->setParcelOutletRouting($requestData['s1']['parcelOutletRouting']);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         // shipment order 3
         $requestBuilder->setSequenceNumber($requestData['s2']['sequenceNumber']);
@@ -559,7 +555,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         );
         $requestBuilder->setPackageDetails($requestData['s2']['packageWeight']);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         // shipment order 3
         $requestBuilder->setSequenceNumber($requestData['s3']['sequenceNumber']);
@@ -581,7 +577,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         );
         $requestBuilder->setPackageDetails($requestData['s3']['packageWeight']);
         $shipmentOrder = $requestBuilder->create();
-        $shipmentOrders[]= $shipmentOrder;
+        $shipmentOrders[] = $shipmentOrder;
 
         $service->createShipments($shipmentOrders);
 

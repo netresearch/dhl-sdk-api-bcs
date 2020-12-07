@@ -1,17 +1,13 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\Common;
 
-/**
- * The version of the webservice implementation for which the requesting client is developed.
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Version
 {
     /**
@@ -64,7 +60,7 @@ class Version
     /**
      * @return string|null
      */
-    public function getBuild()
+    public function getBuild(): ?string
     {
         return $this->build;
     }

@@ -1,19 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType;
 
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
 
-/**
- * Status of the respective deletion operation.
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class DeletionState
 {
     /**
