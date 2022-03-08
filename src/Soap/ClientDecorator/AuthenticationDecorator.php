@@ -13,6 +13,8 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 
@@ -51,6 +53,12 @@ class AuthenticationDecorator extends AbstractDecorator
         );
 
         $this->soapClient->__setSoapHeaders([$authHeader]);
+    }
+
+    public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse
+    {
+        $this->addAuthHeader();
+        return parent::validateShipment($requestType);
     }
 
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse

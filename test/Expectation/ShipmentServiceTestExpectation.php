@@ -9,10 +9,74 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use PHPUnit\Framework\Assert;
 
 class ShipmentServiceTestExpectation
 {
+    /**
+     * @param string $requestXml
+     * @param string $responseXml
+     * @param ValidationResultInterface[] $result
+     */
+    public static function assertAllShipmentsValid(string $requestXml, string $responseXml, array $result): void
+    {
+        $request = new \SimpleXMLElement($requestXml);
+
+        $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $request->registerXPathNamespace('ns2', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $request = $request->xpath('/SOAP-ENV:Envelope/SOAP-ENV:Body/ns2:ValidateShipmentOrderRequest')[0];
+
+        $response = new \SimpleXMLElement($responseXml);
+        $response->registerXPathNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $response->registerXPathNamespace('bcs', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $response = $response->xpath('/soap:Envelope/soap:Body/bcs:ValidateShipmentResponse')[0];
+
+        // assert that all sequence numbers of the request XML & response XML are available in the SDK response
+        $actual = array_map(function (ValidationResultInterface $result) {
+            return $result->getSequenceNumber();
+        }, $result);
+
+        $expected = $request->xpath('./ShipmentOrder/sequenceNumber');
+        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+
+        $expected = $response->xpath('./ValidationState/sequenceNumber');
+        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+    }
+
+    /**
+     * @param string $requestXml
+     * @param string $responseXml
+     * @param ValidationResultInterface[] $result
+     */
+    public static function assertSomeShipmentsValid(string $requestXml, string $responseXml, array $result): void
+    {
+        $request = new \SimpleXMLElement($requestXml);
+
+        $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $request->registerXPathNamespace('ns2', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $request = $request->xpath('/SOAP-ENV:Envelope/SOAP-ENV:Body/ns2:ValidateShipmentOrderRequest')[0];
+
+        $response = new \SimpleXMLElement($responseXml);
+        $response->registerXPathNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $response->registerXPathNamespace('bcs', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $response = $response->xpath('/soap:Envelope/soap:Body/bcs:ValidateShipmentResponse')[0];
+
+        // assert that all sequence numbers of the request are available in the response
+        $expected = $request->xpath('./ShipmentOrder/sequenceNumber');
+        $actual = $response->xpath('./ValidationState/sequenceNumber');
+        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+
+        // assert that success and error status are contained in the response
+        $valid = $response->xpath("./ValidationState[./Status/statusCode = '0']");
+        $invalid = $response->xpath("./ValidationState[./Status/statusCode != '0']");
+        Assert::assertCount(count($expected), array_merge($valid, $invalid));
+
+        // assert that some shipments are valid but not all of them
+        Assert::assertNotEmpty($result);
+        Assert::assertLessThan(count($expected), count($result));
+    }
+
     /**
      * @param string $requestXml
      * @param string $responseXml

@@ -1,0 +1,31 @@
+<soap:Envelope xmlns:bcs="http://dhl.de/webservices/businesscustomershipping/3.0" xmlns:cis="http://dhl.de/webservice/cisbase" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soap:Header/>
+   <soap:Body>
+      <bcs:ValidateShipmentResponse>
+         <bcs:Version>
+            <majorRelease>3</majorRelease>
+            <minorRelease>0</minorRelease>
+         </bcs:Version>
+         <Status>
+            <statusCode>0</statusCode>
+            <statusText>ok</statusText>
+         </Status>
+         <ValidationState>
+            <sequenceNumber>0</sequenceNumber>
+            <Status>
+               <statusCode>0</statusCode>
+               <statusText>ok</statusText>
+               <statusMessage>Der Webservice wurde ohne Fehler ausgeführt.</statusMessage>
+            </Status>
+         </ValidationState>
+         <ValidationState>
+            <sequenceNumber>1</sequenceNumber>
+            <Status>
+               <statusCode>0</statusCode>
+               <statusText>ok</statusText>
+               <statusMessage>Der Webservice wurde ohne Fehler ausgeführt.</statusMessage>
+            </Status>
+         </ValidationState>
+      </bcs:ValidateShipmentResponse>
+   </soap:Body>
+</soap:Envelope>

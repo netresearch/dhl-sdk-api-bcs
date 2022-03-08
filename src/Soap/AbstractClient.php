@@ -14,9 +14,24 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
 abstract class AbstractClient
 {
+    /**
+     * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
+     *
+     * @param ValidateShipmentOrderRequest $requestType
+     *
+     * @return ValidateShipmentResponse
+     *
+     * @throws AuthenticationErrorException
+     * @throws DetailedErrorException
+     * @throws \SoapFault
+     */
+    abstract public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse;
+
     /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *

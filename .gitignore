@@ -3,3 +3,4 @@
 /vendor
 /test/coverage
 /coverage
+.phpunit.result.cache

@@ -51,6 +51,9 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\LabelData;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ResponseType\ValidationState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
 class ClassMap
 {
@@ -65,6 +68,12 @@ class ClassMap
             // shared types
             'Statusinformation' => StatusInformation::class,
             'Version' => Version::class,
+
+            // VALIDATE SHIPMENT - request types
+            'ValidateShipmentOrderRequest' => ValidateShipmentOrderRequest::class,
+            // VALIDATE SHIPMENT - response types
+            'ValidateShipmentResponse' => ValidateShipmentResponse::class,
+            'ValidationState' => ValidationState::class,
 
             // DELETE SHIPMENT - request types
             'DeleteShipmentOrderRequest' => DeleteShipmentOrderRequest::class,

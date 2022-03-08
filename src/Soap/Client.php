@@ -12,6 +12,8 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
 class Client extends AbstractClient
 {
@@ -26,6 +28,19 @@ class Client extends AbstractClient
     }
 
     /**
+     * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
+     *
+     * @param ValidateShipmentOrderRequest $requestType
+     *
+     * @return ValidateShipmentResponse
+     * @throws \SoapFault
+     */
+    public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse
+    {
+        return $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
+    }
+
+    /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
      * @param CreateShipmentOrderRequest $requestType
@@ -35,10 +50,7 @@ class Client extends AbstractClient
      */
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
-        /** @var CreateShipmentOrderResponse $response */
-        $response = $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
-
-        return $response;
+        return $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
     }
 
     /**
@@ -49,9 +61,6 @@ class Client extends AbstractClient
      */
     public function deleteShipmentOrder(DeleteShipmentOrderRequest $requestType): DeleteShipmentOrderResponse
     {
-        /** @var DeleteShipmentOrderResponse $response */
-        $response = $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
-
-        return $response;
+        return $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
     }
 }

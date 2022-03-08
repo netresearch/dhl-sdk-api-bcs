@@ -12,6 +12,8 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
 /**
  * AbstractDecorator
@@ -31,6 +33,11 @@ abstract class AbstractDecorator extends AbstractClient
     public function __construct(AbstractClient $client)
     {
         $this->client = $client;
+    }
+
+    public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse
+    {
+        return $this->client->validateShipment($requestType);
     }
 
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse

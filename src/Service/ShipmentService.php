@@ -17,6 +17,8 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 
 class ShipmentService implements ShipmentServiceInterface
@@ -25,6 +27,11 @@ class ShipmentService implements ShipmentServiceInterface
      * @var AbstractClient
      */
     private $client;
+
+    /**
+     * @var ValidateShipmentResponseMapper
+     */
+    private $validateShipmentResponseMapper;
 
     /**
      * @var CreateShipmentResponseMapper
@@ -38,12 +45,33 @@ class ShipmentService implements ShipmentServiceInterface
 
     public function __construct(
         AbstractClient $client,
+        ValidateShipmentResponseMapper $validateShipmentResponseMapper,
         CreateShipmentResponseMapper $createShipmentResponseMapper,
         DeleteShipmentResponseMapper $deleteShipmentResponseMapper
     ) {
         $this->client = $client;
+        $this->validateShipmentResponseMapper = $validateShipmentResponseMapper;
         $this->createShipmentResponseMapper = $createShipmentResponseMapper;
         $this->deleteShipmentResponseMapper = $deleteShipmentResponseMapper;
+    }
+
+    public function validateShipments(array $shipmentOrders): array
+    {
+        try {
+            $version = new Version('3', '1');
+            $version->setBuild('2');
+            $validateShipmentRequest = new ValidateShipmentOrderRequest($version, array_values($shipmentOrders));
+
+            $validationResponse = $this->client->validateShipment($validateShipmentRequest);
+            return $this->validateShipmentResponseMapper->map($validationResponse);
+        } catch (AuthenticationErrorException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
+        } catch (\Throwable $exception) {
+            // Catch all leftovers, e.g. \SoapFault, \Exception, ...
+            throw ServiceExceptionFactory::createServiceException($exception);
+        }
     }
 
     public function createShipments(array $shipmentOrders): array

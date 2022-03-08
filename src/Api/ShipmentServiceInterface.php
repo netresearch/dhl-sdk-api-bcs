@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Api;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
@@ -18,6 +19,19 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
  */
 interface ShipmentServiceInterface
 {
+    /**
+     * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
+     *
+     * @param \stdClass[] $shipmentOrders
+     *
+     * @return ValidationResultInterface[]
+     *
+     * @throws AuthenticationException
+     * @throws DetailedServiceException
+     * @throws ServiceException
+     */
+    public function validateShipments(array $shipmentOrders): array;
+
     /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *

@@ -40,6 +40,7 @@ $ ./vendor/bin/phpunit -c test/phpunit.xml
 
 The DHL BCS API SDK supports the following features:
 
+* Validate Shipment
 * Create Shipment Order
 * Delete Shipment Order
 
@@ -53,6 +54,54 @@ to pass credentials in.
 $authStorage = new \Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage('appId', 'appToken', 'user', 'signature');
 ```
 
+### Validate Shipment
+
+Validate shipments for DHL Paket including the relevant shipping documents.
+
+#### Public API
+
+The library's components suitable for consumption comprise
+
+* services:
+  * service factory
+  * shipment service
+  * data transfer object builder
+* data transfer objects:
+  * authentication storage
+  * validation result with status message
+
+#### Usage
+
+```php
+$logger = new \Psr\Log\NullLogger();
+
+$serviceFactory = new ServiceFactory();
+$service = $serviceFactory->createShipmentService($authStorage, $logger, $sandbox = true);
+
+$requestBuilder = new ShipmentOrderRequestBuilder();
+$requestBuilder->setShipperAccount($billingNumber = '22222222220101');
+$requestBuilder->setShipperAddress(
+    $company = 'DHL',
+    $country = 'DE',
+    $postalCode = '53113',
+    $city = 'Bonn',
+    $street = 'Charles-de-Gaulle-Straße',
+    $streetNumber = '20'
+);
+$requestBuilder->setRecipientAddress(
+    $recipientName = 'Jane Doe',
+    $recipientCountry = 'DE',
+    $recipientPostalCode = '53113',
+    $recipientCity = 'Bonn',
+    $recipientStreet = 'Sträßchensweg',
+    $recipientStreetNumber = '2'
+);
+$requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = '2019-09-09');
+$requestBuilder->setPackageDetails($weightInKg = 2.4);
+
+$shipmentOrder = $requestBuilder->create();
+$result = $service->validateShipments([$shipmentOrder]);
+```
 ### Create Shipment Order
 
 Create shipments for DHL Paket including the relevant shipping documents.

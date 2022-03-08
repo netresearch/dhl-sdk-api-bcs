@@ -17,6 +17,9 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ResponseType\ValidationState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 
 /**
@@ -40,7 +43,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateResponse(StatusInformation $responseStatus): void
+    private function processResponse(StatusInformation $responseStatus): void
     {
         if (in_array($responseStatus->getStatusCode(), [112, 118, 1001], true)) {
             // password expired | invalid credentials | login failed
@@ -50,6 +53,39 @@ class ErrorHandlerDecorator extends AbstractDecorator
         if (in_array($responseStatus->getStatusCode(), [500, 1000], true)) {
             // Service temporary not available | General error
             throw new DetailedErrorException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+        }
+    }
+
+    /**
+     * Transform shipment validation errors into appropriate exceptions.
+     *
+     * @param StatusInformation $responseStatus
+     * @param ValidationState[] $validationStates
+     *
+     * @throws AuthenticationErrorException
+     * @throws DetailedErrorException
+     *
+     * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
+     */
+    private function processValidateShipmentResponse(StatusInformation $responseStatus, array $validationStates): void
+    {
+        $this->processResponse($responseStatus);
+
+        if ($responseStatus->getStatusCode() === 1101) {
+            // Hard validation error occurred
+            $messages = array_reduce(
+                $validationStates,
+                static function (array $messages, ValidationState $validationState) {
+                    return array_merge($messages, $validationState->getStatus()->getStatusMessage());
+                },
+                []
+            );
+
+            array_unshift($messages, $responseStatus->getStatusText());
+            $messages = array_unique($messages);
+            $message = implode(' ', $messages);
+
+            throw new DetailedErrorException($message, $responseStatus->getStatusCode());
         }
     }
 
@@ -64,18 +100,16 @@ class ErrorHandlerDecorator extends AbstractDecorator
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateCreateShipmentResponse(StatusInformation $responseStatus, array $creationStates): void
+    private function processCreateShipmentResponse(StatusInformation $responseStatus, array $creationStates): void
     {
-        $this->validateResponse($responseStatus);
+        $this->processResponse($responseStatus);
 
         if ($responseStatus->getStatusCode() === 1101) {
             // Hard validation error occurred
             $messages = array_reduce(
                 $creationStates,
                 static function (array $messages, CreationState $creationState) {
-                    $messages = array_merge($messages, $creationState->getLabelData()->getStatus()->getStatusMessage());
-
-                    return $messages;
+                    return array_merge($messages, $creationState->getLabelData()->getStatus()->getStatusMessage());
                 },
                 []
             );
@@ -99,9 +133,9 @@ class ErrorHandlerDecorator extends AbstractDecorator
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
-    private function validateDeleteShipmentResponse(StatusInformation $responseStatus, array $deletionStates): void
+    private function processDeleteShipmentResponse(StatusInformation $responseStatus, array $deletionStates): void
     {
-        $this->validateResponse($responseStatus);
+        $this->processResponse($responseStatus);
 
         if ($responseStatus->getStatusCode() === 2000) {
             // Unknown shipment number, check item status
@@ -123,6 +157,23 @@ class ErrorHandlerDecorator extends AbstractDecorator
         }
     }
 
+    public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse
+    {
+        try {
+            $response = parent::validateShipment($requestType);
+        } catch (\SoapFault $fault) {
+            if ($fault->faultcode === self::FAULT_CODE_HTTP && $fault->faultstring === self::FAULT_UNAUTHORIZED) {
+                throw new AuthenticationErrorException(self::AUTH_ERROR_MESSAGE, 401, $fault);
+            }
+
+            throw $fault;
+        }
+
+        $this->processValidateShipmentResponse($response->getStatus(), $response->getValidationState());
+
+        return $response;
+    }
+
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
     {
         try {
@@ -135,7 +186,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
             throw $fault;
         }
 
-        $this->validateCreateShipmentResponse($response->getStatus(), $response->getCreationState());
+        $this->processCreateShipmentResponse($response->getStatus(), $response->getCreationState());
 
         return $response;
     }
@@ -152,7 +203,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
             throw $fault;
         }
 
-        $this->validateDeleteShipmentResponse($response->getStatus(), $response->getDeletionState());
+        $this->processDeleteShipmentResponse($response->getStatus(), $response->getDeletionState());
 
         return $response;
     }

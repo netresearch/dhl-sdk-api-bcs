@@ -18,6 +18,9 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ResponseType\ValidationState;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractDecorator;
 use Psr\Log\LoggerInterface;
@@ -129,6 +132,23 @@ class LoggerDecorator extends AbstractDecorator
         } else {
             $this->logger->debug($logMessage);
         }
+    }
+
+    public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse
+    {
+        $performRequest = function () use ($requestType) {
+            return parent::validateShipment($requestType);
+        };
+
+        /** @var ValidateShipmentResponse $response */
+        $response = $this->logCommunication($performRequest);
+
+        /** @var ValidationState $validationState */
+        foreach ($response->getValidationState() as $validationState) {
+            $this->logStatus($validationState->getStatus(), '', $validationState->getSequenceNumber());
+        }
+
+        return $response;
     }
 
     public function createShipmentOrder(CreateShipmentOrderRequest $requestType): CreateShipmentOrderResponse
