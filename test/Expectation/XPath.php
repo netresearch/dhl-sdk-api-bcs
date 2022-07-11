@@ -100,7 +100,6 @@ class XPath
     public const XPATH_WEIGHT = './Shipment/ShipmentDetails/ShipmentItem/weightInKG';
     public const XPATH_INSURED_VALUE = './Shipment/ShipmentDetails/Service/AdditionalInsurance/@insuranceAmount';
     public const XPATH_COD_AMOUNT = './Shipment/ShipmentDetails/Service/CashOnDelivery/@codAmount';
-    public const XPATH_COD_ADD_FEE = './Shipment/ShipmentDetails/Service/CashOnDelivery/@addFee';
 
     public const XPATH_PACKAGE_LENGTH = './Shipment/ShipmentDetails/ShipmentItem/lengthInCM';
     public const XPATH_PACKAGE_WIDTH = './Shipment/ShipmentDetails/ShipmentItem/widthInCM';
@@ -129,15 +128,11 @@ class XPath
     public const XPATH_EXPORT_ITEM2_ORIGIN = './Shipment/ExportDocument/ExportDocPosition[2]/countryCodeOrigin';
 
     public const XPATH_SERVICE_PREFERRED_DAY = './Shipment/ShipmentDetails/Service/PreferredDay/@details';
-    public const XPATH_SERVICE_PREFERRED_TIME = './Shipment/ShipmentDetails/Service/PreferredTime/@type';
     public const XPATH_SERVICE_PREFERRED_LOCATION = './Shipment/ShipmentDetails/Service/PreferredLocation/@details';
     public const XPATH_SERVICE_PREFERRED_NEIGHBOUR = './Shipment/ShipmentDetails/Service/PreferredNeighbour/@details';
     public const XPATH_SERVICE_SENDER_REQUIREMENT = './Shipment/ShipmentDetails/Service/IndividualSenderRequirement/' .
     '@details';
     public const XPATH_SERVICE_AGECHECK = './Shipment/ShipmentDetails/Service/VisualCheckOfAge/@type';
-    public const XPATH_SERVICE_GOGREEN = './Shipment/ShipmentDetails/Service/GoGreen/@active';
-    public const XPATH_SERVICE_PERISHABLES = './Shipment/ShipmentDetails/Service/Perishables/@active';
-    public const XPATH_SERVICE_PERSONALLY = './Shipment/ShipmentDetails/Service/Personally/@active';
     public const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
     public const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
     public const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
@@ -272,17 +267,12 @@ class XPath
             'exportItem2Origin' => self::XPATH_EXPORT_ITEM2_ORIGIN,
 
             'codAmount' => self::XPATH_COD_AMOUNT,
-            'addCodFee' => self::XPATH_COD_ADD_FEE,
 
             'preferredDay' => self::XPATH_SERVICE_PREFERRED_DAY,
-            'preferredTime' => self::XPATH_SERVICE_PREFERRED_TIME,
             'preferredLocation' => self::XPATH_SERVICE_PREFERRED_LOCATION,
             'preferredNeighbour' => self::XPATH_SERVICE_PREFERRED_NEIGHBOUR,
             'senderRequirement' => self::XPATH_SERVICE_SENDER_REQUIREMENT,
             'visualCheckOfAge' => self::XPATH_SERVICE_AGECHECK,
-            'goGreen' => self::XPATH_SERVICE_GOGREEN,
-            'perishables' => self::XPATH_SERVICE_PERISHABLES,
-            'personally' => self::XPATH_SERVICE_PERSONALLY,
             'noNeighbourDelivery' => self::XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY,
             'namedPersonOnly' => self::XPATH_SERVICE_NAMES_PERSON_ONLY,
             'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,

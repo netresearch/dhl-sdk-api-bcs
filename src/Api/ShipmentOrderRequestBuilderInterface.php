@@ -15,6 +15,25 @@ use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
  */
 interface ShipmentOrderRequestBuilderInterface
 {
+    public const ENDORSEMENT_TYPE_IMMEDIATE = 'IMMEDIATE';
+    public const ENDORSEMENT_TYPE_ABANDONMENT = 'ABANDONMENT';
+
+    public const AGE_TYPE_16 = 'A16';
+    public const AGE_TYPE_18 = 'A18';
+
+    public const EXPORT_TYPE_OTHER = 'OTHER';
+    public const EXPORT_TYPE_PRESENT = 'PRESENT';
+    public const EXPORT_TYPE_COMMERCIAL_SAMPLE = 'COMMERCIAL_SAMPLE';
+    public const EXPORT_TYPE_DOCUMENT = 'DOCUMENT';
+    public const EXPORT_TYPE_RETURN_OF_GOODS = 'RETURN_OF_GOODS';
+    public const EXPORT_TYPE_COMMERCIAL_GOODS = 'COMMERCIAL_GOODS';
+
+    public const INCOTERM_CODE_DDP = 'DDP';
+    public const INCOTERM_CODE_DXV = 'DXV';
+    public const INCOTERM_CODE_DAP = 'DAP';
+    public const INCOTERM_CODE_DDX = 'DDX';
+    public const INCOTERM_CODE_CPT = 'CPT';
+
     /**
      * @param string $sequenceNumber
      * @return ShipmentOrderRequestBuilderInterface
@@ -236,10 +255,9 @@ interface ShipmentOrderRequestBuilderInterface
      * Set COD amount (optional).
      *
      * @param float $codAmount Money amount to be collected.
-     * @param bool $addFee Indicate whether or not transmission fee should be added to the COD amount automatically.
      * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setCodAmount(float $codAmount, bool $addFee = null): ShipmentOrderRequestBuilderInterface;
+    public function setCodAmount(float $codAmount): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set package dimensions.
@@ -344,14 +362,6 @@ interface ShipmentOrderRequestBuilderInterface
     public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Book "Preferred Time" service (V01PAK and V06PAK only).
-     *
-     * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPreferredTime(string $timeFrameType): ShipmentOrderRequestBuilderInterface;
-
-    /**
      * Book "Preferred Location" service.
      *
      * @param string $location
@@ -397,29 +407,14 @@ interface ShipmentOrderRequestBuilderInterface
     public function setNoticeOfNonDeliverability(): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Specify how DHL should handle the parcel container (V06WZ only).
-     *
-     * Possible values:
-     * - a
-     * - b
-     * - c
-     * - d
-     * - e
-     *
-     * @param string $handlingType
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setContainerHandlingType(string $handlingType): ShipmentOrderRequestBuilderInterface;
-
-    /**
      * Specify how DHL should handle the shipment if recipient is not met.
      *
      * Possible values:
-     * - SOZU
-     * - ZWZU
      * - IMMEDIATE
-     * - AFTER_DEADLINE
      * - ABANDONMENT
+     *
+     * @see ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE
+     * @see ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_ABANDONMENT
      *
      * @param string $endorsementType
      * @return ShipmentOrderRequestBuilderInterface
@@ -433,30 +428,13 @@ interface ShipmentOrderRequestBuilderInterface
      * - A16
      * - A18
      *
+     * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_16
+     * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_18
+     *
      * @param string $ageType
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilderInterface;
-
-    /**
-     * Book GoGreen
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setGoGreen(): ShipmentOrderRequestBuilderInterface;
-
-    /**
-     * Indicate delivery as perishable goods.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPerishables(): ShipmentOrderRequestBuilderInterface;
-
-    /**
-     * Book "Personal Shipment Handover" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPersonally(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Prohibit delivery to neighbours.
@@ -496,6 +474,9 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Book "Ident Check" service.
      *
+     * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_16
+     * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_18
+     *
      * @param string $lastName
      * @param string $firstName
      * @param string $dateOfBirth
@@ -519,6 +500,19 @@ interface ShipmentOrderRequestBuilderInterface
 
     /**
      * Set customs details for international shipments.
+     *
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_OTHER
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_PRESENT
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_COMMERCIAL_SAMPLE
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_DOCUMENT
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_RETURN_OF_GOODS
+     * @see ShipmentOrderRequestBuilderInterface::EXPORT_TYPE_COMMERCIAL_GOODS
+     *
+     * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDP
+     * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DXV
+     * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP
+     * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDX
+     * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_CPT
      *
      * @param string $exportType
      * @param string $placeOfCommital

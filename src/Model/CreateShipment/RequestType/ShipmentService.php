@@ -25,13 +25,6 @@ class ShipmentService
     protected $DeliveryTimeframe = null;
 
     /**
-     * Preferred Time of delivery for product: V01PAK: DHL PAKET V06PAK: DHL PAKET TAGGLEICH
-     *
-     * @var ServiceConfigurationDeliveryTimeFrame|null $PreferredTime
-     */
-    protected $PreferredTime = null;
-
-    /**
      * Individual sender requirements for product: V06TG: Kurier Taggleich V06WZ: Kurier Wunschzeit.
      *
      * @var ServiceConfigurationISR|null $IndividualSenderRequirement
@@ -58,13 +51,6 @@ class ShipmentService
      * @var ServiceConfiguration|null $NoticeOfNonDeliverability
      */
     protected $NoticeOfNonDeliverability = null;
-
-    /**
-     * Shipment handling for product: V06TG: Kurier Taggleich; V06WZ: Kurier Wunschzeit.
-     *
-     * @var ServiceConfigurationShipmentHandling|null $ShipmentHandling
-     */
-    protected $ShipmentHandling = null;
 
     /**
      * Service "Endorsement".
@@ -100,27 +86,6 @@ class ShipmentService
      * @var ServiceConfigurationDetails|null $PreferredDay
      */
     protected $PreferredDay = null;
-
-    /**
-     * GoGreen.
-     *
-     * @var ServiceConfiguration|null $GoGreen
-     */
-    protected $GoGreen = null;
-
-    /**
-     * DHL Kurier Verderbliche Ware.
-     *
-     * @var ServiceConfiguration|null $Perishables
-     */
-    protected $Perishables = null;
-
-    /**
-     * Invoke service personal handover.
-     *
-     * @var ServiceConfiguration|null $Personally
-     */
-    protected $Personally = null;
 
     /**
      * Invoke service No Neighbour Delivery.
@@ -206,16 +171,6 @@ class ShipmentService
     }
 
     /**
-     * @param ServiceConfigurationDeliveryTimeFrame|null $preferredTime
-     * @return ShipmentService
-     */
-    public function setPreferredTime(ServiceConfigurationDeliveryTimeFrame $preferredTime = null): self
-    {
-        $this->PreferredTime = $preferredTime;
-        return $this;
-    }
-
-    /**
      * @param ServiceConfigurationISR|null $individualSenderRequirement
      * @return ShipmentService
      */
@@ -252,16 +207,6 @@ class ShipmentService
     public function setNoticeOfNonDeliverability(ServiceConfiguration $noticeOfNonDeliverability = null): self
     {
         $this->NoticeOfNonDeliverability = $noticeOfNonDeliverability;
-        return $this;
-    }
-
-    /**
-     * @param ServiceConfigurationShipmentHandling|null $shipmentHandling
-     * @return ShipmentService
-     */
-    public function setShipmentHandling(ServiceConfigurationShipmentHandling $shipmentHandling = null): self
-    {
-        $this->ShipmentHandling = $shipmentHandling;
         return $this;
     }
 
@@ -312,36 +257,6 @@ class ShipmentService
     public function setPreferredDay(ServiceConfigurationDetails $preferredDay = null): self
     {
         $this->PreferredDay = $preferredDay;
-        return $this;
-    }
-
-    /**
-     * @param ServiceConfiguration|null $goGreen
-     * @return ShipmentService
-     */
-    public function setGoGreen(ServiceConfiguration $goGreen = null): self
-    {
-        $this->GoGreen = $goGreen;
-        return $this;
-    }
-
-    /**
-     * @param ServiceConfiguration|null $perishables
-     * @return ShipmentService
-     */
-    public function setPerishables(ServiceConfiguration $perishables = null): self
-    {
-        $this->Perishables = $perishables;
-        return $this;
-    }
-
-    /**
-     * @param ServiceConfiguration|null $personally
-     * @return ShipmentService
-     */
-    public function setPersonally(ServiceConfiguration $personally = null): self
-    {
-        $this->Personally = $personally;
         return $this;
     }
 

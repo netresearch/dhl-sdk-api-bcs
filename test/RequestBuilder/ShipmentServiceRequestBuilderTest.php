@@ -29,7 +29,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
     public function simpleDataProvider(): array
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow;
-        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [
             's0' => [
@@ -67,7 +67,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
     public function complexDataProvider(): array
     {
         $tsShip = time() + 60 * 60 * 24; // tomorrow
-        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/../Provider/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [
             's0' => [
@@ -93,7 +93,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
                 'placeOfCommital' => 'Leipzig',
                 'additionalFee' => 7.99,
                 'exportTypeDescription' => 'Lekker Double Vla',
-                'termsOfTrade' => 'DDU',
+                'termsOfTrade' => 'DAP',
                 'invoiceNumber' => '2121212121',
                 'permitNumber' => 'p3rm1t n0.',
                 'attestationNumber' => '4tt35t4t10n n0.',
@@ -181,21 +181,16 @@ class ShipmentServiceRequestBuilderTest extends TestCase
                 'packageWeight' => 1.12,
                 'packageValue' => 24.99,
                 'codAmount' => 29.99,
-                'addCodFee' => false,
 
                 'packageLength' => 30,
                 'packageWidth' => 20,
                 'packageHeight' => 15,
 
                 'preferredDay' => date('Y-m-d', time() + 60 * 60 * 24 * 4),
-                'preferredTime' => '12001400',
                 'preferredLocation' => 'Mailbox',
                 'preferredNeighbour' => 'Mr. Smith',
                 'senderRequirement' => 'Do not kick.',
                 'visualCheckOfAge' => 'A18',
-                'goGreen' => true,
-                'perishables' => true,
-                'personally' => true,
                 'noNeighbourDelivery' => true,
                 'namedPersonOnly' => true,
                 'returnReceipt' => true,
@@ -502,29 +497,32 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $requestBuilder->setRecipientNotification($requestData['s1']['recipientNotification']);
         $requestBuilder->setPackageDetails($requestData['s1']['packageWeight']);
         $requestBuilder->setInsuredValue($requestData['s1']['packageValue']);
-        $requestBuilder->setCodAmount(
-            $requestData['s1']['codAmount'],
-            $requestData['s1']['addCodFee']
-        );
+        $requestBuilder->setCodAmount($requestData['s1']['codAmount']);
         $requestBuilder->setPackageDimensions(
             $requestData['s1']['packageWidth'],
             $requestData['s1']['packageLength'],
             $requestData['s1']['packageHeight']
         );
         $requestBuilder->setPreferredDay($requestData['s1']['preferredDay']);
-        $requestBuilder->setPreferredTime($requestData['s1']['preferredTime']);
         $requestBuilder->setPreferredLocation($requestData['s1']['preferredLocation']);
         $requestBuilder->setPreferredNeighbour($requestData['s1']['preferredNeighbour']);
         $requestBuilder->setIndividualSenderRequirement($requestData['s1']['senderRequirement']);
         $requestBuilder->setVisualCheckOfAge($requestData['s1']['visualCheckOfAge']);
-        $requestBuilder->setGoGreen();
-        $requestBuilder->setPerishables();
-        $requestBuilder->setPersonally();
-        $requestBuilder->setNoNeighbourDelivery();
-        $requestBuilder->setNamedPersonOnly();
-        $requestBuilder->setReturnReceipt();
-        $requestBuilder->setPremium();
-        $requestBuilder->setBulkyGoods();
+        if (!empty($requestData['s1']['noNeighbourDelivery'])) {
+            $requestBuilder->setNoNeighbourDelivery();
+        }
+        if (!empty($requestData['s1']['namedPersonOnly'])) {
+            $requestBuilder->setNamedPersonOnly();
+        }
+        if (!empty($requestData['s1']['returnReceipt'])) {
+            $requestBuilder->setReturnReceipt();
+        }
+        if (!empty($requestData['s1']['premium'])) {
+            $requestBuilder->setPremium();
+        }
+        if (!empty($requestData['s1']['bulkyGoods'])) {
+            $requestBuilder->setBulkyGoods();
+        }
 //        $requestBuilder->setIdentCheck(
 //            $requestData['s1']['identLastName'],
 //            $requestData['s1']['identFirstName'],

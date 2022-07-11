@@ -55,8 +55,9 @@ class ExportDocumentType
      * Element provides terms of trades, incoterms codes. Possible values:
      * - DDP
      * - DXV
-     * - DDU
+     * - DAP
      * - DDX
+     * - CPT
      *
      * @var string|null $termsOfTrade
      */

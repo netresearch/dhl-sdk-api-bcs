@@ -35,7 +35,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationDetai
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationEndorsement;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationIC;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationISR;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationShipmentHandling;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationVisualAgeCheck;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\Shipment;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentDetailsType;
@@ -93,7 +92,6 @@ class ClassMap
             'ServiceconfigurationDeliveryTimeframe' => ServiceConfigurationDeliveryTimeFrame::class,
             'ServiceconfigurationISR' => ServiceConfigurationISR::class,
             'Serviceconfiguration' => ServiceConfiguration::class,
-            'ServiceconfigurationShipmentHandling' => ServiceConfigurationShipmentHandling::class,
             'ServiceconfigurationEndorsement' => ServiceConfigurationEndorsement::class,
             'ServiceconfigurationVisualAgeCheck' => ServiceConfigurationVisualAgeCheck::class,
             'ServiceconfigurationDetails' => ServiceConfigurationDetails::class,

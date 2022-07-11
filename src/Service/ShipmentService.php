@@ -58,7 +58,7 @@ class ShipmentService implements ShipmentServiceInterface
     public function validateShipments(array $shipmentOrders): array
     {
         try {
-            $version = new Version('3', '1');
+            $version = new Version('3', '3');
             $version->setBuild('2');
             $validateShipmentRequest = new ValidateShipmentOrderRequest($version, array_values($shipmentOrders));
 
@@ -77,7 +77,7 @@ class ShipmentService implements ShipmentServiceInterface
     public function createShipments(array $shipmentOrders): array
     {
         try {
-            $version = new Version('3', '1');
+            $version = new Version('3', '3');
             $version->setBuild('2');
             $createShipmentRequest = new CreateShipmentOrderRequest($version, array_values($shipmentOrders));
             $createShipmentRequest->setLabelResponseType('B64');
@@ -97,7 +97,7 @@ class ShipmentService implements ShipmentServiceInterface
     public function cancelShipments(array $shipmentNumbers): array
     {
         try {
-            $version = new Version('3', '1');
+            $version = new Version('3', '3');
             $version->setBuild('2');
             $deleteShipmentRequest = new DeleteShipmentOrderRequest($version, $shipmentNumbers);
 

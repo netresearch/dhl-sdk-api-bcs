@@ -19,10 +19,7 @@ class ServiceConfigurationEndorsement
 
     /**
      * Service endorsement is used to specify handling if recipient not met. Possible values:
-     * - SOZU
-     * - ZWZU
      * - IMMEDIATE
-     * - AFTER_DEADLINE
      * - ABANDONMENT
      *
      * @var string $type

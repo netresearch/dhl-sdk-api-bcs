@@ -32,7 +32,6 @@ use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationDetai
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationEndorsement;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationIC;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationISR;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationShipmentHandling;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfigurationVisualAgeCheck;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\Shipment;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentDetailsTypeType;
@@ -250,10 +249,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setCodAmount(float $codAmount, bool $addFee = null): ShipmentOrderRequestBuilderInterface
+    public function setCodAmount(float $codAmount): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['cod']['codAmount'] = $codAmount;
-        $this->data['services']['cod']['addCodFee'] = $addFee;
 
         return $this;
     }
@@ -330,13 +328,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setPreferredTime(string $timeFrameType): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['preferredTime'] = $timeFrameType;
-
-        return $this;
-    }
-
     public function setPreferredLocation(string $location): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['preferredLocation'] = $location;
@@ -379,13 +370,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setContainerHandlingType(string $handlingType): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['shipmentHandling'] = $handlingType;
-
-        return $this;
-    }
-
     public function setShipmentEndorsementType(string $endorsementType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['endorsement'] = $endorsementType;
@@ -396,27 +380,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['visualCheckOfAge'] = $ageType;
-
-        return $this;
-    }
-
-    public function setGoGreen(): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['goGreen'] = true;
-
-        return $this;
-    }
-
-    public function setPerishables(): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['perishables'] = true;
-
-        return $this;
-    }
-
-    public function setPersonally(): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['personally'] = true;
 
         return $this;
     }
@@ -670,11 +633,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
                 $services->setPreferredDay($config);
             }
 
-            if (isset($this->data['services']['preferredTime'])) {
-                $config = new ServiceConfigurationDeliveryTimeFrame(true, $this->data['services']['preferredTime']);
-                $services->setPreferredTime($config);
-            }
-
             if (isset($this->data['services']['preferredLocation'])) {
                 $config = new ServiceConfigurationDetails(true, $this->data['services']['preferredLocation']);
                 $services->setPreferredLocation($config);
@@ -705,11 +663,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
                 $services->setNoticeOfNonDeliverability($config);
             }
 
-            if (isset($this->data['services']['shipmentHandling'])) {
-                $config = new ServiceConfigurationShipmentHandling(true, $this->data['services']['shipmentHandling']);
-                $services->setShipmentHandling($config);
-            }
-
             if (isset($this->data['services']['endorsement'])) {
                 $config = new ServiceConfigurationEndorsement(true, $this->data['services']['endorsement']);
                 $services->setEndorsement($config);
@@ -718,21 +671,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             if (isset($this->data['services']['visualCheckOfAge'])) {
                 $config = new ServiceConfigurationVisualAgeCheck(true, $this->data['services']['visualCheckOfAge']);
                 $services->setVisualCheckOfAge($config);
-            }
-
-            if (isset($this->data['services']['goGreen'])) {
-                $config = new ServiceConfiguration(true);
-                $services->setGoGreen($config);
-            }
-
-            if (isset($this->data['services']['perishables'])) {
-                $config = new ServiceConfiguration(true);
-                $services->setPerishables($config);
-            }
-
-            if (isset($this->data['services']['personally'])) {
-                $config = new ServiceConfiguration(true);
-                $services->setPersonally($config);
             }
 
             if (isset($this->data['services']['noNeighbourDelivery'])) {
@@ -757,7 +695,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
             if (isset($this->data['services']['cod']['codAmount'])) {
                 $config = new ServiceConfigurationCashOnDelivery(true, $this->data['services']['cod']['codAmount']);
-                $config->setAddFee($this->data['services']['cod']['addCodFee']);
                 $services->setCashOnDelivery($config);
             }
 

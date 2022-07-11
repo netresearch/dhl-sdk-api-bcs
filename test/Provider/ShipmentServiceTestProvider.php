@@ -21,7 +21,7 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
@@ -45,7 +45,7 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
@@ -65,7 +65,7 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsWarning(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createShipmentsValidationWarning();
@@ -85,7 +85,7 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentError();
@@ -109,7 +109,7 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
@@ -133,7 +133,7 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
@@ -153,7 +153,7 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsValidationWarning(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createShipmentsValidationWarning();
@@ -173,7 +173,7 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentError();
@@ -197,7 +197,7 @@ class ShipmentServiceTestProvider
      */
     public static function createServerError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
@@ -217,7 +217,7 @@ class ShipmentServiceTestProvider
      */
     public static function createServerFault(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
         $soapFault = new \SoapFault(
@@ -240,7 +240,7 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleShipmentRequest = ['222201010035559339'];
@@ -263,7 +263,7 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $shipmentRequest = ['ABC1234567890', '222201010035559407'];
@@ -282,7 +282,7 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleShipmentRequest = ['ABC1234567890'];
@@ -305,7 +305,7 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsValidationError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.1.2/geschaeftskundenversand-api-3.1.2.wsdl';
+        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $shipmentRequest = ['ABC1234'];
 

@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### 1.3.0
+## Unreleased
+
+### Changed
+
+- Connect to DHL Business Customer Shipping API version 3.3.2 (previously 3.1.2).
+- Update documentation of possible request builder arguments, expose via constants.
+
+### Removed
+
+- Argument `$addFee` is no longer supported in `ShipmentOrderRequestBuilderInterface::setCodAmount`. 
+- Services `PreferredTime`, `ShipmentHandling`, `GoGreen`, `Perishables`, `Personally` can no longer
+  be booked.
+
+## 1.3.0
 
 ### Added
 
