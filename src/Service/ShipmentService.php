@@ -74,25 +74,33 @@ class ShipmentService implements ShipmentServiceInterface
         }
     }
 
-    public function createShipments(array $shipmentOrders): array
-    {
-        try {
-            $version = new Version('3', '1');
-            $version->setBuild('2');
-            $createShipmentRequest = new CreateShipmentOrderRequest($version, array_values($shipmentOrders));
-            $createShipmentRequest->setLabelResponseType('B64');
+	public function createShipments(array $shipmentOrders, string $labelFormat = null, string $labelFormatRetoure = null): array {
+		try {
+			$version = new Version('3', '1');
+			$version->setBuild('2');
+			$createShipmentRequest = new CreateShipmentOrderRequest($version, array_values($shipmentOrders));
+			$createShipmentRequest->setLabelResponseType('B64');
 
-            $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
-            return $this->createShipmentResponseMapper->map($shipmentResponse);
-        } catch (AuthenticationErrorException $exception) {
-            throw ServiceExceptionFactory::createAuthenticationException($exception);
-        } catch (DetailedErrorException $exception) {
-            throw ServiceExceptionFactory::createDetailedServiceException($exception);
-        } catch (\Throwable $exception) {
-            // Catch all leftovers, e.g. \SoapFault, \Exception, ...
-            throw ServiceExceptionFactory::createServiceException($exception);
-        }
-    }
+			if ($labelFormat)
+				$createShipmentRequest->setLabelFormat($labelFormat);
+			if ($labelFormatRetoure)
+				$createShipmentRequest->setLabelFormatRetoure($labelFormatRetoure);
+
+			$shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
+
+			return $this->createShipmentResponseMapper->map($shipmentResponse);
+		}
+		catch (AuthenticationErrorException $exception) {
+			throw ServiceExceptionFactory::createAuthenticationException($exception);
+		}
+		catch (DetailedErrorException $exception) {
+			throw ServiceExceptionFactory::createDetailedServiceException($exception);
+		}
+		catch (\Throwable $exception) {
+			// Catch all leftovers, e.g. \SoapFault, \Exception, ...
+			throw ServiceExceptionFactory::createServiceException($exception);
+		}
+	}
 
     public function cancelShipments(array $shipmentNumbers): array
     {

@@ -145,6 +145,55 @@ class ShipmentServiceCreateTest extends TestCase
             $logger
         );
     }
+	
+	/**
+     * Test shipment success case (all labels available, no issues).
+     *
+     * @test
+     * @dataProvider successDataProvider
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
+     * @param string $responseXml
+     *
+     * @throws AuthenticationException
+     * @throws ServiceException
+     */
+    public function createShipmentsSuccessWithLabelFormats(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ): void {
+        $logger = new TestLogger();
+
+        $clientOptions = $this->getSoapClientOptions($authStorage);
+
+        /** @var \SoapClient|MockObject $soapClient */
+        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
+
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $result = $service->createShipments($shipmentOrders, '910-300-300', '910-300-300');
+
+        // assert that all shipments were created
+        Expectation::assertAllShipmentsBooked(
+            $soapClient->__getLastRequest(),
+            $soapClient->__getLastResponse(),
+            $result
+        );
+        // assert successful communication gets logged.
+        CommunicationExpectation::assertCommunicationLogged(
+            $soapClient->__getLastRequest(),
+            $soapClient->__getLastResponse(),
+            $logger
+        );
+    }
 
     /**
      * Test shipment partial success case (some labels available).
