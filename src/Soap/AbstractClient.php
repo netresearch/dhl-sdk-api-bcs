@@ -10,15 +10,30 @@ namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
 abstract class AbstractClient
 {
+    /**
+     * GetVersion is the operation call used to query the latest version available on the web.
+     *
+     * @param Version $requestType
+     *
+     * @return GetVersionResponse
+     *
+     * @throws AuthenticationErrorException
+     * @throws DetailedErrorException
+     * @throws \SoapFault
+     */
+    abstract public function getVersion(Version $requestType): GetVersionResponse;
+
     /**
      * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
      *

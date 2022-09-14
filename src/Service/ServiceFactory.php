@@ -12,13 +12,69 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
+use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
+use Http\Discovery\Exception\NotFoundException;
+use Http\Discovery\HttpClientDiscovery;
 use Psr\Log\LoggerInterface;
 
 class ServiceFactory implements ServiceFactoryInterface
 {
-    public function createShipmentService(
+    /**
+     * @var bool
+     */
+    private $useBeta;
+
+    /**
+     * @var string
+     */
+    private $userAgent;
+
+    public function __construct(bool $useBeta = false, string $userAgent = '')
+    {
+        $this->useBeta = $useBeta;
+        $this->userAgent = $userAgent;
+    }
+
+    /**
+     * Create the service instance able to connect to the DHL "Parcel DE Shipping" web service.
+     *
+     * @param AuthenticationStorageInterface $authStorage
+     * @param LoggerInterface $logger
+     * @param bool $sandboxMode
+     *
+     * @return ShipmentServiceInterface
+     * @throws ServiceException
+     */
+    private function createRestService(
+        AuthenticationStorageInterface $authStorage,
+        LoggerInterface $logger,
+        bool $sandboxMode = false
+    ): ShipmentServiceInterface {
+        try {
+            $httpClient = HttpClientDiscovery::find();
+        } catch (NotFoundException $exception) {
+            throw ServiceExceptionFactory::createServiceException($exception);
+        }
+
+        $httpServiceFactory = new HttpServiceFactory($httpClient, $this->userAgent ?: 'dhl-sdk-api-bcs');
+
+        return $httpServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
+    }
+
+    /**
+     * Create the service instance able to connect to the DHL "Business Customer Shipping" web service.
+     *
+     * @param AuthenticationStorageInterface $authStorage
+     * @param LoggerInterface $logger
+     * @param bool $sandboxMode
+     *
+     * @return ShipmentServiceInterface
+     * @throws ServiceException
+     */
+    private function createSoapService(
         AuthenticationStorageInterface $authStorage,
         LoggerInterface $logger,
         bool $sandboxMode = false
@@ -51,8 +107,18 @@ class ServiceFactory implements ServiceFactoryInterface
         }
 
         $soapServiceFactory = new SoapServiceFactory($soapClient);
-        $shipmentService = $soapServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
+        return $soapServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
+    }
 
-        return $shipmentService;
+    public function createShipmentService(
+        AuthenticationStorageInterface $authStorage,
+        LoggerInterface $logger,
+        bool $sandboxMode = false
+    ): ShipmentServiceInterface {
+        if (!$this->useBeta) {
+            return $this->createSoapService($authStorage, $logger, $sandboxMode);
+        } else {
+            return $this->createRestService($authStorage, $logger, $sandboxMode);
+        }
     }
 }

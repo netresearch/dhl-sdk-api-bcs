@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
@@ -25,6 +27,19 @@ class Client extends AbstractClient
     public function __construct(\SoapClient $soapClient)
     {
         $this->soapClient = $soapClient;
+    }
+
+    /**
+     * GetVersion is the operation call used to query the latest version available on the web.
+     *
+     * @param Version $requestType
+     *
+     * @return GetVersionResponse
+     * @throws \SoapFault
+     */
+    public function getVersion(Version $requestType): GetVersionResponse
+    {
+        return $this->soapClient->__soapCall(__FUNCTION__, [$requestType]);
     }
 
     /**

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
+namespace Dhl\Sdk\Paket\Bcs\Test\Provider\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 
@@ -21,18 +21,18 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
-        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/validateshipment/singleShipmentSuccess.xml');
+        $singleLabelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/singleShipmentSuccess.xml');
 
         $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentSuccess();
-        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/validateshipment/multiShipmentSuccess.xml');
+        $multiLabelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/multiShipmentSuccess.xml');
 
         return [
-            'single label success' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
-            'multi label success' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
+            'single label success' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponse],
+            'multi label success' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponse],
         ];
     }
 
@@ -45,11 +45,11 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
-        $labelResponse = \file_get_contents(__DIR__ . '/_files/validateshipment/multiShipmentPartialSuccess.xml');
+        $labelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/multiShipmentPartialSuccess.xml');
 
         return [
             'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
@@ -65,11 +65,11 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsWarning(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createShipmentsValidationWarning();
-        $labelResponse = \file_get_contents(__DIR__ . '/_files/validateshipment/multiShipmentValidationWarning.xml');
+        $labelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/multiShipmentValidationWarning.xml');
 
         return [
             'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
@@ -85,18 +85,18 @@ class ShipmentServiceTestProvider
      */
     public static function validateShipmentsError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentError();
-        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/validateshipment/singleShipmentError.xml');
+        $singleLabelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/singleShipmentError.xml');
 
         $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentError();
-        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/validateshipment/multiShipmentError.xml');
+        $multiLabelResponse = \file_get_contents(__DIR__ . '/../_files/validateshipment/multiShipmentError.xml');
 
         return [
-            'single label validation error' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
-            'multi label validation error' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
+            'single label validation error' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponse],
+            'multi label validation error' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponse],
         ];
     }
 
@@ -109,18 +109,18 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
-        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/singleShipmentSuccess.xml');
+        $singleLabelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/singleShipmentSuccess.xml');
 
         $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentSuccess();
-        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentSuccess.xml');
+        $multiLabelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/multiShipmentSuccess.xml');
 
         return [
-            'single label success' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
-            'multi label success' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
+            'single label success' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponse],
+            'multi label success' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponse],
         ];
     }
 
@@ -133,11 +133,11 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
-        $labelResponse = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentPartialSuccess.xml');
+        $labelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/multiShipmentPartialSuccess.xml');
 
         return [
             'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
@@ -153,11 +153,11 @@ class ShipmentServiceTestProvider
      */
     public static function createShipmentsValidationWarning(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createShipmentsValidationWarning();
-        $labelResponse = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentValidationWarning.xml');
+        $labelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/multiShipmentValidationWarning.xml');
 
         return [
             'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
@@ -177,14 +177,14 @@ class ShipmentServiceTestProvider
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleLabelRequest = ShipmentRequestProvider::createSingleShipmentError();
-        $singleLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/singleShipmentError.xml');
+        $singleLabelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/singleShipmentError.xml');
 
         $multiLabelRequest = ShipmentRequestProvider::createMultiShipmentError();
-        $multiLabelResponseXml = \file_get_contents(__DIR__ . '/_files/createshipment/multiShipmentError.xml');
+        $multiLabelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/multiShipmentError.xml');
 
         return [
-            'single label validation error' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponseXml],
-            'multi label validation error' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponseXml],
+            'single label validation error' => [$wsdl, $authStorage, $singleLabelRequest, $singleLabelResponse],
+            'multi label validation error' => [$wsdl, $authStorage, $multiLabelRequest, $multiLabelResponse],
         ];
     }
 
@@ -197,7 +197,7 @@ class ShipmentServiceTestProvider
      */
     public static function createServerError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
@@ -217,7 +217,7 @@ class ShipmentServiceTestProvider
      */
     public static function createServerFault(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
         $soapFault = new \SoapFault(
@@ -240,18 +240,18 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleShipmentRequest = ['222201010035559339'];
-        $singleShipmentResponseXml = \file_get_contents(__DIR__ . '/_files/cancelshipment/singleShipmentSuccess.xml');
+        $singleShipmentResponse = \file_get_contents(__DIR__ . '/../_files/cancelshipment/singleShipmentSuccess.xml');
 
         $multiShipmentRequest = ['222201010035559346', '222201010035559353'];
-        $multiShipmentResponseXml = \file_get_contents(__DIR__ . '/_files/cancelshipment/multiShipmentSuccess.xml');
+        $multiShipmentResponse = \file_get_contents(__DIR__ . '/../_files/cancelshipment/multiShipmentSuccess.xml');
 
         return [
-            'single label success' => [$wsdl, $authStorage, $singleShipmentRequest, $singleShipmentResponseXml],
-            'multi label success' => [$wsdl, $authStorage, $multiShipmentRequest, $multiShipmentResponseXml],
+            'single label success' => [$wsdl, $authStorage, $singleShipmentRequest, $singleShipmentResponse],
+            'multi label success' => [$wsdl, $authStorage, $multiShipmentRequest, $multiShipmentResponse],
         ];
     }
 
@@ -263,14 +263,14 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsPartialSuccess(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $shipmentRequest = ['ABC1234567890', '222201010035559407'];
-        $shipmentResponseXml = \file_get_contents(__DIR__ . '/_files/cancelshipment/multiShipmentPartialSuccess.xml');
+        $shipmentResponse = \file_get_contents(__DIR__ . '/../_files/cancelshipment/multiShipmentPartialSuccess.xml');
 
         return [
-            'multi label partial success' => [$wsdl, $authStorage, $shipmentRequest, $shipmentResponseXml],
+            'multi label partial success' => [$wsdl, $authStorage, $shipmentRequest, $shipmentResponse],
         ];
     }
 
@@ -282,18 +282,18 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $singleShipmentRequest = ['ABC1234567890'];
-        $singleShipmentResponseXml = \file_get_contents(__DIR__ . '/_files/cancelshipment/singleShipmentError.xml');
+        $singleShipmentResponse = \file_get_contents(__DIR__ . '/../_files/cancelshipment/singleShipmentError.xml');
 
         $multiShipmentRequest = ['ABC9876543210', 'ABC1234567890'];
-        $multiShipmentResponseXml = \file_get_contents(__DIR__ . '/_files/cancelshipment/multiShipmentError.xml');
+        $multiShipmentResponse = \file_get_contents(__DIR__ . '/../_files/cancelshipment/multiShipmentError.xml');
 
         return [
-            'single label error' => [$wsdl, $authStorage, $singleShipmentRequest, $singleShipmentResponseXml],
-            'multi label error' => [$wsdl, $authStorage, $multiShipmentRequest, $multiShipmentResponseXml],
+            'single label error' => [$wsdl, $authStorage, $singleShipmentRequest, $singleShipmentResponse],
+            'multi label error' => [$wsdl, $authStorage, $multiShipmentRequest, $multiShipmentResponse],
         ];
     }
 
@@ -305,7 +305,7 @@ class ShipmentServiceTestProvider
      */
     public static function cancelShipmentsValidationError(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $shipmentRequest = ['ABC1234'];
 

@@ -20,7 +20,7 @@ abstract class AbstractResponse
     /**
      * Success status after processing the overall request.
      *
-     * @var StatusInformation $Status
+     * @var StatusInformation|null $Status
      */
     protected $Status;
 
@@ -33,9 +33,9 @@ abstract class AbstractResponse
     }
 
     /**
-     * @return StatusInformation
+     * @return StatusInformation|null
      */
-    public function getStatus(): StatusInformation
+    public function getStatus(): ?StatusInformation
     {
         return $this->Status;
     }

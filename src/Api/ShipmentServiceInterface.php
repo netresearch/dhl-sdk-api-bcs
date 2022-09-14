@@ -20,6 +20,17 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 interface ShipmentServiceInterface
 {
     /**
+     * GetVersion is the operation call used to query the latest version available on the web.
+     *
+     * @return string
+     *
+     * @throws AuthenticationException
+     * @throws DetailedServiceException
+     * @throws ServiceException
+     */
+    public function getVersion(): string;
+
+    /**
      * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
      *
      * @param \stdClass[] $shipmentOrders

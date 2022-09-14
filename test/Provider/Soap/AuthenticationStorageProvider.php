@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
+namespace Dhl\Sdk\Paket\Bcs\Test\Provider\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
 

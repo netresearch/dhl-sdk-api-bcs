@@ -24,7 +24,7 @@ class CreateShipmentOrderRequest extends AbstractRequest
     /**
      * Dial to determine label output format. Must be either 'URL' or 'B64'.
      *
-     * It is possible to request an URL for receiving the label as PDF stream, or to request the label as base64encoded
+     * It is possible to request a URL for receiving the label as PDF stream, or to request the label as base64encoded
      * binary data directly. If not defined by client, web service defaults to 'URL'.
      *
      * @var string $labelResponseType

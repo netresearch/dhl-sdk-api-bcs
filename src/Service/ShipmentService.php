@@ -55,6 +55,30 @@ class ShipmentService implements ShipmentServiceInterface
         $this->deleteShipmentResponseMapper = $deleteShipmentResponseMapper;
     }
 
+    public function getVersion(): string
+    {
+        try {
+            $version = new Version('3', '1');
+            $version->setBuild('2');
+
+            $getVersionResponse = $this->client->getVersion($version);
+            $version = $getVersionResponse->getVersion();
+            $version = [
+                $version->getMajorRelease(),
+                $version->getMinorRelease(),
+                $version->getBuild() ?: '0'
+            ];
+            return implode('.', $version);
+        } catch (AuthenticationErrorException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
+        } catch (\Throwable $exception) {
+            // Catch all leftovers, e.g. \SoapFault, \Exception, ...
+            throw ServiceExceptionFactory::createServiceException($exception);
+        }
+    }
+
     public function validateShipments(array $shipmentOrders): array
     {
         try {

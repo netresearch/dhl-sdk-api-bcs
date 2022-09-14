@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Provider;
+namespace Dhl\Sdk\Paket\Bcs\Test\Provider\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 
@@ -21,7 +21,7 @@ class AuthenticationTestProvider
      */
     public static function appAuthFailure(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::appAuthFailure();
         $shipmentOrders = ShipmentRequestProvider::createSingleShipmentSuccess();
         $soapFault = new \SoapFault('HTTP', 'Unauthorized');
@@ -40,10 +40,10 @@ class AuthenticationTestProvider
      */
     public static function userAuthFailure(): array
     {
-        $wsdl = __DIR__ . '/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
+        $wsdl = __DIR__ . '/../_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::userAuthFailure();
         $shipmentOrders = ShipmentRequestProvider::createSingleShipmentSuccess();
-        $responseXml = \file_get_contents(__DIR__ . '/_files/auth/passwordExpired.xml');
+        $responseXml = \file_get_contents(__DIR__ . '/../_files/auth/passwordExpired.xml');
 
         return [
             'user auth error' => [$wsdl, $authStorage, $shipmentOrders, $responseXml],

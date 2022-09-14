@@ -6,41 +6,20 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Service;
+namespace Dhl\Sdk\Paket\Bcs\Test\Service\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
-use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\ShipmentServiceTestProvider;
 use Psr\Log\Test\TestLogger;
 
-class ShipmentServiceCancelTest extends TestCase
+class ShipmentServiceCancelTest extends AbstractApiTest
 {
-    /**
-     * @param AuthenticationStorageInterface $authStorage
-     * @return mixed[]
-     */
-    private function getSoapClientOptions(AuthenticationStorageInterface $authStorage): array
-    {
-        $clientOptions = [
-            'trace' => 1,
-            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-            'classmap' => ClassMap::get(),
-            'login' => $authStorage->getApplicationId(),
-            'password' => $authStorage->getApplicationToken(),
-        ];
-
-        return $clientOptions;
-    }
-
     /**
      * @return mixed[]
      */
@@ -94,11 +73,7 @@ class ShipmentServiceCancelTest extends TestCase
     ): void {
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
@@ -141,11 +116,7 @@ class ShipmentServiceCancelTest extends TestCase
     ): void {
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
@@ -193,11 +164,7 @@ class ShipmentServiceCancelTest extends TestCase
 
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
@@ -244,11 +211,7 @@ class ShipmentServiceCancelTest extends TestCase
 
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willThrowException($soapFault);

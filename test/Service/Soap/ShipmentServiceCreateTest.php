@@ -6,52 +6,29 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Service;
+namespace Dhl\Sdk\Paket\Bcs\Test\Service\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
-use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
-use Dhl\Sdk\Paket\Bcs\Service\ServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\ShipmentServiceTestProvider;
-use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\ShipmentServiceTestProvider;
 use Psr\Log\Test\TestLogger;
 
-class ShipmentServiceValidateTest extends TestCase
+class ShipmentServiceCreateTest extends AbstractApiTest
 {
-    /**
-     * @param AuthenticationStorageInterface $authStorage
-     * @return mixed[]
-     */
-    private function getSoapClientOptions(AuthenticationStorageInterface $authStorage): array
-    {
-        $clientOptions = [
-            'trace' => 1,
-            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-            'classmap' => ClassMap::get(),
-            'login' => $authStorage->getApplicationId(),
-            'password' => $authStorage->getApplicationToken(),
-        ];
-
-        return $clientOptions;
-    }
-
     /**
      * @return mixed[]
      * @throws RequestValidatorException
      */
     public function successDataProvider(): array
     {
-        return ShipmentServiceTestProvider::validateShipmentsSuccess();
+        return ShipmentServiceTestProvider::createShipmentsSuccess();
     }
 
     /**
@@ -60,7 +37,7 @@ class ShipmentServiceValidateTest extends TestCase
      */
     public function partialSuccessDataProvider(): array
     {
-        return ShipmentServiceTestProvider::validateShipmentsPartialSuccess();
+        return ShipmentServiceTestProvider::createShipmentsPartialSuccess();
     }
 
     /**
@@ -69,7 +46,7 @@ class ShipmentServiceValidateTest extends TestCase
      */
     public function validationWarningDataProvider(): array
     {
-        return ShipmentServiceTestProvider::validateShipmentsWarning();
+        return ShipmentServiceTestProvider::createShipmentsValidationWarning();
     }
 
     /**
@@ -78,7 +55,7 @@ class ShipmentServiceValidateTest extends TestCase
      */
     public function validationErrorDataProvider(): array
     {
-        return ShipmentServiceTestProvider::validateShipmentsError();
+        return ShipmentServiceTestProvider::createShipmentsError();
     }
 
     /**
@@ -100,7 +77,7 @@ class ShipmentServiceValidateTest extends TestCase
     }
 
     /**
-     * Test shipment success case (all requests valid, no issues).
+     * Test shipment success case (all labels available, no issues).
      *
      * @test
      * @dataProvider successDataProvider
@@ -113,7 +90,7 @@ class ShipmentServiceValidateTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsSuccess(
+    public function createShipmentsSuccess(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -121,21 +98,17 @@ class ShipmentServiceValidateTest extends TestCase
     ): void {
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
 
         $serviceFactory = new SoapServiceFactory($soapClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders);
 
-        // assert that all shipments were validated
-        Expectation::assertAllShipmentsValid(
+        // assert that all shipments were created
+        Expectation::assertAllShipmentsBooked(
             $soapClient->__getLastRequest(),
             $soapClient->__getLastResponse(),
             $result
@@ -149,7 +122,7 @@ class ShipmentServiceValidateTest extends TestCase
     }
 
     /**
-     * Test shipment partial success case (some requests valid).
+     * Test shipment partial success case (some labels available).
      *
      * @test
      * @dataProvider partialSuccessDataProvider
@@ -162,31 +135,25 @@ class ShipmentServiceValidateTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsPartialSuccess(
+    public function createShipmentsPartialSuccess(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
     ): void {
-        self::markTestIncomplete('Web service does not validate wrong addresses properly.');
-
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
 
         $serviceFactory = new SoapServiceFactory($soapClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders);
 
         // assert that shipments were created but not all of them
-        Expectation::assertSomeShipmentsValid(
+        Expectation::assertSomeShipmentsBooked(
             $soapClient->__getLastRequest(),
             $soapClient->__getLastResponse(),
             $result
@@ -200,7 +167,7 @@ class ShipmentServiceValidateTest extends TestCase
     }
 
     /**
-     * Test shipment success case (all requests valid, warnings exist).
+     * Test shipment success case (all labels available, warnings exist).
      *
      * @test
      * @dataProvider validationWarningDataProvider
@@ -213,7 +180,7 @@ class ShipmentServiceValidateTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsValidationWarning(
+    public function createShipmentsValidationWarning(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -221,20 +188,16 @@ class ShipmentServiceValidateTest extends TestCase
     ): void {
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
 
         $serviceFactory = new SoapServiceFactory($soapClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders);
 
-        Expectation::assertAllShipmentsValid(
+        Expectation::assertAllShipmentsBooked(
             $soapClient->__getLastRequest(),
             $soapClient->__getLastResponse(),
             $result
@@ -248,7 +211,7 @@ class ShipmentServiceValidateTest extends TestCase
     }
 
     /**
-     * Test shipment validation failure case (all requests invalid, client exception thrown).
+     * Test shipment validation failure case (no labels available, client exception thrown).
      *
      * @test
      * @dataProvider validationErrorDataProvider
@@ -260,25 +223,19 @@ class ShipmentServiceValidateTest extends TestCase
      *
      * @throws ServiceException
      */
-    public function validateShipmentsValidationError(
+    public function createShipmentsValidationError(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseXml
     ): void {
-        self::markTestIncomplete('Web service does not validate wrong addresses properly.');
-
         $this->expectException(DetailedServiceException::class);
         $this->expectExceptionCode(1101);
         $this->expectExceptionMessage('Hard validation error occured.');
 
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willReturn($responseXml);
@@ -287,7 +244,7 @@ class ShipmentServiceValidateTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders);
         } catch (DetailedServiceException $exception) {
             // assert hard validation errors are logged.
             CommunicationExpectation::assertErrorsLogged(
@@ -311,7 +268,7 @@ class ShipmentServiceValidateTest extends TestCase
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
      */
-    public function validateShipmentsError(
+    public function createShipmentsError(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -333,7 +290,7 @@ class ShipmentServiceValidateTest extends TestCase
      *
      * @throws ServiceException
      */
-    public function validateShipmentsServerError(
+    public function createShipmentsServerError(
         string $wsdl,
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -345,11 +302,7 @@ class ShipmentServiceValidateTest extends TestCase
 
         $logger = new TestLogger();
 
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
             ->method('__doRequest')
             ->willThrowException($soapFault);
@@ -358,7 +311,7 @@ class ShipmentServiceValidateTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders);
         } catch (ServiceException $exception) {
             // assert errors are logged.
             CommunicationExpectation::assertErrorsLogged(

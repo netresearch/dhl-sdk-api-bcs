@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Soap;
 
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
 
@@ -33,6 +35,11 @@ abstract class AbstractDecorator extends AbstractClient
     public function __construct(AbstractClient $client)
     {
         $this->client = $client;
+    }
+
+    public function getVersion(Version $requestType): GetVersionResponse
+    {
+        return $this->client->getVersion($requestType);
     }
 
     public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse

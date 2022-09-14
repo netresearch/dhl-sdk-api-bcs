@@ -1,0 +1,12 @@
+{
+  "amp": {
+    "name": "pp-parcel-shipping-native",
+    "version": "v0.5.3",
+    "rev": "14",
+    "env": "sandbox"
+  },
+  "backend": {
+    "version": "3.3.2",
+    "env": "Versenden"
+  }
+}

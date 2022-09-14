@@ -12,12 +12,14 @@ use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\AbstractResponse;
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ResponseType\ValidationState;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
@@ -64,6 +66,9 @@ class LoggerDecorator extends AbstractDecorator
         try {
             /** @var CreateShipmentOrderResponse|DeleteShipmentOrderResponse $response */
             $response = $performRequest();
+            if (!$response->getStatus()) {
+                return $response;
+            }
 
             // adjust log level on successful responses
             if ($response->getStatus()->getStatusCode() === 2000) {
@@ -132,6 +137,18 @@ class LoggerDecorator extends AbstractDecorator
         } else {
             $this->logger->debug($logMessage);
         }
+    }
+
+    public function getVersion(Version $requestType): GetVersionResponse
+    {
+        $performRequest = function () use ($requestType) {
+            return parent::getVersion($requestType);
+        };
+
+        /** @var GetVersionResponse $response */
+        $response = $this->logCommunication($performRequest);
+
+        return $response;
     }
 
     public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse

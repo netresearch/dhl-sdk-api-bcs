@@ -11,12 +11,14 @@ namespace Dhl\Sdk\Paket\Bcs\Soap\ClientDecorator;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
 use Dhl\Sdk\Paket\Bcs\Model\Common\StatusInformation;
+use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\ResponseType\CreationState;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\ResponseType\DeletionState;
+use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ResponseType\ValidationState;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
@@ -155,6 +157,21 @@ class ErrorHandlerDecorator extends AbstractDecorator
                 );
             }
         }
+    }
+
+    public function getVersion(Version $requestType): GetVersionResponse
+    {
+        try {
+            $response = parent::getVersion($requestType);
+        } catch (\SoapFault $fault) {
+            if ($fault->faultcode === self::FAULT_CODE_HTTP && $fault->faultstring === self::FAULT_UNAUTHORIZED) {
+                throw new AuthenticationErrorException(self::AUTH_ERROR_MESSAGE, 401, $fault);
+            }
+
+            throw $fault;
+        }
+
+        return $response;
     }
 
     public function validateShipment(ValidateShipmentOrderRequest $requestType): ValidateShipmentResponse

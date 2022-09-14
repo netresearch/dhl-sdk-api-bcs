@@ -11,7 +11,7 @@ namespace Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType;
 class ShipmentOrderType
 {
     /**
-     * Free field to to tag multiple shipment orders individually by client. Essential for later mapping
+     * Free field to tag multiple shipment orders individually by client. Essential for later mapping
      * of response data returned by webservice upon createShipment operation. Allows client to assign
      * the shipment information of the response to the correct shipment order of the request.
      *

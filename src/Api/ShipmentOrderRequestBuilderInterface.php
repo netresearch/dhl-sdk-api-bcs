@@ -51,7 +51,7 @@ interface ShipmentOrderRequestBuilderInterface
      * Set shipper account (required).
      *
      * @param string $billingNumber
-     * @param string|null $returnBillingNumber Provide if return label should included with response.
+     * @param string|null $returnBillingNumber Provide if return label should be included with response.
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
