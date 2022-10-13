@@ -9,13 +9,16 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\Service\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
+use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\ShipmentServiceTestProvider;
 use Psr\Log\Test\TestLogger;
@@ -74,6 +77,57 @@ class ShipmentServiceCreateTest extends AbstractApiTest
     public function serverFaultDataProvider(): array
     {
         return ShipmentServiceTestProvider::createServerFault();
+    }
+
+    /**
+     * Assert that order configuration parameters appear in the request body.
+     *
+     * @test
+     * @dataProvider successDataProvider
+     *
+     * @param string $wsdl
+     * @param AuthenticationStorageInterface $authStorage
+     * @param ShipmentOrderType[] $shipmentOrders
+     * @param string $responseXml
+     *
+     * @throws AuthenticationException
+     * @throws ServiceException
+     */
+    public function configureShipmentOrder(
+        string $wsdl,
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseXml
+    ): void {
+        $logger = new TestLogger();
+
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $configuration = new OrderConfiguration(
+            $combinedPrinting = false,
+            $docFormat = OrderConfigurationInterface::DOC_FORMAT_PDF,
+            $printFormat = OrderConfigurationInterface::PRINT_FORMAT_A4,
+            $printFormatReturn = OrderConfigurationInterface::PRINT_FORMAT_910_300_300,
+            $profile = '4711'
+        );
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+        $service->createShipments($shipmentOrders, $configuration);
+
+        $requestData = [
+            'labelResponseType' => ($docFormat === OrderConfigurationInterface::DOC_FORMAT_ZPL2) ? 'ZPL2' : 'B64',
+            'groupProfileName' => $profile,
+            'labelFormat' => $printFormat,
+            'labelFormatRetoure' => $printFormatReturn,
+            'combinedPrinting' => $combinedPrinting ? '1' : '0',
+        ];
+
+        $requestXml = $soapClient->__getLastRequest();
+        RequestTypeExpectation::assertOrderConfigurationAvailable($requestData, $requestXml);
     }
 
     /**
@@ -258,7 +312,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
     }
 
     /**
-     * Test shipment error case (HTTP 200, 500 "service not available" or 1000 "general error" status in response).
+     * Test shipment error case (HTTP 200, 10/500/1000 status in response).
      *
      * @test
      * @dataProvider serverErrorDataProvider
@@ -267,6 +321,8 @@ class ShipmentServiceCreateTest extends AbstractApiTest
      * @param AuthenticationStorageInterface $authStorage
      * @param ShipmentOrderType[] $shipmentOrders
      * @param string $responseXml
+     *
+     * @throws ServiceException
      */
     public function createShipmentsError(
         string $wsdl,
@@ -274,7 +330,40 @@ class ShipmentServiceCreateTest extends AbstractApiTest
         array $shipmentOrders,
         string $responseXml
     ): void {
-        self::markTestIncomplete('No such response observed/recorded yet.');
+        preg_match('|<statusCode>([^<]+)|', $responseXml, $matches);
+
+        $this->expectException(ServiceException::class);
+        $this->expectExceptionCode($matches[1]);
+
+        $logger = new TestLogger();
+
+        $soapClient = $this->getMockClient($wsdl, $authStorage);
+        $soapClient->expects(self::once())
+            ->method('__doRequest')
+            ->willReturn($responseXml);
+
+        $configuration = new OrderConfiguration(
+            false,
+            OrderConfigurationInterface::DOC_FORMAT_PDF,
+            OrderConfigurationInterface::PRINT_FORMAT_A4,
+            OrderConfigurationInterface::PRINT_FORMAT_100X70 // invalid format for return labels
+        );
+
+        $serviceFactory = new SoapServiceFactory($soapClient);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+
+        try {
+            $service->createShipments($shipmentOrders, $configuration);
+        } catch (ServiceException $exception) {
+            // assert server errors are logged.
+            CommunicationExpectation::assertErrorsLogged(
+                $soapClient->__getLastRequest(),
+                $soapClient->__getLastResponse(),
+                $logger
+            );
+
+            throw $exception;
+        }
     }
 
     /**

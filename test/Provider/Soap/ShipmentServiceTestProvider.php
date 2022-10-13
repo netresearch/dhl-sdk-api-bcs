@@ -190,7 +190,7 @@ class ShipmentServiceTestProvider
 
     /**
      * Provide request and response for the test case
-     * - shipment(s) sent to the API, no label(s) successfully booked, server error occurred (500/1000).
+     * - shipment(s) sent to the API, no label(s) successfully booked, server error occurred (10/500/1000).
      *
      * @return mixed[]
      * @throws RequestValidatorException
@@ -201,10 +201,10 @@ class ShipmentServiceTestProvider
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
         $labelRequest = ShipmentRequestProvider::createSingleShipmentSuccess();
-        $labelResponse = '';
+        $labelResponse = \file_get_contents(__DIR__ . '/../_files/createshipment/singleShipmentProcessingFailure.xml');
 
         return [
-            'multi label partial success' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
+            'single label server error' => [$wsdl, $authStorage, $labelRequest, $labelResponse],
         ];
     }
 

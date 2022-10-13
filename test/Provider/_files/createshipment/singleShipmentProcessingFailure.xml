@@ -1,0 +1,27 @@
+<soap:Envelope xmlns:bcs="http://dhl.de/webservices/businesscustomershipping/3.0" xmlns:cis="http://dhl.de/webservice/cisbase" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soap:Header/>
+   <soap:Body>
+      <bcs:CreateShipmentOrderResponse>
+         <bcs:Version>
+            <majorRelease>3</majorRelease>
+            <minorRelease>0.</minorRelease>
+         </bcs:Version>
+         <Status>
+            <statusCode>10</statusCode>
+            <statusText>Request processing failure</statusText>
+         </Status>
+         <CreationState>
+            <sequenceNumber>0</sequenceNumber>
+            <shipmentNumber>222201010000000000</shipmentNumber>
+            <returnShipmentNumber>222207010000000000</returnShipmentNumber>
+            <LabelData>
+               <Status>
+                  <statusCode>10</statusCode>
+                  <statusText>Request processing failure</statusText>
+                  <statusMessage>Fehler: CLLA4 ist kein valides Druckformat für die Sendung 222201010000000000.</statusMessage>
+               </Status>
+            </LabelData>
+         </CreationState>
+      </bcs:CreateShipmentOrderResponse>
+   </soap:Body>
+</soap:Envelope>

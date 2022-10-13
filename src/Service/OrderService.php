@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
@@ -113,7 +114,7 @@ class OrderService implements ShipmentServiceInterface
         throw new \RuntimeException('Not yet implemented.');
     }
 
-    public function createShipments(array $shipmentOrders): array
+    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
         $uri = sprintf('%s/%s', $this->baseUrl, self::OPERATION_ORDERS);
 

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Api;
 
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
@@ -47,6 +48,7 @@ interface ShipmentServiceInterface
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
      * @param \stdClass[] $shipmentOrders
+     * @param OrderConfigurationInterface|null $configuration
      *
      * @return ShipmentInterface[]
      *
@@ -54,7 +56,7 @@ interface ShipmentServiceInterface
      * @throws DetailedServiceException
      * @throws ServiceException
      */
-    public function createShipments(array $shipmentOrders): array;
+    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array;
 
     /**
      * DeleteShipmentOrder is the operation call used to cancel created shipments.

@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Connect to DHL REST API.
+- Configure shipment order parameters such as paper size (compare PR [#2](https://github.com/netresearch/dhl-sdk-api-bcs/pull/2)).
+
 ### Changed
 
 - Connect to DHL Business Customer Shipping API version 3.3.2 (previously 3.1.2).
 - Update documentation of possible request builder arguments, expose via constants.
+- The method `ShipmentOrderRequestBuilderInterface::setPrintOnlyIfCodeable` per order item
+  was removed. Set the `mustEncode` flag via `OrderConfigurationInterface` for the entire
+  order instead.
 
 ### Removed
 

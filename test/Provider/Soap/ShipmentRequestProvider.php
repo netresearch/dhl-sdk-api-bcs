@@ -25,9 +25,10 @@ class ShipmentRequestProvider
         $tsShip = time() + 60 * 60 * 24; // tomorrow
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
-        $requestBuilder->setShipperAccount('22222222220101');
+        $requestBuilder->setShipperAccount('22222222220101', '22222222220701');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
+        $requestBuilder->setReturnAddress('', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20', 'John Doe');
         $requestBuilder->setShipmentDetails('V01PAK', new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
         $shipmentOrder = $requestBuilder->create();

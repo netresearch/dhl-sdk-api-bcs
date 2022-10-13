@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
@@ -98,13 +99,35 @@ class ShipmentService implements ShipmentServiceInterface
         }
     }
 
-    public function createShipments(array $shipmentOrders): array
+    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
         try {
             $version = new Version('3', '3');
             $version->setBuild('2');
             $createShipmentRequest = new CreateShipmentOrderRequest($version, array_values($shipmentOrders));
             $createShipmentRequest->setLabelResponseType('B64');
+
+            if ($configuration instanceof OrderConfigurationInterface) {
+                if ($configuration->isCombinedPrinting() !== null) {
+                    $createShipmentRequest->setCombinedPrinting($configuration->isCombinedPrinting() ? '1' : '0');
+                }
+
+                if ($configuration->getDocFormat() === OrderConfigurationInterface::DOC_FORMAT_ZPL2) {
+                    $createShipmentRequest->setLabelResponseType('ZPL2');
+                }
+
+                if ($configuration->getProfile()) {
+                    $createShipmentRequest->setGroupProfileName($configuration->getProfile());
+                }
+
+                if ($configuration->getPrintFormat()) {
+                    $createShipmentRequest->setLabelFormat($configuration->getPrintFormat());
+                }
+
+                if ($configuration->getPrintFormatReturn()) {
+                    $createShipmentRequest->setLabelFormatRetoure($configuration->getPrintFormatReturn());
+                }
+            }
 
             $shipmentResponse = $this->client->createShipmentOrder($createShipmentRequest);
             return $this->createShipmentResponseMapper->map($shipmentResponse);

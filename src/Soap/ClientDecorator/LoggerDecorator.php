@@ -83,7 +83,7 @@ class LoggerDecorator extends AbstractDecorator
             }
 
             return $response;
-        } catch (AuthenticationErrorException | DetailedErrorException | \SoapFault $fault) {
+        } catch (\Throwable $fault) {
             $logLevel = LogLevel::ERROR;
 
             throw $fault;

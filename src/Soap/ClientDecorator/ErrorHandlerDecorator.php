@@ -41,7 +41,7 @@ class ErrorHandlerDecorator extends AbstractDecorator
      * @param StatusInformation $responseStatus
      *
      * @throws AuthenticationErrorException
-     * @throws DetailedErrorException
+     * @throws \Exception
      *
      * @link https://entwickler.dhl.de/group/ep/allg.-fehlerbehandlung
      */
@@ -52,9 +52,9 @@ class ErrorHandlerDecorator extends AbstractDecorator
             throw new AuthenticationErrorException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
         }
 
-        if (in_array($responseStatus->getStatusCode(), [500, 1000], true)) {
+        if (in_array($responseStatus->getStatusCode(), [10, 500, 1000], true)) {
             // Service temporary not available | General error
-            throw new DetailedErrorException($responseStatus->getStatusText(), $responseStatus->getStatusCode());
+            throw new \Exception($responseStatus->getStatusText(), $responseStatus->getStatusCode());
         }
     }
 

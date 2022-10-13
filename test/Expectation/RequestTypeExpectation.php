@@ -36,4 +36,22 @@ class RequestTypeExpectation
             }
         }
     }
+
+    /**
+     * @param mixed[] $requestData
+     * @param string $requestXml
+     */
+    public static function assertOrderConfigurationAvailable(array $requestData, string $requestXml): void
+    {
+        $request = new \SimpleXMLElement($requestXml);
+        $request->registerXPathNamespace('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $request->registerXPathNamespace('ns1', 'http://dhl.de/webservice/cisbase');
+        $request->registerXPathNamespace('ns2', 'http://dhl.de/webservices/businesscustomershipping/3.0');
+        $request = $request->xpath('/SOAP-ENV:Envelope/SOAP-ENV:Body/ns2:CreateShipmentOrderRequest')[0];
+
+        foreach ($requestData as $key => $expectedValue) {
+            $path = XPath::get($key);
+            Assert::assertEquals((string) $expectedValue, (string) $request->xpath($path)[0]);
+        }
+    }
 }
