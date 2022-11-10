@@ -112,7 +112,6 @@ class ShipmentServiceRequestBuilderTest extends TestCase
                 'exportItem2Origin' => 'US',
             ],
             's1' => [
-                'printOnlyIfCodeable' => true,
                 'sequenceNumber' => 's1',
                 'billingNumber' => '22222222220101',
                 'returnBillingNumber' => '22222222220701',
@@ -411,9 +410,6 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $shipmentOrders[] = $shipmentOrder;
 
         // shipment order 2
-        if ($requestData['s1']['printOnlyIfCodeable'] ?? false) {
-            $requestBuilder->setPrintOnlyIfCodeable();
-        }
         $requestBuilder->setSequenceNumber($requestData['s1']['sequenceNumber']);
         $requestBuilder->setShipmentDetails(
             $requestData['s1']['productCode'],

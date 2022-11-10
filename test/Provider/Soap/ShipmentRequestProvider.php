@@ -84,7 +84,6 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -94,7 +93,6 @@ class ShipmentRequestProvider
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[] = $shipmentOrder;
 
-        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -156,7 +154,6 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
@@ -183,7 +180,6 @@ class ShipmentRequestProvider
 
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
-        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('0');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress(
@@ -207,7 +203,6 @@ class ShipmentRequestProvider
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[] = $shipmentOrder;
 
-        $requestBuilder->setPrintOnlyIfCodeable();
         $requestBuilder->setSequenceNumber('1');
         $requestBuilder->setShipperAccount('22222222220101');
         $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');

@@ -107,6 +107,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
             ->willReturn($responseXml);
 
         $configuration = new OrderConfiguration(
+            $printOnlyIfCodable = true,
             $combinedPrinting = false,
             $docFormat = OrderConfigurationInterface::DOC_FORMAT_PDF,
             $printFormat = OrderConfigurationInterface::PRINT_FORMAT_A4,
@@ -119,6 +120,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
         $service->createShipments($shipmentOrders, $configuration);
 
         $requestData = [
+            'mustEncode' => $printOnlyIfCodable ? '1' : '0',
             'labelResponseType' => ($docFormat === OrderConfigurationInterface::DOC_FORMAT_ZPL2) ? 'ZPL2' : 'B64',
             'groupProfileName' => $profile,
             'labelFormat' => $printFormat,
@@ -196,6 +198,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
         string $responseXml
     ): void {
         $logger = new TestLogger();
+        $configuration = new OrderConfiguration(true);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -204,7 +207,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
 
         $serviceFactory = new SoapServiceFactory($soapClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->createShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders, $configuration);
 
         // assert that shipments were created but not all of them
         Expectation::assertSomeShipmentsBooked(
@@ -288,6 +291,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
         $this->expectExceptionMessage('Hard validation error occured.');
 
         $logger = new TestLogger();
+        $configuration = new OrderConfiguration(true);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -298,7 +302,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->createShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders, $configuration);
         } catch (DetailedServiceException $exception) {
             // assert hard validation errors are logged.
             CommunicationExpectation::assertErrorsLogged(
@@ -343,6 +347,7 @@ class ShipmentServiceCreateTest extends AbstractApiTest
             ->willReturn($responseXml);
 
         $configuration = new OrderConfiguration(
+            false,
             false,
             OrderConfigurationInterface::DOC_FORMAT_PDF,
             OrderConfigurationInterface::PRINT_FORMAT_A4,

@@ -16,6 +16,8 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfiguration;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
@@ -80,12 +82,20 @@ class ShipmentService implements ShipmentServiceInterface
         }
     }
 
-    public function validateShipments(array $shipmentOrders): array
+    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
         try {
             $version = new Version('3', '3');
             $version->setBuild('2');
             $validateShipmentRequest = new ValidateShipmentOrderRequest($version, array_values($shipmentOrders));
+
+            if ($configuration instanceof OrderConfigurationInterface) {
+                foreach ($shipmentOrders as $shipmentOrder) {
+                    if ($shipmentOrder instanceof ShipmentOrderType && $configuration->mustEncode()) {
+                        $shipmentOrder->setPrintOnlyIfCodeable(new ServiceConfiguration(true));
+                    }
+                }
+            }
 
             $validationResponse = $this->client->validateShipment($validateShipmentRequest);
             return $this->validateShipmentResponseMapper->map($validationResponse);
@@ -108,6 +118,12 @@ class ShipmentService implements ShipmentServiceInterface
             $createShipmentRequest->setLabelResponseType('B64');
 
             if ($configuration instanceof OrderConfigurationInterface) {
+                foreach ($shipmentOrders as $shipmentOrder) {
+                    if ($shipmentOrder instanceof ShipmentOrderType && $configuration->mustEncode()) {
+                        $shipmentOrder->setPrintOnlyIfCodeable(new ServiceConfiguration(true));
+                    }
+                }
+
                 if ($configuration->isCombinedPrinting() !== null) {
                     $createShipmentRequest->setCombinedPrinting($configuration->isCombinedPrinting() ? '1' : '0');
                 }

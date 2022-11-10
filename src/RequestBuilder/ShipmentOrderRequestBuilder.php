@@ -57,13 +57,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setPrintOnlyIfCodeable(): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['printOnlyIfCodeable'] = true;
-
-        return $this;
-    }
-
     public function setShipperAccount(
         string $billingNumber,
         string $returnBillingNumber = null
@@ -816,9 +809,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $shipmentOrder = new ShipmentOrderType($sequenceNumber, $shipment);
-        if (isset($this->data['printOnlyIfCodeable'])) {
-            $shipmentOrder->setPrintOnlyIfCodeable(new ServiceConfiguration(true));
-        }
 
         $this->data = [];
 

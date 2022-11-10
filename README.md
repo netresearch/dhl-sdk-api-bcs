@@ -67,7 +67,8 @@ The library's components suitable for consumption comprise
   * shipment service
   * data transfer object builder
 * data transfer objects:
-  * authentication storage
+  * [authentication storage](#Authentication)
+  * order/label settings
   * validation result with status message
 
 #### Usage
@@ -75,10 +76,10 @@ The library's components suitable for consumption comprise
 ```php
 $logger = new \Psr\Log\NullLogger();
 
-$serviceFactory = new ServiceFactory();
+$serviceFactory = new \Dhl\Sdk\Paket\Bcs\Service\ServiceFactory();
 $service = $serviceFactory->createShipmentService($authStorage, $logger, $sandbox = true);
 
-$requestBuilder = new ShipmentOrderRequestBuilder();
+$requestBuilder = new \Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder();
 $requestBuilder->setShipperAccount($billingNumber = '22222222220101');
 $requestBuilder->setShipperAddress(
     $company = 'DHL',
@@ -115,7 +116,8 @@ The library's components suitable for consumption comprise
   * shipment service
   * data transfer object builder
 * data transfer objects:
-  * authentication storage
+  * [authentication storage](#Authentication)
+  * order/label settings
   * shipment with shipment/tracking number and label(s)
 
 #### Usage
@@ -123,10 +125,17 @@ The library's components suitable for consumption comprise
 ```php
 $logger = new \Psr\Log\NullLogger();
 
-$serviceFactory = new ServiceFactory();
+$serviceFactory = new \Dhl\Sdk\Paket\Bcs\Service\ServiceFactory();
 $service = $serviceFactory->createShipmentService($authStorage, $logger, $sandbox = true);
 
-$requestBuilder = new ShipmentOrderRequestBuilder();
+$orderConfiguration = new \Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration(
+    $printOnlyIfCodable = true,
+    $combinedPrinting = null,
+    $docFormat = \Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface::DOC_FORMAT_PDF,
+    $printFormat = \Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface::PRINT_FORMAT_A4
+);
+
+$requestBuilder = new \Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder();
 $requestBuilder->setShipperAccount($billingNumber = '22222222220101');
 $requestBuilder->setShipperAddress(
     $company = 'DHL',
@@ -148,7 +157,7 @@ $requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = '20
 $requestBuilder->setPackageDetails($weightInKg = 2.4);
 
 $shipmentOrder = $requestBuilder->create();
-$shipments = $service->createShipments([$shipmentOrder]);
+$shipments = $service->createShipments([$shipmentOrder], $orderConfiguration);
 ```
 
 ### Delete Shipment Order
@@ -170,7 +179,7 @@ The library's components suitable for consumption comprise of
 ```php
 $logger = new \Psr\Log\NullLogger();
 
-$serviceFactory = new ServiceFactory();
+$serviceFactory = new \Dhl\Sdk\Paket\Bcs\Service\ServiceFactory();
 $service = $serviceFactory->createShipmentService($authStorage, $logger, $sandbox = true);
 
 $shipmentNumber = '222201011234567890';

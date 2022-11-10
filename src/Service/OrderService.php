@@ -100,9 +100,13 @@ class OrderService implements ShipmentServiceInterface
         }
     }
 
-    public function validateShipments(array $shipmentOrders): array
+    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        $uri = sprintf('%s/%s?validate=true', $this->baseUrl, self::OPERATION_ORDERS);
+        $requestParams['validate'] = 'true';
+        if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
+            $requestParams['mustEncode'] = 'true';
+        }
+        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 
         try {
             $payload = $this->serializer->encode($this->getShipmentOrders($shipmentOrders));

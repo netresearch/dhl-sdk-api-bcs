@@ -10,13 +10,13 @@ namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 
 class XPath
 {
+    public const XPATH_MUST_ENCODE = './ShipmentOrder/PrintOnlyIfCodeable/@active';
     public const XPATH_LABEL_RESPONSE_TYPE = './labelResponseType';
     public const XPATH_GROUP_PROFILE_NAME = './groupProfileName';
     public const XPATH_LABEL_FORMAT = './labelFormat';
     public const XPATH_LABEL_FORMAT_RETOURE = './labelFormatRetoure';
     public const XPATH_COMBINED_PRINTING = './combinedPrinting';
 
-    public const XPATH_PRINT_CODEABLE = './PrintOnlyIfCodeable/@active';
     public const XPATH_SEQUENCE_NUMBER = './sequenceNumber';
     public const XPATH_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/ns1:accountNumber';
     public const XPATH_RETURN_ACCOUNT_NUMBER = './Shipment/ShipmentDetails/returnShipmentAccountNumber';
@@ -157,13 +157,13 @@ class XPath
     public static function get(string $attribute): string
     {
         $map = [
+            'mustEncode' => self::XPATH_MUST_ENCODE,
             'labelResponseType' => self::XPATH_LABEL_RESPONSE_TYPE,
             'groupProfileName' => self::XPATH_GROUP_PROFILE_NAME,
             'labelFormat' => self::XPATH_LABEL_FORMAT,
             'labelFormatRetoure' => self::XPATH_LABEL_FORMAT_RETOURE,
             'combinedPrinting' => self::XPATH_COMBINED_PRINTING,
 
-            'printOnlyIfCodeable' => self::XPATH_PRINT_CODEABLE,
             'sequenceNumber' => self::XPATH_SEQUENCE_NUMBER,
             'billingNumber' => self::XPATH_ACCOUNT_NUMBER,
             'returnBillingNumber' => self::XPATH_RETURN_ACCOUNT_NUMBER,

@@ -31,6 +31,17 @@ interface OrderConfigurationInterface
     public const PRINT_FORMAT_100X70 = '100x70mm';
 
     /**
+     * Decide whether to create orders with validation warnings or not.
+     *
+     * Legacy name printOnlyIfCodable. If true, labels will only be created
+     * if neither hard nor soft validation errors exist for this shipment.
+     * Else, labels will be created even if soft validation errors exist.
+     *
+     * @return bool|null
+     */
+    public function mustEncode(): ?bool;
+
+    /**
      * Decide whether to print label and return label to one or multiple files.
      *
      * If enabled, label and return label for one shipment will be printed as

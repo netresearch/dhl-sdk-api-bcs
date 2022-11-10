@@ -15,6 +15,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
@@ -169,6 +170,7 @@ class ShipmentServiceValidateTest extends TestCase
         self::markTestIncomplete('Web service does not validate wrong addresses properly.');
 
         $logger = new TestLogger();
+        $configuration = new OrderConfiguration(true);
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
 
@@ -181,7 +183,7 @@ class ShipmentServiceValidateTest extends TestCase
 
         $serviceFactory = new SoapServiceFactory($soapClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->validateShipments($shipmentOrders, $configuration);
 
         // assert that shipments were created but not all of them
         Expectation::assertSomeShipmentsValid(
@@ -271,6 +273,7 @@ class ShipmentServiceValidateTest extends TestCase
         $this->expectExceptionMessage('Hard validation error occured.');
 
         $logger = new TestLogger();
+        $configuration = new OrderConfiguration(true);
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
 
@@ -285,7 +288,7 @@ class ShipmentServiceValidateTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->validateShipments($shipmentOrders, $configuration);
         } catch (DetailedServiceException $exception) {
             // assert hard validation errors are logged.
             CommunicationExpectation::assertErrorsLogged(
