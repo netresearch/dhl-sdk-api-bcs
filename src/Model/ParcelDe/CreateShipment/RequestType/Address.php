@@ -15,47 +15,47 @@ abstract class Address implements \JsonSerializable
      *
      * @var string
      */
-    private $name1;
+    protected $name1;
 
     /**
      * @var string
      */
-    private $addressStreet;
+    protected $addressStreet;
 
     /**
      * Mandatory for all countries but Ireland that use a postal code system.
      *
      * @var string
      */
-    private $postalCode;
+    protected $postalCode;
 
     /**
      * City
      *
      * @var string
      */
-    private $city;
+    protected $city;
 
     /**
      * A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
      *
      * @var string
      */
-    private $country;
+    protected $country;
 
     /**
      * An optional, additional line of name information.
      *
      * @var string|null
      */
-    private $name2;
+    protected $name2;
 
     /**
      * An optional, additional line of name information.
      *
      * @var string|null
      */
-    private $name3;
+    protected $name3;
 
     /**
      * State, province or territory.
@@ -64,14 +64,14 @@ abstract class Address implements \JsonSerializable
      *
      * @var string|null
      */
-    private $state;
+    protected $state;
 
     /**
      * House number, can alternatively be added to street name.
      *
      * @var string|null
      */
-    private $addressHouse;
+    protected $addressHouse;
 
     /**
      * Additional information that is positioned either behind or below addressStreet on the label.
@@ -80,7 +80,7 @@ abstract class Address implements \JsonSerializable
      *
      * @var string|null
      */
-    private $additionalAddressInformation1;
+    protected $additionalAddressInformation1;
 
     /**
      * Additional information that is positioned either behind or below addressStreet on the label.
@@ -89,24 +89,34 @@ abstract class Address implements \JsonSerializable
      *
      * @var string|null
      */
-    private $additionalAddressInformation2;
+    protected $additionalAddressInformation2;
 
     /**
      * Optional contact name.
      *
      * @var string|null
      */
-    private $contactName;
+    protected $contactName;
 
     /**
      * @var string|null
      */
-    private $phone;
+    protected $phone;
 
     /**
      * @var string|null
      */
-    private $email;
+    protected $email;
+
+    /**
+     * An optional, additional line of address.
+     *
+     * It's only usable for a few countries, e.g. Belgium.
+     * It is positioned below name3 on the label.
+     *
+     * @var string|null
+     */
+    private $dispatchingInformation;
 
     public function __construct(string $name1, string $addressStreet, string $postalCode, string $city, string $country)
     {
@@ -160,6 +170,11 @@ abstract class Address implements \JsonSerializable
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+    }
+
+    public function setDispatchingInformation(?string $dispatchingInformation): void
+    {
+        $this->dispatchingInformation = $dispatchingInformation;
     }
 
     /**

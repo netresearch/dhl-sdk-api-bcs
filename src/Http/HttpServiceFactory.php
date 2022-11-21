@@ -78,7 +78,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
 
         return new OrderService(
             $client,
-            $sandboxMode ? self::BETA_URL_SANDBOX : self::BETA_URL_PRODUCTION,
+            $sandboxMode ? self::REST_URL_SANDBOX : self::REST_URL_PRODUCTION,
             new JsonSerializer(),
             $requestFactory,
             $streamFactory

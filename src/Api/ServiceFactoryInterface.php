@@ -17,11 +17,14 @@ use Psr\Log\LoggerInterface;
  */
 interface ServiceFactoryInterface
 {
-    public const BASE_URL_PRODUCTION = 'https://cig.dhl.de/services/production/soap';
-    public const BASE_URL_SANDBOX = 'https://cig.dhl.de/services/sandbox/soap';
+    public const API_TYPE_SOAP = 'SOAP';
+    public const API_TYPE_REST = 'REST';
 
-    public const BETA_URL_PRODUCTION = 'https://api-eu.dhl.com/parcel/de/shipping/v2';
-    public const BETA_URL_SANDBOX = 'https://api-sandbox.dhl.com/parcel/de/shipping/v2';
+    public const SOAP_URL_PRODUCTION = 'https://cig.dhl.de/services/production/soap';
+    public const SOAP_URL_SANDBOX = 'https://cig.dhl.de/services/sandbox/soap';
+
+    public const REST_URL_PRODUCTION = 'https://api-eu.dhl.com/parcel/de/shipping/v2';
+    public const REST_URL_SANDBOX = 'https://api-sandbox.dhl.com/parcel/de/shipping/v2';
 
     /**
      * Create the service instance able to perform shipment create and delete operations.

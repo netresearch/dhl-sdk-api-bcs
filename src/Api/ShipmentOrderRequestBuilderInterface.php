@@ -15,6 +15,9 @@ use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
  */
 interface ShipmentOrderRequestBuilderInterface
 {
+    public const REQUEST_TYPE_SOAP = 'SOAP';
+    public const REQUEST_TYPE_REST = 'REST';
+
     public const ENDORSEMENT_TYPE_IMMEDIATE = 'IMMEDIATE';
     public const ENDORSEMENT_TYPE_ABANDONMENT = 'ABANDONMENT';
 
@@ -81,7 +84,7 @@ interface ShipmentOrderRequestBuilderInterface
         string $postalCode,
         string $city,
         string $streetName,
-        string $streetNumber,
+        string $streetNumber = '',
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -144,7 +147,7 @@ interface ShipmentOrderRequestBuilderInterface
         string $postalCode,
         string $city,
         string $streetName,
-        string $streetNumber,
+        string $streetNumber = '',
         string $name = null,
         string $nameAddition = null,
         string $email = null,
@@ -180,7 +183,7 @@ interface ShipmentOrderRequestBuilderInterface
         string $postalCode,
         string $city,
         string $streetName,
-        string $streetNumber,
+        string $streetNumber = '',
         string $company = null,
         string $nameAddition = null,
         string $email = null,
@@ -557,8 +560,9 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Create the shipment request and reset the builder data.
      *
+     * @param string $requestType
      * @return object
      * @throws RequestValidatorException
      */
-    public function create();
+    public function create(string $requestType = self::REQUEST_TYPE_SOAP): object;
 }

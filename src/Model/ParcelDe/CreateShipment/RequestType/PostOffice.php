@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType;
 
-class PostOffice implements \JsonSerializable
+class PostOffice implements ConsigneeInterface, \JsonSerializable
 {
     /**
      * Consignee Name
@@ -21,6 +21,11 @@ class PostOffice implements \JsonSerializable
      * @var int
      */
     private $retailID;
+
+    /**
+     * @var string
+     */
+    private $postalCode;
 
     /**
      * City where the locker is located
@@ -37,11 +42,6 @@ class PostOffice implements \JsonSerializable
     private $country;
 
     /**
-     * @var string
-     */
-    private $postalCode;
-
-    /**
      * Postnummer.
      *
      * The official account number a private DHL Customer gets upon registration.
@@ -52,13 +52,13 @@ class PostOffice implements \JsonSerializable
      */
     private $postNumber;
 
-    public function __construct(string $name, int $retailID, string $city, string $country, string $postalCode)
+    public function __construct(string $name, int $retailID, string $postalCode, string $city, string $country)
     {
         $this->name = $name;
         $this->retailID = $retailID;
+        $this->postalCode = $postalCode;
         $this->city = $city;
         $this->country = $country;
-        $this->postalCode = $postalCode;
     }
 
     /**

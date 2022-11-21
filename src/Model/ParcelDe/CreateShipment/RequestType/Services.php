@@ -123,6 +123,16 @@ class Services implements \JsonSerializable
     private $packagingReturn;
 
     /**
+     * An email notification to the recipient that the shipment is closed (manifested).
+     *
+     * The notification can be sent to multiple recipient email addresses.
+     * This service is about to be deprecated.
+     *
+     * @var ShippingConfirmation|null
+     */
+    private $shippingConfirmation;
+
+    /**
      * Requests return label (aka 'retoure') to be provided.
      *
      * Also requires returnAddress and return billing number. Neither weight
@@ -225,6 +235,11 @@ class Services implements \JsonSerializable
     public function setPackagingReturn(?bool $packagingReturn): void
     {
         $this->packagingReturn = $packagingReturn;
+    }
+
+    public function setShippingConfirmation(?ShippingConfirmation $shippingConfirmation): void
+    {
+        $this->shippingConfirmation = $shippingConfirmation;
     }
 
     public function setDhlRetoure(?DhlRetoure $dhlRetoure): void

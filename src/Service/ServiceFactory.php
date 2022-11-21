@@ -23,18 +23,18 @@ use Psr\Log\LoggerInterface;
 class ServiceFactory implements ServiceFactoryInterface
 {
     /**
-     * @var bool
+     * @var string
      */
-    private $useBeta;
+    private $apiType;
 
     /**
      * @var string
      */
     private $userAgent;
 
-    public function __construct(bool $useBeta = false, string $userAgent = '')
+    public function __construct(string $apiType = self::API_TYPE_SOAP, string $userAgent = '')
     {
-        $this->useBeta = $useBeta;
+        $this->apiType = $apiType;
         $this->userAgent = $userAgent;
     }
 
@@ -97,7 +97,7 @@ class ServiceFactory implements ServiceFactoryInterface
 
         if ($sandboxMode) {
             // override wsdl's default service location
-            $options['location'] = self::BASE_URL_SANDBOX;
+            $options['location'] = self::SOAP_URL_SANDBOX;
         }
 
         try {
@@ -115,10 +115,12 @@ class ServiceFactory implements ServiceFactoryInterface
         LoggerInterface $logger,
         bool $sandboxMode = false
     ): ShipmentServiceInterface {
-        if (!$this->useBeta) {
+        if ($this->apiType === self::API_TYPE_SOAP) {
             return $this->createSoapService($authStorage, $logger, $sandboxMode);
-        } else {
+        } elseif ($this->apiType === self::API_TYPE_REST) {
             return $this->createRestService($authStorage, $logger, $sandboxMode);
+        } else {
+            throw new \RuntimeException('Cannot instantiate service of type ' . $this->apiType);
         }
     }
 }

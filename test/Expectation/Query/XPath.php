@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
+namespace Dhl\Sdk\Paket\Bcs\Test\Expectation\Query;
 
 class XPath
 {

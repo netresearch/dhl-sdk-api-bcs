@@ -50,7 +50,7 @@ class Shipment implements \JsonSerializable
      *
      * Alternatively, a predefined shipper reference can be used.
      *
-     * @var ShipperAddress
+     * @var ShipperInterface
      */
     private $shipper;
 
@@ -61,7 +61,7 @@ class Shipment implements \JsonSerializable
      * or a drop-point address. One of packstation (parcel locker), or post office
      * (postfiliale/retail shop). To use a German post office box (Postfach) please use contactAddress.
      *
-     * @var Consignee
+     * @var ConsigneeInterface
      */
     private $consignee;
 
@@ -124,8 +124,8 @@ class Shipment implements \JsonSerializable
         string $product,
         string $billingNumber,
         string $shipDate,
-        ShipperAddress $shipper,
-        Consignee $consignee,
+        ShipperInterface $shipper,
+        ConsigneeInterface $consignee,
         Details $details
     ) {
         $this->product = $product;

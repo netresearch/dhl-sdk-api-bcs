@@ -106,6 +106,7 @@ class OrderService implements ShipmentServiceInterface
         if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
             $requestParams['mustEncode'] = 'true';
         }
+
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 
         try {
@@ -120,16 +121,26 @@ class OrderService implements ShipmentServiceInterface
 
     public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        $uri = sprintf('%s/%s', $this->baseUrl, self::OPERATION_ORDERS);
+        $requestParams = [];
+        if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
+            $requestParams['mustEncode'] = 'true';
+        }
+
+        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 
         try {
             $payload = $this->serializer->encode($this->getShipmentOrders($shipmentOrders));
             $stream = $this->streamFactory->createStream($payload);
+
+            $httpRequest = $this->requestFactory->createRequest('POST', $uri)->withBody($stream);
+
+            $response = $this->client->sendRequest($httpRequest);
+            $responseJson = (string) $response->getBody();
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }
 
-        throw new \RuntimeException('Not yet implemented.');
+        return [];
     }
 
     public function cancelShipments(array $shipmentNumbers): array

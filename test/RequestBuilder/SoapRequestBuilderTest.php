@@ -14,13 +14,19 @@ use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\AbstractRequestData;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\CrossBorderRequestData;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\DomesticServicesRequestData;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\DomesticSimpleRequestData;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\LockerRequestData;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Common\PostOfficeRequestData;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\AuthenticationStorageProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
-class ShipmentServiceRequestBuilderTest extends TestCase
+class SoapRequestBuilderTest extends TestCase
 {
     /**
      * @return mixed[]
@@ -28,30 +34,21 @@ class ShipmentServiceRequestBuilderTest extends TestCase
      */
     public function simpleDataProvider(): array
     {
-        $tsShip = time() + 60 * 60 * 24; // tomorrow;
         $wsdl = __DIR__ . '/../Provider/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
-        $requestData = [
-            's0' => [
-                'sequenceNumber' => 's0',
-                'billingNumber' => '22222222220101',
-                'shipperCountry' => 'DE',
-                'shipperPostalCode' => '04229',
-                'shipperCity' => 'Leipzig',
-                'shipperStreet' => 'Nonnenstraße',
-                'shipperStreetNumber' => '11d',
-                'shipperCompany' => 'Netresearch GmbH & Co.KG',
-                'recipientCountry' => 'DE',
-                'recipientPostalCode' => '53113',
-                'recipientCity' => 'Bonn',
-                'recipientStreet' => 'Charles-de-Gaulle-Straße',
-                'recipientStreetNumber' => '20',
-                'recipientName' => 'John Doe',
-                'productCode' => 'V01PAK',
-                'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-                'packageWeight' => 2.4,
-            ]
-        ];
+
+        $sequenceNumbers = ['s0'];
+        $requestData = array_map(
+            function (string $sequenceNumber, AbstractRequestData $requestData) {
+                $requestData->setSequenceNumber($sequenceNumber);
+                return $requestData->get();
+            },
+            $sequenceNumbers,
+            [new DomesticSimpleRequestData()]
+        );
+
+        $requestData = array_combine($sequenceNumbers, $requestData);
+
         // response does not matter really, just to make it not fail
         $responseXml = \file_get_contents(__DIR__ . '/../Provider/_files/createshipment/singleShipmentSuccess.xml');
 
@@ -66,174 +63,25 @@ class ShipmentServiceRequestBuilderTest extends TestCase
      */
     public function complexDataProvider(): array
     {
-        $tsShip = time() + 60 * 60 * 24; // tomorrow
         $wsdl = __DIR__ . '/../Provider/_files/bcs-3.3.2/geschaeftskundenversand-api-3.3.2.wsdl';
         $authStorage = AuthenticationStorageProvider::authSuccess();
-        $requestData = [
-            's0' => [
-                'sequenceNumber' => 's0',
-                'billingNumber' => '22222222220101',
-                'productCode' => 'V53PAK',
-                'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-                'shipperCompany' => 'Netresearch GmbH & Co.KG',
-                'shipperCountry' => 'DE',
-                'shipperPostalCode' => '04229',
-                'shipperCity' => 'Leipzig',
-                'shipperStreet' => 'Nonnenstraße',
-                'shipperStreetNumber' => '11d',
-                'recipientCountry' => 'US',
-                'recipientPostalCode' => '89109',
-                'recipientCity' => 'Las Vegas',
-                'recipientStreet' => 'S Las Vegas Blvd',
-                'recipientStreetNumber' => '3131',
-                'recipientName' => 'Vince Viva',
-                'packageWeight' => 2.4,
 
-                'exportType' => 'OTHER',
-                'placeOfCommital' => 'Leipzig',
-                'additionalFee' => 7.99,
-                'exportTypeDescription' => 'Lekker Double Vla',
-                'termsOfTrade' => 'DAP',
-                'invoiceNumber' => '2121212121',
-                'permitNumber' => 'p3rm1t n0.',
-                'attestationNumber' => '4tt35t4t10n n0.',
-                'electronicExportNotification' => false,
-                'exportItem1Qty' => 2,
-                'exportItem1Desc' => 'Export Desc 1',
-                'exportItem1Weight' => 3.37,
-                'exportItem1Value' => 29.99,
-                'exportItem1HsCode' => ' 42031000',
-                'exportItem1Origin' => 'CN',
-                'exportItem2Qty' => 1,
-                'exportItem2Desc' => 'Export Desc 2',
-                'exportItem2Weight' => 2.22,
-                'exportItem2Value' => 35,
-                'exportItem2HsCode' => '  62099010',
-                'exportItem2Origin' => 'US',
-            ],
-            's1' => [
-                'sequenceNumber' => 's1',
-                'billingNumber' => '22222222220101',
-                'returnBillingNumber' => '22222222220701',
-                'productCode' => 'V01PAK',
-                'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-                'customerReference' => 'Customer Reference',
-                'returnReference' => 'Return Shipment Reference',
-                'costCentre' => 'Cost Centre XY',
-                'shipperCompany' => 'Netresearch GmbH & Co.KG',
-                'shipperCountry' => 'DE',
-                'shipperPostalCode' => '04229',
-                'shipperCity' => 'Leipzig',
-                'shipperStreet' => 'Nonnenstraße',
-                'shipperStreetNumber' => '11d',
-                'shipperName' => 'Foo Bar',
-                'shipperNameAddition' => 'Sr.',
-                'shipperEmail' => 'foo@example.com',
-                'shipperPhone' => '+49 341 1234567890',
-                'shipperContactPerson' => 'Fox Baz',
-                'shipperState' => 'SN',
-                'shipperDispatchingInformation' => 'dispatch soon',
-                'shipperAddressAddition1' => 'add something',
-                'shipperAddressAddition2' => 'add more',
-                'shipperBankOwner' => 'Owen Banks',
-                'shipperBankName' => 'Wall Institute',
-                'shipperBankIban' => 'DEX123',
-                'shipperBankBic' => 'DEX987',
-                'shipperBankReference' => 'Bank Reference',
-                'shipperBankNote1' => 'Bank Note 1',
-                'shipperBankNote2' => 'Bank Note 2',
+        $sequenceNumbers = ['s0', 's1', 's2', 's3'];
+        $requestData = array_map(
+            function (string $sequenceNumber, AbstractRequestData $requestData) {
+                $requestData->setSequenceNumber($sequenceNumber);
+                return $requestData->get();
+            },
+            $sequenceNumbers,
+            [
+                new CrossBorderRequestData(),
+                new DomesticServicesRequestData(),
+                new LockerRequestData(),
+                new PostOfficeRequestData()
+            ]
+        );
 
-                'returnCompany' => 'Returns Center',
-                'returnCountry' => 'DE',
-                'returnPostalCode' => '22419',
-                'returnCity' => 'Hamburg',
-                'returnStreet' => 'Essener Straße',
-                'returnStreetNumber' => '89',
-                'returnName' => 'Sandy Smith',
-                'returnNameAddition' => 'SXO',
-                'returnEmail' => 'returns@example.com',
-                'returnPhone' => '+49 40 1234567890',
-                'returnContactPerson' => 'Steven Smith',
-                'returnState' => 'HH',
-                'returnDispatchingInformation' => 'dispatch sooner',
-                'returnAddressAddition1' => 'add something return',
-                'returnAddressAddition2' => 'add more return',
-
-                'recipientName' => 'Jane Doe',
-                'recipientCountry' => 'DE',
-                'recipientPostalCode' => '53113',
-                'recipientCity' => 'Bonn',
-                'recipientStreet' => 'Sträßchensweg',
-                'recipientStreetNumber' => '2',
-                'recipientNameAddition' => 'XXO',
-                'recipientCompany' => 'Organisation AG',
-                'recipientEmail' => 'doe@example.org',
-                'recipientPhone' => '+49 228 911110',
-                'recipientContactPerson' => 'Yılmaz Yılmaz',
-                'recipientState' => 'NW',
-                'recipientDispatchingInformation' => 'dispatch tomorrow',
-                'recipientAddressAddition1' => 'add something ship',
-                'recipientAddressAddition2' => 'add more ship',
-
-                'recipientNotification' => 'notify@example.org',
-
-                'packageWeight' => 1.12,
-                'packageValue' => 24.99,
-                'codAmount' => 29.99,
-
-                'packageLength' => 30,
-                'packageWidth' => 20,
-                'packageHeight' => 15,
-
-                'preferredDay' => date('Y-m-d', time() + 60 * 60 * 24 * 4),
-                'preferredLocation' => 'Mailbox',
-                'preferredNeighbour' => 'Mr. Smith',
-                'senderRequirement' => 'Do not kick.',
-                'visualCheckOfAge' => 'A18',
-                'noNeighbourDelivery' => true,
-                'namedPersonOnly' => true,
-                'returnReceipt' => true,
-                'premium' => true,
-                'bulkyGoods' => true,
-//                'identLastName' => 'Smith',
-//                'identFirstName' => 'Sam',
-//                'identDob' => '1970-01-01',
-//                'identMinAge' => '21',
-                'parcelOutletRouting' => 'route@example.com',
-            ],
-            's2' => [
-                'sequenceNumber' => 's2',
-                'billingNumber' => '22222222220101',
-                'productCode' => 'V53PAK',
-                'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-                'shipperReference' => 'Shipper Reference #123',
-                'packstationNumber' => '139',
-                'packstationPostalCode' => '53113',
-                'packstationCity' => 'Bonn',
-                'packstationRecipientName' => 'Jane Doe',
-                'packstationPostNumber' => '12345678',
-                'packstationState' => 'NRW',
-                'packstationCountryCode' => 'DE',
-                'packstationCountry' => 'Deutschland',
-                'packageWeight' => 4.5,
-            ],
-            's3' => [
-                'sequenceNumber' => 's3',
-                'billingNumber' => '22222222220101',
-                'productCode' => 'V53PAK',
-                'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-                'shipperReference' => 'Shipper Reference #123',
-                'postfilialRecipientName' => 'Jane Doe',
-                'postfilialNumber' => '502',
-                'postfilialPostNumber' => '12345678',
-                'postfilialPostalCode' => '53113',
-                'postfilialCity' => 'Bonn',
-                'postfilialCountry' => 'Deutschland',
-                'postfilialCountryCode' => 'DE',
-                'postfilialState' => 'NRW',
-                'packageWeight' => 1.2,
-            ],
-        ];
+        $requestData = array_combine($sequenceNumbers, $requestData);
 
         // response does not matter really, just to make it not fail
         $responseXml = \file_get_contents(__DIR__ . '/../Provider/_files/createshipment/singleShipmentSuccess.xml');
@@ -311,7 +159,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $service->createShipments($shipmentOrders);
 
         $requestXml = $soapClient->__getLastRequest();
-        Expectation::assertRequestContentsAvailable($requestData, $requestXml);
+        Expectation::assertXmlContentsAvailable($requestData, $requestXml);
     }
 
     /**
@@ -551,7 +399,7 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $shipmentOrder = $requestBuilder->create();
         $shipmentOrders[] = $shipmentOrder;
 
-        // shipment order 3
+        // shipment order 4
         $requestBuilder->setSequenceNumber($requestData['s3']['sequenceNumber']);
         $requestBuilder->setShipmentDetails(
             $requestData['s3']['productCode'],
@@ -576,6 +424,6 @@ class ShipmentServiceRequestBuilderTest extends TestCase
         $service->createShipments($shipmentOrders);
 
         $requestXml = $soapClient->__getLastRequest();
-        Expectation::assertRequestContentsAvailable($requestData, $requestXml);
+        Expectation::assertXmlContentsAvailable($requestData, $requestXml);
     }
 }
