@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Test\Provider\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 
 class ShipmentRequestProvider

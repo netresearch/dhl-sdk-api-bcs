@@ -10,14 +10,14 @@ namespace Dhl\Sdk\Paket\Bcs\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
-use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderResponse;
-use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderResponse;
-use Dhl\Sdk\Paket\Bcs\Model\GetVersion\GetVersionResponse;
-use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponse;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\Common\Version;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\DeleteShipment\DeleteShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\DeleteShipment\DeleteShipmentOrderResponse;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\GetVersion\GetVersionResponse;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\ValidateShipment\ValidateShipmentResponse;
 
 abstract class AbstractClient
 {

@@ -13,15 +13,15 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
-use Dhl\Sdk\Paket\Bcs\Model\Common\Version;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\CreateShipmentResponseMapper;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ServiceConfiguration;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\DeleteShipment\DeleteShipmentResponseMapper;
-use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\ValidateShipment\ValidateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\Common\Version;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ServiceConfiguration;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\DeleteShipment\DeleteShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\DeleteShipment\DeleteShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\ValidateShipment\ValidateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\ValidateShipment\ValidateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Soap\AbstractClient;
 
 class ShipmentService implements ShipmentServiceInterface

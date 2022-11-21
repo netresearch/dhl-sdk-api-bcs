@@ -13,7 +13,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
