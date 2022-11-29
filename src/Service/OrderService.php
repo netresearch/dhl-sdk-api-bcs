@@ -9,13 +9,11 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentOrderRequest;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ValidateShipment\ValidateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Serializer\JsonSerializer;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -23,12 +21,22 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class OrderService implements ShipmentServiceInterface
 {
-    private const OPERATION_ORDERS = 'orders/';
+    private const OPERATION_ORDERS = 'orders';
 
     /**
      * @var ClientInterface
      */
     private $client;
+
+    /**
+     * @var ValidateShipmentResponseMapper
+     */
+    private $validateShipmentResponseMapper;
+
+    /**
+     * @var CreateShipmentResponseMapper
+     */
+    private $createShipmentResponseMapper;
 
     /**
      * @var string
@@ -54,12 +62,16 @@ class OrderService implements ShipmentServiceInterface
         ClientInterface $client,
         string $baseUrl,
         JsonSerializer $serializer,
+        ValidateShipmentResponseMapper $validateShipmentResponseMapper,
+        CreateShipmentResponseMapper $createShipmentResponseMapper,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory
     ) {
         $this->client = $client;
         $this->baseUrl = $baseUrl;
         $this->serializer = $serializer;
+        $this->validateShipmentResponseMapper = $validateShipmentResponseMapper;
+        $this->createShipmentResponseMapper = $createShipmentResponseMapper;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
     }
@@ -68,11 +80,11 @@ class OrderService implements ShipmentServiceInterface
      * Assert that all shipment orders are serializable.
      *
      * @param \stdClass[] $shipmentOrders
-     * @return \JsonSerializable[]
+     * @return CreateShipmentOrderRequest
      *
      * @throws \Exception
      */
-    private function getShipmentOrders(array $shipmentOrders): array
+    private function getShipmentOrderRequest(array $shipmentOrders): CreateShipmentOrderRequest
     {
         foreach ($shipmentOrders as $shipmentOrder) {
             if (!$shipmentOrder instanceof \JsonSerializable) {
@@ -81,7 +93,7 @@ class OrderService implements ShipmentServiceInterface
         }
 
         /** @var \JsonSerializable[] $shipmentOrders */
-        return $shipmentOrders;
+        return new CreateShipmentOrderRequest($shipmentOrders);
     }
 
     public function getVersion(): string
@@ -102,21 +114,27 @@ class OrderService implements ShipmentServiceInterface
 
     public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        $requestParams['validate'] = 'true';
+        $requestParams[] = 'validate=true';
         if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
-            $requestParams['mustEncode'] = 'true';
+            $requestParams[] = 'mustEncode=true';
         }
 
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 
         try {
-            $payload = $this->serializer->encode($this->getShipmentOrders($shipmentOrders));
+            $payload = $this->serializer->encode($this->getShipmentOrderRequest($shipmentOrders));
             $stream = $this->streamFactory->createStream($payload);
+
+            $httpRequest = $this->requestFactory->createRequest('POST', $uri)->withBody($stream);
+
+            $response = $this->client->sendRequest($httpRequest);
+            $responseJson = (string) $response->getBody();
+            $responseObject = $this->serializer->decode($responseJson);
+
+            return $this->validateShipmentResponseMapper->map($responseObject);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }
-
-        throw new \RuntimeException('Not yet implemented.');
     }
 
     public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
@@ -129,18 +147,19 @@ class OrderService implements ShipmentServiceInterface
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 
         try {
-            $payload = $this->serializer->encode($this->getShipmentOrders($shipmentOrders));
+            $payload = $this->serializer->encode($this->getShipmentOrderRequest($shipmentOrders));
             $stream = $this->streamFactory->createStream($payload);
 
             $httpRequest = $this->requestFactory->createRequest('POST', $uri)->withBody($stream);
 
             $response = $this->client->sendRequest($httpRequest);
             $responseJson = (string) $response->getBody();
+            $responseObject = $this->serializer->decode($responseJson);
+
+            return $this->createShipmentResponseMapper->map($responseObject);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }
-
-        return [];
     }
 
     public function cancelShipments(array $shipmentNumbers): array

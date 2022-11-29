@@ -15,7 +15,7 @@ class CreateShipmentOrderRequest implements \JsonSerializable
     /**
      * Shipment array having details for each shipment.
      *
-     * @var Shipment[]
+     * @var \JsonSerializable[]|Shipment[]
      */
     private $shipments;
 
@@ -25,7 +25,7 @@ class CreateShipmentOrderRequest implements \JsonSerializable
     private $profile;
 
     /**
-     * @param Shipment[] $shipments
+     * @param \JsonSerializable[]|Shipment[] $shipments
      */
     public function __construct(array $shipments)
     {

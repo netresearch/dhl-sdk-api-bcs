@@ -13,6 +13,8 @@ use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\Paket\Bcs\Http\ClientPlugin\OrderErrorPlugin;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ValidateShipment\ValidateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Serializer\JsonSerializer;
 use Dhl\Sdk\Paket\Bcs\Service\OrderService;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
@@ -80,6 +82,8 @@ class HttpServiceFactory implements ServiceFactoryInterface
             $client,
             $sandboxMode ? self::REST_URL_SANDBOX : self::REST_URL_PRODUCTION,
             new JsonSerializer(),
+            new ValidateShipmentResponseMapper(),
+            new CreateShipmentResponseMapper(),
             $requestFactory,
             $streamFactory
         );

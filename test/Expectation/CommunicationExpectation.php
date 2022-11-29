@@ -16,39 +16,50 @@ class CommunicationExpectation
     /**
      * Mock client does not send headers, only check for request body being logged.
      *
-     * @param string $requestXml
-     * @param string $responseXml
+     * @param string $requestBody
+     * @param string $responseBody
      * @param TestLogger $logger
      */
-    public static function assertCommunicationLogged(string $requestXml, string $responseXml, TestLogger $logger): void
-    {
-        Assert::assertTrue($logger->hasInfoThatContains($requestXml), 'Logged messages do not contain request');
-        Assert::assertTrue($logger->hasInfoThatContains($responseXml), 'Logged messages do not contain response');
+    public static function assertCommunicationLogged(
+        string $requestBody,
+        string $responseBody,
+        TestLogger $logger
+    ): void {
+        Assert::assertTrue($logger->hasInfoThatContains($requestBody), 'Info messages do not contain request.');
+        Assert::assertTrue($logger->hasInfoThatContains($responseBody), 'Info messages do not contain response.');
     }
 
     /**
      * Mock client does not send headers, only check for request body being logged.
      *
-     * @param string $requestXml
-     * @param string $responseXml
+     * @param string $requestBody
+     * @param string $responseBody
      * @param TestLogger $logger
      */
-    public static function assertWarningsLogged(string $requestXml, string $responseXml, TestLogger $logger): void
-    {
-        Assert::assertTrue($logger->hasWarningThatContains($requestXml), 'Logged messages do not contain request');
-        Assert::assertTrue($logger->hasWarningThatContains($responseXml), 'Logged messages do not contain response');
+    public static function assertWarningsLogged(
+        string $requestBody,
+        string $responseBody,
+        TestLogger $logger
+    ): void {
+        Assert::assertTrue($logger->hasWarningThatContains($requestBody), 'Warning messages do not contain request.');
+        Assert::assertTrue($logger->hasWarningThatContains($responseBody), 'Warning messages do not contain response.');
     }
 
     /**
      * Mock client does not send headers, only check for request body being logged.
      *
-     * @param string $requestXml
-     * @param string $responseXml
+     * @fixme(nr): logger plugin formats response. 1:1 comparison is not possible.
+     *
+     * @param string $requestBody
+     * @param string $responseBody
      * @param TestLogger $logger
      */
-    public static function assertErrorsLogged(string $requestXml, string $responseXml, TestLogger $logger): void
-    {
-        Assert::assertTrue($logger->hasErrorThatContains($requestXml), 'Logged messages do not contain request');
-        Assert::assertTrue($logger->hasErrorThatContains($responseXml), 'Logged messages do not contain response');
+    public static function assertErrorsLogged(
+        string $requestBody,
+        string $responseBody,
+        TestLogger $logger
+    ): void {
+        Assert::assertTrue($logger->hasErrorThatContains($requestBody), 'Error messages do not contain request.');
+        Assert::assertTrue($logger->hasErrorThatContains($responseBody), 'Error messages do not contain response.');
     }
 }

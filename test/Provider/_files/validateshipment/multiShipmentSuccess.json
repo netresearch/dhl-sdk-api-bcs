@@ -1,0 +1,27 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "status": 207,
+    "detail": "2 of 2 shipments validated OK. Details included."
+  },
+  "items": [
+    {
+      "sequenceNumber": 1,
+      "sstatus": {
+        "title": "ok",
+        "status": 200,
+        "detail": "The Webservice call ran successfully."
+      },
+      "validationMessages": []
+    },
+    {
+      "sequenceNumber": 2,
+      "sstatus": {
+        "title": "ok",
+        "status": 200,
+        "detail": "The Webservice call ran successfully."
+      },
+      "validationMessages": []
+    }
+  ]
+}

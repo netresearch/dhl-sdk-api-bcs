@@ -19,7 +19,7 @@ class Consignee implements \JsonSerializable
      * For many international addresses there is no house number, please do not set
      * a period or any other sign to indicate that the address does not have a house number.
      *
-     * @var ContactAddress|null
+     * @var \JsonSerializable|ContactAddress|null
      */
     private $contactAddress;
 
@@ -29,7 +29,7 @@ class Consignee implements \JsonSerializable
      * If your customer wishes for international delivery to a drop-point, please use
      * DHL Parcel International (V53WPAK) with the delivery type "Closest Droppoint".
      *
-     * @var Locker|null
+     * @var \JsonSerializable|Locker|null
      */
     private $locker;
 
@@ -40,21 +40,33 @@ class Consignee implements \JsonSerializable
      * If your customer wishes for international delivery to a droppoint,
      * please use DHL Parcel International (V53WPAK) with the delivery type "Closest Droppoint".
      *
-     * @var PostOffice|null
+     * @var \JsonSerializable|PostOffice|null
      */
     private $postOffice;
 
-    public function setContactAddress(?ContactAddress $contactAddress): void
+    /**
+     * @param \JsonSerializable|ContactAddress|null $contactAddress
+     * @return void
+     */
+    public function setContactAddress(?\JsonSerializable $contactAddress): void
     {
         $this->contactAddress = $contactAddress;
     }
 
-    public function setLocker(?Locker $locker): void
+    /**
+     * @param \JsonSerializable|Locker|null $locker
+     * @return void
+     */
+    public function setLocker(?\JsonSerializable $locker): void
     {
         $this->locker = $locker;
     }
 
-    public function setPostOffice(?PostOffice $postOffice): void
+    /**
+     * @param \JsonSerializable|PostOffice|null $postOffice
+     * @return void
+     */
+    public function setPostOffice(?\JsonSerializable $postOffice): void
     {
         $this->postOffice = $postOffice;
     }

@@ -34,7 +34,7 @@ class RequestTypeExpectation
         $requestData = array_values($requestData);
         $requestBody = json_decode($requestBody, true);
         foreach ($requestData as $index => $shipmentOrderData) {
-            $shipmentOrder = $requestBody[$index];
+            $shipmentOrder = $requestBody['shipments'][$index];
             foreach ($shipmentOrderData as $key => $expectedValue) {
                 $path = ArrayPath::get($key);
                 if ($key === 'shipDate') {

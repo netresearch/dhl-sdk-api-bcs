@@ -128,7 +128,7 @@ class Services implements \JsonSerializable
      * The notification can be sent to multiple recipient email addresses.
      * This service is about to be deprecated.
      *
-     * @var ShippingConfirmation|null
+     * @var \JsonSerializable|ShippingConfirmation|null
      */
     private $shippingConfirmation;
 
@@ -138,7 +138,7 @@ class Services implements \JsonSerializable
      * Also requires returnAddress and return billing number. Neither weight
      * nor dimension need to be specified for the retoure (flat rate service).
      *
-     * @var DhlRetoure|null
+     * @var \JsonSerializable|DhlRetoure|null
      */
     private $dhlRetoure;
 
@@ -150,14 +150,14 @@ class Services implements \JsonSerializable
      * Transfernote1 + 2 are references transmitted during bank transfer.
      * Providing account information explicitly requires elevated privileges.
      *
-     * @var CashOnDelivery|null
+     * @var \JsonSerializable|CashOnDelivery|null
      */
     private $cashOnDelivery;
 
     /**
      * Currency and numeric value.
      *
-     * @var MonetaryValue|null
+     * @var \JsonSerializable|MonetaryValue|null
      */
     private $additionalInsurance;
 
@@ -168,7 +168,7 @@ class Services implements \JsonSerializable
      * since for identity check an automatic split of a one-line name
      * is not considered reliable enough.
      *
-     * @var IdentCheck|null
+     * @var \JsonSerializable|IdentCheck|null
      */
     private $identCheck;
 
@@ -237,27 +237,47 @@ class Services implements \JsonSerializable
         $this->packagingReturn = $packagingReturn;
     }
 
-    public function setShippingConfirmation(?ShippingConfirmation $shippingConfirmation): void
+    /**
+     * @param \JsonSerializable|ShippingConfirmation|null $shippingConfirmation
+     * @return void
+     */
+    public function setShippingConfirmation(?\JsonSerializable $shippingConfirmation): void
     {
         $this->shippingConfirmation = $shippingConfirmation;
     }
 
-    public function setDhlRetoure(?DhlRetoure $dhlRetoure): void
+    /**
+     * @param \JsonSerializable|DhlRetoure|null $dhlRetoure
+     * @return void
+     */
+    public function setDhlRetoure(?\JsonSerializable $dhlRetoure): void
     {
         $this->dhlRetoure = $dhlRetoure;
     }
 
-    public function setCashOnDelivery(?CashOnDelivery $cashOnDelivery): void
+    /**
+     * @param \JsonSerializable|CashOnDelivery|null $cashOnDelivery
+     * @return void
+     */
+    public function setCashOnDelivery(?\JsonSerializable $cashOnDelivery): void
     {
         $this->cashOnDelivery = $cashOnDelivery;
     }
 
-    public function setAdditionalInsurance(?MonetaryValue $additionalInsurance): void
+    /**
+     * @param \JsonSerializable|MonetaryValue|null $additionalInsurance
+     * @return void
+     */
+    public function setAdditionalInsurance(?\JsonSerializable $additionalInsurance): void
     {
         $this->additionalInsurance = $additionalInsurance;
     }
 
-    public function setIdentCheck(?IdentCheck $identCheck): void
+    /**
+     * @param \JsonSerializable|IdentCheck|null $identCheck
+     * @return void
+     */
+    public function setIdentCheck(?\JsonSerializable $identCheck): void
     {
         $this->identCheck = $identCheck;
     }

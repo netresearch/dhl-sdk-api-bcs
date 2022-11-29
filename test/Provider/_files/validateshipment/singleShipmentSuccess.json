@@ -1,0 +1,18 @@
+{
+  "status": {
+    "title": "ok",
+    "status": 200,
+    "detail": "1 of 1 shipment validated OK. Details included."
+  },
+  "items": [
+    {
+      "sequenceNumber": 1,
+      "sstatus": {
+        "title": "ok",
+        "status": 200,
+        "detail": "The Webservice call ran successfully."
+      },
+      "validationMessages": []
+    }
+  ]
+}

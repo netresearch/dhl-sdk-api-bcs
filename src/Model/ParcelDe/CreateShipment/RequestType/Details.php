@@ -13,7 +13,7 @@ class Details implements \JsonSerializable
     /**
      * Weight of item or shipment.
      *
-     * @var Weight
+     * @var \JsonSerializable|Weight
      */
     private $weight;
 
@@ -24,16 +24,23 @@ class Details implements \JsonSerializable
      * You cannot provide just the height, for example. If you provide length,
      * width, and height in millimeters, they will be rounded to full cm.
      *
-     * @var Dimension|null
+     * @var \JsonSerializable|Dimension|null
      */
     private $dim;
 
-    public function __construct(Weight $weight)
+    /**
+     * @param \JsonSerializable|Weight $weight
+     */
+    public function __construct(\JsonSerializable $weight)
     {
         $this->weight = $weight;
     }
 
-    public function setDim(?Dimension $dimension): void
+    /**
+     * @param \JsonSerializable|Dimension|null $dimension
+     * @return void
+     */
+    public function setDim(?\JsonSerializable $dimension): void
     {
         $this->dim = $dimension;
     }

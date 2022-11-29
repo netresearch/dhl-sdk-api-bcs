@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ShipmentOrderType;
 
 class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterface
 {

@@ -11,7 +11,7 @@ namespace Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType;
 class Customs implements \JsonSerializable
 {
     /**
-     * @var CustomsItem[]
+     * @var \JsonSerializable[]|CustomsItem[]
      */
     private $items;
 
@@ -32,7 +32,7 @@ class Customs implements \JsonSerializable
     /**
      * Postage costs billed in the invoice.
      *
-     * @var MonetaryValue|null
+     * @var \JsonSerializable|MonetaryValue|null
      */
     private $postalCharges;
 
@@ -87,7 +87,7 @@ class Customs implements \JsonSerializable
     private $hasElectronicExportNotification;
 
     /**
-     * @param CustomsItem[] $items
+     * @param \JsonSerializable[]|CustomsItem[] $items
      * @param string $exportType
      */
     public function __construct(array $items, string $exportType)
@@ -101,7 +101,11 @@ class Customs implements \JsonSerializable
         $this->exportDescription = $exportDescription;
     }
 
-    public function setPostalCharges(?MonetaryValue $postalCharges): void
+    /**
+     * @param \JsonSerializable|MonetaryValue|null $postalCharges
+     * @return void
+     */
+    public function setPostalCharges(?\JsonSerializable $postalCharges): void
     {
         $this->postalCharges = $postalCharges;
     }

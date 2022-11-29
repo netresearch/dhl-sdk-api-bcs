@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Serializer;
 
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentResponse;
+
 /**
  * JsonSerializer
  *
@@ -16,10 +18,25 @@ namespace Dhl\Sdk\Paket\Bcs\Serializer;
 class JsonSerializer
 {
     /**
-     * @param \JsonSerializable[] $request
+     * @var string[]
+     */
+    private $classMap;
+
+    /**
+     * JsonSerializer constructor.
+     *
+     * @param string[] $classMap
+     */
+    public function __construct(array $classMap = [])
+    {
+        $this->classMap = $classMap;
+    }
+
+    /**
+     * @param \JsonSerializable $request
      * @return string
      */
-    public function encode(array $request): string
+    public function encode(\JsonSerializable $request): string
     {
         // remove empty entries from serialized data (after all objects were converted to array)
         $payload = (string) \json_encode($request);
@@ -53,10 +70,20 @@ class JsonSerializer
 
     /**
      * @param string $jsonResponse
-     * @return string[]
+     * @return CreateShipmentResponse
+     * @throws \JsonMapper_Exception
      */
-    public function decode(string $jsonResponse): array
+    public function decode(string $jsonResponse): CreateShipmentResponse
     {
-        return \json_decode($jsonResponse, true);
+        $jsonMapper = new \JsonMapper();
+        $jsonMapper->bIgnoreVisibility = true;
+        $jsonMapper->classMap = $this->classMap;
+
+        $response = \json_decode($jsonResponse, false);
+
+        /** @var CreateShipmentResponse $mappedResponse */
+        $mappedResponse = $jsonMapper->map($response, new CreateShipmentResponse());
+
+        return $mappedResponse;
     }
 }

@@ -101,7 +101,7 @@ class Shipment implements \JsonSerializable
      * and geographies and/or may require individual setup and billing numbers.
      * Please test and contact your account representative in case of questions.
      *
-     * @var Services|null
+     * @var \JsonSerializable|Services|null
      */
     private $services;
 
@@ -116,7 +116,7 @@ class Shipment implements \JsonSerializable
      * separate document, while for Warenpost International the customs information
      * will be printed onto the shipment label (CN22).
      *
-     * @var Customs|null
+     * @var \JsonSerializable|Customs|null
      */
     private $customs;
 
@@ -151,12 +151,20 @@ class Shipment implements \JsonSerializable
         $this->creationSoftware = $creationSoftware;
     }
 
-    public function setServices(?Services $services): void
+    /**
+     * @param \JsonSerializable|Services|null $services
+     * @return void
+     */
+    public function setServices(?\JsonSerializable $services): void
     {
         $this->services = $services;
     }
 
-    public function setCustoms(?Customs $customs): void
+    /**
+     * @param \JsonSerializable|Customs|null $customs
+     * @return void
+     */
+    public function setCustoms(?\JsonSerializable $customs): void
     {
         $this->customs = $customs;
     }

@@ -75,10 +75,6 @@ class RestRequestBuilder
             $shipper = new ShipperAddressRef($this->data['shipper']['reference']);
         }
 
-        if (!isset($this->data['recipient'])) {
-            throw new RequestValidatorException('No recipient included with shipment order.');
-        }
-
         if (isset($this->data['recipient']['packstation'])) {
             $consignee = new Locker(
                 $this->data['recipient']['address']['name'],

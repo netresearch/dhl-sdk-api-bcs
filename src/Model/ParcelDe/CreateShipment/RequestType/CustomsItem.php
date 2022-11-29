@@ -23,14 +23,14 @@ class CustomsItem implements \JsonSerializable
     /**
      * Customs value amount of the unit/position.
      *
-     * @var MonetaryValue
+     * @var \JsonSerializable|MonetaryValue
      */
     private $itemValue;
 
     /**
      * Weight of item or shipment.
      *
-     * @var Weight
+     * @var \JsonSerializable|Weight
      */
     private $itemWeight;
 
@@ -48,11 +48,17 @@ class CustomsItem implements \JsonSerializable
      */
     private $hsCode;
 
+    /**
+     * @param string $itemDescription
+     * @param int $packagedQuantity
+     * @param MonetaryValue $itemValue
+     * @param \JsonSerializable|Weight $itemWeight
+     */
     public function __construct(
         string $itemDescription,
         int $packagedQuantity,
         MonetaryValue $itemValue,
-        Weight $itemWeight
+        \JsonSerializable $itemWeight
     ) {
         $this->itemDescription = $itemDescription;
         $this->packagedQuantity = $packagedQuantity;

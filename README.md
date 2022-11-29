@@ -8,7 +8,7 @@ The DHL Business Customer Shipping API SDK package offers an interface to the fo
 
 ### System Requirements
 
-- PHP 7.2+ with SOAP extension
+- PHP 7.2+ with SOAP and JSON extension
 
 ### Package Requirements
 

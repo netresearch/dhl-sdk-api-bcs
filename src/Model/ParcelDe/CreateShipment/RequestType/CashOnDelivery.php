@@ -13,14 +13,14 @@ class CashOnDelivery implements \JsonSerializable
     /**
      * Currency and numeric value.
      *
-     * @var MonetaryValue
+     * @var \JsonSerializable|MonetaryValue
      */
     private $amount;
 
     /**
      * Bank account data used for CoD (Cash on Delivery).
      *
-     * @var BankAccount|null
+     * @var \JsonSerializable|BankAccount|null
      */
     private $bankAccount;
 
@@ -39,12 +39,19 @@ class CashOnDelivery implements \JsonSerializable
      */
     private $transferNote2;
 
-    public function __construct(MonetaryValue $amount)
+    /**
+     * @param \JsonSerializable|MonetaryValue $amount
+     */
+    public function __construct(\JsonSerializable $amount)
     {
         $this->amount = $amount;
     }
 
-    public function setBankAccount(?BankAccount $bankAccount): void
+    /**
+     * @param \JsonSerializable|BankAccount|null $bankAccount
+     * @return void
+     */
+    public function setBankAccount(?\JsonSerializable $bankAccount): void
     {
         $this->bankAccount = $bankAccount;
     }

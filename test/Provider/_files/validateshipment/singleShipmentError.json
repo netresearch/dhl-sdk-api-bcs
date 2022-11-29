@@ -1,0 +1,23 @@
+{
+  "status": {
+    "title": "Bad Request",
+    "status": 400,
+    "detail": "0 of 1 shipment validated OK. Details included."
+  },
+  "items": [
+    {
+      "sequenceNumber": 1,
+      "sstatus": {
+        "title": "Within the shipment there was at least one weak validation error.",
+        "status": 400
+      },
+      "validationMessages": [
+        {
+          "property": "consignee",
+          "validationMessage": "The street entered could not be found.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}

@@ -16,7 +16,7 @@ class DhlRetoure implements \JsonSerializable
     private $billingNumber;
 
     /**
-     * @var ReturnAddress
+     * @var \JsonSerializable|ReturnAddress
      */
     private $returnAddress;
 
@@ -25,7 +25,11 @@ class DhlRetoure implements \JsonSerializable
      */
     private $refNo;
 
-    public function __construct(string $billingNumber, ReturnAddress $returnAddress)
+    /**
+     * @param string $billingNumber
+     * @param \JsonSerializable|ReturnAddress $returnAddress
+     */
+    public function __construct(string $billingNumber, \JsonSerializable $returnAddress)
     {
         $this->billingNumber = $billingNumber;
         $this->returnAddress = $returnAddress;

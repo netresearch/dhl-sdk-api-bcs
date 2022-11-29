@@ -1,0 +1,47 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "status": 207,
+    "detail": "0 of 2 shipments validated OK. Details included."
+  },
+  "items": [
+    {
+      "sequenceNumber": 1,
+      "sstatus": {
+        "title": "Within the shipment there was at least one weak validation error.",
+        "status": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The street entered could not be found.",
+          "validationState": "Warning"
+        }
+      ]
+    },
+    {
+      "sequenceNumber": 2,
+      "sstatus": {
+        "title": "Within the shipment there was at least one weak validation error.",
+        "status": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The street entered could not be found.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}
