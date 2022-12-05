@@ -125,13 +125,13 @@ class CancelShipmentTest extends AbstractApiTest
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
         $result = $service->cancelShipments($shipmentNumbers);
 
-        // assert that all shipments were created
+        // assert that shipments were cancelled but not all of them
         Expectation::assertSomeShipmentsCancelled(
             $soapClient->__getLastRequest(),
             $soapClient->__getLastResponse(),
             $result
         );
-        // assert successful communication gets logged.
+        // assert cancellation errors are logged.
         CommunicationExpectation::assertErrorsLogged(
             $soapClient->__getLastRequest(),
             $soapClient->__getLastResponse(),

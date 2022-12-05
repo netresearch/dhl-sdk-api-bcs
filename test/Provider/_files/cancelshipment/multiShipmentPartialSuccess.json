@@ -1,0 +1,24 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "status": 207,
+    "detail": "1 of 2 shipments successfully canceled."
+  },
+  "items": [
+    {
+      "shipmentNo": "0034043333301010000010102",
+      "sstatus": {
+        "title": "UnknownShipmentNumber",
+        "status": 204,
+        "detail": "Unknown shipment number."
+      }
+    },
+    {
+      "shipmentNo": "0034043333301010000010004",
+      "sstatus": {
+        "title": "ok",
+        "status": 200
+      }
+    }
+  ]
+}

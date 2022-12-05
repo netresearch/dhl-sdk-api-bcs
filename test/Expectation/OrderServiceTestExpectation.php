@@ -64,4 +64,75 @@ class OrderServiceTestExpectation
             }
         }
     }
+
+    /**
+     * @param string $queryParams
+     * @param string $responseJson
+     * @param array $result
+     * @return void
+     */
+    public static function assertAllShipmentsCancelled(string $queryParams, string $responseJson, array $result): void
+    {
+        $response = \json_decode($responseJson, true);
+
+        preg_match_all('/shipment=([\d]+)/', $queryParams, $shipmentNumbers);
+        $requested = $shipmentNumbers[1];
+
+        $succeeded = array_map(
+            function (array $responseItem) {
+                return $responseItem['shipmentNo'];
+            },
+            $response['items']
+        );
+
+        // assert all requested shipment numbers are contained in the response
+        Assert::assertEmpty(array_diff($requested, $succeeded), 'Shipment numbers of the response do not match.');
+
+        // assert that all shipment numbers of the request are available in the SDK response
+        Assert::assertEmpty(array_diff($requested, $result), 'Shipment numbers of the response do not match.');
+    }
+
+    /**
+     * @param string $queryParams
+     * @param string $responseJson
+     * @param array $result
+     * @return void
+     */
+    public static function assertSomeShipmentsCancelled(string $queryParams, string $responseJson, array $result): void
+    {
+        $response = \json_decode($responseJson, true);
+
+        preg_match_all('/shipment=([\d]+)/', $queryParams, $shipmentNumbers);
+        $requested = $shipmentNumbers[1];
+
+        $returned = array_reduce(
+            $response['items'],
+            function (array $carry, array $responseItem) {
+                if ($responseItem['sstatus']['status'] === 200) {
+                    $carry['succeeded'][] = $responseItem['shipmentNo'];
+                } else {
+                    $carry['failed'][] = $responseItem['shipmentNo'];
+                }
+
+                return $carry;
+            },
+            ['succeeded' => [], 'failed' => []]
+        );
+
+        // assert that all requested shipments are contained in the response
+        Assert::assertEmpty(
+            array_diff($requested, $returned['succeeded'], $returned['failed']),
+            'Shipment numbers of the response do not match.'
+        );
+
+        // assert that all cancelled shipment numbers of the JSON response are available in the SDK response
+        Assert::assertEmpty(
+            array_diff($returned['succeeded'], $result),
+            'Shipment numbers of the response do not match.'
+        );
+
+        // assert that shipments were cancelled but not all of them
+        Assert::assertNotEmpty($result);
+        Assert::assertLessThan(count($requested), count($result));
+    }
 }

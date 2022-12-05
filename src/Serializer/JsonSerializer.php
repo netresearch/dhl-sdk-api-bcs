@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Serializer;
 
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentResponse;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ShipmentResponse;
 
 /**
  * JsonSerializer
@@ -70,10 +70,10 @@ class JsonSerializer
 
     /**
      * @param string $jsonResponse
-     * @return CreateShipmentResponse
+     * @return ShipmentResponse
      * @throws \JsonMapper_Exception
      */
-    public function decode(string $jsonResponse): CreateShipmentResponse
+    public function decode(string $jsonResponse): ShipmentResponse
     {
         $jsonMapper = new \JsonMapper();
         $jsonMapper->bIgnoreVisibility = true;
@@ -81,8 +81,8 @@ class JsonSerializer
 
         $response = \json_decode($jsonResponse, false);
 
-        /** @var CreateShipmentResponse $mappedResponse */
-        $mappedResponse = $jsonMapper->map($response, new CreateShipmentResponse());
+        /** @var ShipmentResponse $mappedResponse */
+        $mappedResponse = $jsonMapper->map($response, new ShipmentResponse());
 
         return $mappedResponse;
     }

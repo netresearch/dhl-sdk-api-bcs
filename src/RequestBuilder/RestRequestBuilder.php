@@ -9,26 +9,25 @@ declare(strict_types=1);
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\BankAccount;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\CashOnDelivery;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Consignee;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\ContactAddress;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Customs;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\CustomsItem;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Details;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\DhlRetoure;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Dimension;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\IdentCheck;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Locker;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\MonetaryValue;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\PostOffice;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\ReturnAddress;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Services;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Shipment;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\ShipperAddress;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\ShipperAddressRef;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\ShippingConfirmation;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\RequestType\Weight;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\BankAccount;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\CashOnDelivery;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ContactAddress;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Customs;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\CustomsItem;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Details;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\DhlRetoure;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Dimension;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\IdentCheck;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Locker;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\MonetaryValue;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\PostOffice;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ReturnAddress;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Services;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Shipment;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ShipperAddress;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ShipperAddressRef;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ShippingConfirmation;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Weight;
 
 class RestRequestBuilder
 {

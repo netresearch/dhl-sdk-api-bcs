@@ -11,9 +11,10 @@ namespace Dhl\Sdk\Paket\Bcs\Service;
 use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentOrderRequest;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\CreateShipment\CreateShipmentResponseMapper;
-use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ValidateShipment\ValidateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\CreateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\DeleteShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\ValidateShipmentResponseMapper;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Serializer\JsonSerializer;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -37,6 +38,11 @@ class OrderService implements ShipmentServiceInterface
      * @var CreateShipmentResponseMapper
      */
     private $createShipmentResponseMapper;
+
+    /**
+     * @var DeleteShipmentResponseMapper
+     */
+    private $deleteShipmentResponseMapper;
 
     /**
      * @var string
@@ -64,6 +70,7 @@ class OrderService implements ShipmentServiceInterface
         JsonSerializer $serializer,
         ValidateShipmentResponseMapper $validateShipmentResponseMapper,
         CreateShipmentResponseMapper $createShipmentResponseMapper,
+        DeleteShipmentResponseMapper $deleteShipmentResponseMapper,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory
     ) {
@@ -72,6 +79,7 @@ class OrderService implements ShipmentServiceInterface
         $this->serializer = $serializer;
         $this->validateShipmentResponseMapper = $validateShipmentResponseMapper;
         $this->createShipmentResponseMapper = $createShipmentResponseMapper;
+        $this->deleteShipmentResponseMapper = $deleteShipmentResponseMapper;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
     }
@@ -80,11 +88,11 @@ class OrderService implements ShipmentServiceInterface
      * Assert that all shipment orders are serializable.
      *
      * @param \stdClass[] $shipmentOrders
-     * @return CreateShipmentOrderRequest
+     * @return ShipmentOrderRequest
      *
      * @throws \Exception
      */
-    private function getShipmentOrderRequest(array $shipmentOrders): CreateShipmentOrderRequest
+    private function getShipmentOrderRequest(array $shipmentOrders): ShipmentOrderRequest
     {
         foreach ($shipmentOrders as $shipmentOrder) {
             if (!$shipmentOrder instanceof \JsonSerializable) {
@@ -93,7 +101,7 @@ class OrderService implements ShipmentServiceInterface
         }
 
         /** @var \JsonSerializable[] $shipmentOrders */
-        return new CreateShipmentOrderRequest($shipmentOrders);
+        return new ShipmentOrderRequest($shipmentOrders);
     }
 
     public function getVersion(): string
@@ -164,6 +172,30 @@ class OrderService implements ShipmentServiceInterface
 
     public function cancelShipments(array $shipmentNumbers): array
     {
-        throw new \RuntimeException('Not yet implemented.');
+        $shipmentNumbers = array_filter($shipmentNumbers);
+        if (empty($shipmentNumbers)) {
+            return [];
+        }
+
+        $requestParams = array_map(
+            function (string $shipmentNumber) {
+                return "shipment=$shipmentNumber";
+            },
+            $shipmentNumbers
+        );
+
+        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
+
+        try {
+            $httpRequest = $this->requestFactory->createRequest('DELETE', $uri);
+
+            $response = $this->client->sendRequest($httpRequest);
+            $responseJson = (string) $response->getBody();
+            $responseObject = $this->serializer->decode($responseJson);
+
+            return $this->deleteShipmentResponseMapper->map($responseObject);
+        } catch (\Throwable $exception) {
+            throw ServiceExceptionFactory::createServiceException($exception);
+        }
     }
 }
