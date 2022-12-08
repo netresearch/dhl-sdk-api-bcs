@@ -37,6 +37,10 @@ interface ShipmentOrderRequestBuilderInterface
     public const INCOTERM_CODE_DDX = 'DDX';
     public const INCOTERM_CODE_CPT = 'CPT';
 
+    public const MSG_MISSING_SHIPPER = 'No sender included with shipment order.';
+    public const MSG_MISSING_RECIPIENT = 'No recipient included with shipment order.';
+    public const MSG_MISSING_CONTACT = 'Either recipient email or post number must be set for Postfiliale delivery.';
+
     /**
      * @param string $sequenceNumber
      * @return ShipmentOrderRequestBuilderInterface

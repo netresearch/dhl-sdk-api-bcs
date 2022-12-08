@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\BankAccount;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\CashOnDelivery;
@@ -51,6 +52,10 @@ class RestRequestBuilder
      */
     public function create(): Shipment
     {
+        if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
+            throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
+        }
+
         if (isset($this->data['shipper']['address'])) {
             $addressData = $this->data['shipper']['address'];
             $shipper = new ShipperAddress(
@@ -84,6 +89,13 @@ class RestRequestBuilder
                 $this->data['recipient']['packstation']['postNumber']
             );
         } elseif (isset($this->data['recipient']['postfiliale'])) {
+            if (
+                empty($this->data['recipient']['address']['email'])
+                && empty($this->data['recipient']['postfiliale']['postNumber'])
+            ) {
+                throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
+            }
+
             $consignee = new PostOffice(
                 $this->data['recipient']['address']['name'],
                 (int) $this->data['recipient']['postfiliale']['number'],
@@ -112,7 +124,7 @@ class RestRequestBuilder
             $consignee->setEmail($addressData['email'] ?? null);
             $consignee->setDispatchingInformation($addressData['dispatchingInformation']);
         } else {
-            throw new RequestValidatorException('No recipient included with shipment order.');
+            throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
         }
 
         $weight = new Weight('kg', $this->data['packageDetails']['weight']);

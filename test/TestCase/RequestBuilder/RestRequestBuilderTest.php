@@ -10,6 +10,7 @@ namespace Dhl\Sdk\Paket\Bcs\Test\TestCase\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
@@ -174,5 +175,63 @@ class RestRequestBuilderTest extends TestCase
         unset($requestValues[3]['postfilialCountry']);
 
         Expectation::assertJsonContentsAvailable($requestValues, $requestBody);
+    }
+
+    /**
+     * Assert that request builder throws exception if shipper data is missing.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnMissingShipper()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
+
+        $builder = new ShipmentOrderRequestBuilder();
+        $builder->setShipperAccount('33333333330101');
+        $builder->setRecipientAddress('John Doe', 'DEU', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
+        $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
+        $builder->setPackageDetails(2.4);
+        $builder->create(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
+    }
+
+    /**
+     * Assert that request builder throws exception if recipient data is missing.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnMissingConsignee()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
+
+        $builder = new ShipmentOrderRequestBuilder();
+        $builder->setShipperAccount('33333333330101');
+        $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
+        $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
+        $builder->setPackageDetails(2.4);
+        $builder->create(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
+    }
+
+    /**
+     * Assert that request builder throws exception if contact data is missing for Post Office delivery.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnMissingConsigneeContact()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
+
+        $builder = new ShipmentOrderRequestBuilder();
+        $builder->setShipperAccount('33333333330101');
+        $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
+        $builder->setPostfiliale('Jane Doe', '502', 'DEU', '53113', 'Bonn');
+        $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
+        $builder->setPackageDetails(2.4);
+        $builder->create(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
     }
 }

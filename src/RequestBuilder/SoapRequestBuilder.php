@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\RequestBuilder;
 
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\BankType;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\CommunicationType;
@@ -65,7 +66,7 @@ class SoapRequestBuilder
         $sequenceNumber = $this->data['sequenceNumber'] ?? '0';
 
         if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
-            throw new RequestValidatorException("No sender included with shipment order $sequenceNumber.");
+            throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
         }
 
         if (isset($this->data['shipper']['address'])) {
@@ -100,7 +101,7 @@ class SoapRequestBuilder
         }
 
         if (!isset($this->data['recipient'])) {
-            throw new RequestValidatorException("No recipient included with shipment order $sequenceNumber.");
+            throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
         }
 
         $receiver = new ReceiverType($this->data['recipient']['address']['name']);
@@ -123,8 +124,7 @@ class SoapRequestBuilder
                 empty($this->data['recipient']['address']['email'])
                 && empty($this->data['recipient']['postfiliale']['postNumber'])
             ) {
-                $msg = 'Either recipient email or post number must be set for Postfiliale delivery.';
-                throw new RequestValidatorException($msg);
+                throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
             }
 
             $postfilialeCountry = new CountryType($this->data['recipient']['postfiliale']['countryCode']);
