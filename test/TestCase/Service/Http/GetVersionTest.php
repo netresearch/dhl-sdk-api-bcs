@@ -55,7 +55,7 @@ class GetVersionTest extends TestCase
         $httpClient->setDefaultResponse($getVersionResponse);
         $logger = new TestLogger();
 
-        $serviceFactory = new HttpServiceFactory($httpClient, 'dhl-sdk-api-bcs');
+        $serviceFactory = new HttpServiceFactory($httpClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
         $result = $service->getVersion();
 

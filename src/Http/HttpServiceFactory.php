@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Http;
 
+use Composer\InstalledVersions;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
@@ -42,7 +43,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
      */
     private $userAgent;
 
-    public function __construct(ClientInterface $httpClient, string $userAgent)
+    public function __construct(ClientInterface $httpClient, string $userAgent = '')
     {
         $this->httpClient = $httpClient;
         $this->userAgent = $userAgent;
@@ -57,7 +58,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
         $headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'User-Agent' => $this->userAgent,
+            'User-Agent' => $this->userAgent ?: 'dhl-sdk-api-bcs/' . InstalledVersions::getVersion('dhl/sdk-api-bcs'),
             'dhl-api-key' => $authStorage->getApplicationToken(),
         ];
 
