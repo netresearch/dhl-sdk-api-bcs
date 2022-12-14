@@ -13,11 +13,21 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterface
 {
     /**
+     * @var string
+     */
+    private $requestType;
+
+    /**
      * The collected data used to build the request
      *
      * @var mixed[]
      */
     private $data = [];
+
+    public function __construct(string $requestType = self::REQUEST_TYPE_SOAP)
+    {
+        $this->requestType = $requestType;
+    }
 
     public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface
     {
@@ -459,16 +469,16 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function create(string $requestType = self::REQUEST_TYPE_SOAP): object
+    public function create(): object
     {
-        if ($requestType === self::REQUEST_TYPE_SOAP) {
+        if ($this->requestType === self::REQUEST_TYPE_SOAP) {
             $requestBuilder = new SoapRequestBuilder($this->data);
             $shipmentOrder = $requestBuilder->create();
-        } elseif ($requestType === self::REQUEST_TYPE_REST) {
+        } elseif ($this->requestType === self::REQUEST_TYPE_REST) {
             $requestBuilder = new RestRequestBuilder($this->data);
             $shipmentOrder = $requestBuilder->create();
         } else {
-            throw new \RuntimeException('Cannot instantiate request builder for service type ' . $requestType);
+            throw new \RuntimeException('Cannot instantiate request builder for service type ' . $this->requestType);
         }
 
         $this->data = [];

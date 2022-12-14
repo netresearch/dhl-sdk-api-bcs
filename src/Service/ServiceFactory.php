@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Service;
 
-use Composer\InstalledVersions;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;

@@ -46,12 +46,11 @@ abstract class AbstractRequestData
      */
     public function createShipmentOrder(
         ShipmentOrderRequestBuilderInterface $builder,
-        string $requestType,
         array $replace = []
     ): object {
         $builderData = $this->get();
         $replace = array_intersect_key($replace, $builderData);
         $this->setBuilderData($builder, array_merge($builderData, $replace));
-        return $builder->create($requestType);
+        return $builder->create();
     }
 }

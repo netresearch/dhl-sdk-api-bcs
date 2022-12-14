@@ -105,13 +105,13 @@ class SoapRequestBuilderTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         // build shipment orders
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $shipmentOrders = [];
         $requestValues = [];
 
         foreach ($requestData as $sequenceNumber => $data) {
             $data->setSequenceNumber((string) $sequenceNumber);
-            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder, self::REQUEST_TYPE);
+            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder);
             $requestValues[] = $data->get();
         }
 
@@ -162,13 +162,13 @@ class SoapRequestBuilderTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         // build shipment orders
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $shipmentOrders = [];
         $requestValues = [];
 
         foreach ($requestData as $sequenceNumber => $data) {
             $data->setSequenceNumber((string) $sequenceNumber);
-            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder, self::REQUEST_TYPE);
+            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder);
             $requestValues[] = $data->get();
         }
 

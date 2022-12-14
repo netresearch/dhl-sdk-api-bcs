@@ -564,9 +564,8 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Create the shipment request and reset the builder data.
      *
-     * @param string $requestType
      * @return object
      * @throws RequestValidatorException
      */
-    public function create(string $requestType = self::REQUEST_TYPE_SOAP): object;
+    public function create(): object;
 }

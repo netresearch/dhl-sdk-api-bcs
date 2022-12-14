@@ -28,7 +28,7 @@ class ShipmentRequestProvider
     {
         $shipmentOrders = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         foreach ([new Domestic()] as $index => $requestData) {
             $replace = [
@@ -37,7 +37,7 @@ class ShipmentRequestProvider
                 'shipperCountry' => 'DE',
                 'recipientCountry' =>  'DE',
             ];
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, self::REQUEST_TYPE, $replace);
+            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
         }
 
         return $shipmentOrders;
@@ -52,7 +52,7 @@ class ShipmentRequestProvider
     {
         $shipmentOrders = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         foreach ([new Domestic(), new DomesticWithReturn()] as $index => $requestData) {
             $replace = [
@@ -64,7 +64,7 @@ class ShipmentRequestProvider
                 'returnCountry' => 'DE',
             ];
 
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, self::REQUEST_TYPE, $replace);
+            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
         }
 
         return $shipmentOrders;
@@ -81,7 +81,7 @@ class ShipmentRequestProvider
     {
         $shipmentOrders = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         foreach ([new Domestic(), new DomesticWithReturn()] as $index => $requestData) {
             $replace = [
@@ -97,7 +97,7 @@ class ShipmentRequestProvider
                 $replace['recipientPostalCode'] = '04229';
             }
 
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, self::REQUEST_TYPE, $replace);
+            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
         }
 
         return $shipmentOrders;
@@ -114,7 +114,7 @@ class ShipmentRequestProvider
     {
         $shipmentOrders = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         foreach ([new Domestic()] as $index => $requestData) {
             // set recipient address with wrong zip code
@@ -125,7 +125,7 @@ class ShipmentRequestProvider
                 'recipientCountry' =>  'DE',
                 'recipientPostalCode' => '04229',
             ];
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, self::REQUEST_TYPE, $replace);
+            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
         }
 
         return $shipmentOrders;
@@ -142,7 +142,7 @@ class ShipmentRequestProvider
     {
         $shipmentOrders = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         foreach ([new Domestic(), new DomesticWithReturn()] as $index => $requestData) {
             // set recipient address with wrong zip code
@@ -155,7 +155,7 @@ class ShipmentRequestProvider
                 'returnCountry' => 'DE',
                 'recipientPostalCode' => '04229'
             ];
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, self::REQUEST_TYPE, $replace);
+            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
         }
 
         return $shipmentOrders;
