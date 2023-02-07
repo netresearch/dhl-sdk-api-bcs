@@ -6,6 +6,9 @@
          stderr="true"
          bootstrap="../vendor/autoload.php"
 >
+    <php>
+        <ini name="date.timezone" value="Europe/Berlin"/>
+    </php>
     <testsuites>
         <testsuite name="Integration Tests">
             <directory>.</directory>

@@ -12,6 +12,7 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorHttpException;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorHttpException;
+use Dhl\Sdk\Paket\Bcs\Exception\SchemaErrorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\DeleteShipmentResponseMapper;
@@ -177,7 +178,7 @@ class OrderService implements ShipmentServiceInterface
             return $this->validateShipmentResponseMapper->map($responseObject);
         } catch (AuthenticationErrorHttpException $exception) {
             throw ServiceExceptionFactory::createAuthenticationException($exception);
-        } catch (DetailedErrorHttpException $exception) {
+        } catch (DetailedErrorHttpException | SchemaErrorException $exception) {
             throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
@@ -210,7 +211,7 @@ class OrderService implements ShipmentServiceInterface
             return $this->createShipmentResponseMapper->map($responseObject);
         } catch (AuthenticationErrorHttpException $exception) {
             throw ServiceExceptionFactory::createAuthenticationException($exception);
-        } catch (DetailedErrorHttpException $exception) {
+        } catch (DetailedErrorHttpException | SchemaErrorException $exception) {
             throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);

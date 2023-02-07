@@ -294,7 +294,43 @@ class CreateShipmentTest extends TestCase
     }
 
     /**
-     * Test shipment error case (all requests schema invalid).
+     * Test shipment error case (all requests schema invalid) with client-side schema validation.
+     *
+     * @test
+     * @dataProvider schemaErrorDataProvider
+     *
+     * @param AuthenticationStorageInterface $authStorage
+     * @param \JsonSerializable[] $shipmentOrders
+     *
+     * @throws ServiceException
+     */
+    public function createShipmentsSchemaError(
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders
+    ): void {
+        $this->expectException(DetailedServiceException::class);
+        $this->expectExceptionCode(0);
+
+        $httpClient = new Client();
+        $logger = new TestLogger();
+
+        $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+
+        try {
+            $service->createShipments($shipmentOrders);
+        } catch (DetailedServiceException $exception) {
+            // assert that no request was made
+            $lastRequest = $httpClient->getLastRequest();
+            self::assertEmpty($lastRequest);
+            self::assertTrue($logger->hasErrorThatContains($exception->getMessage()));
+
+            throw $exception;
+        }
+    }
+
+    /**
+     * Test shipment error case (all requests schema invalid) with server-side schema validation.
      *
      * @test
      * @dataProvider schemaErrorDataProvider
@@ -329,7 +365,7 @@ class CreateShipmentTest extends TestCase
 
         $httpClient->setDefaultResponse($labelResponse);
 
-        $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
+        $serviceFactory = HttpServiceFactory::withSchemaValidationDisabled($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {

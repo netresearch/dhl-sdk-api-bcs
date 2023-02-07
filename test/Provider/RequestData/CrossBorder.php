@@ -20,7 +20,7 @@ class CrossBorder extends AbstractRequestData
             'sequenceNumber' => $this->getSequenceNumber(),
             'billingNumber' => '33333333330101',
             'productCode' => 'V53PAK',
-            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
+            'shipDate' => new \DateTime(date('c', $tsShip)),
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
             'shipperCountry' => 'DEU',
             'shipperPostalCode' => '04229',
@@ -49,13 +49,13 @@ class CrossBorder extends AbstractRequestData
             'exportItem1Weight' => 3.37,
             'exportItem1Value' => 29.99,
             'exportItem1HsCode' => '42031000',
-            'exportItem1Origin' => 'CN',
+            'exportItem1Origin' => 'CHN',
             'exportItem2Qty' => 1,
             'exportItem2Desc' => 'Export Desc 2',
             'exportItem2Weight' => 2.22,
             'exportItem2Value' => 35,
             'exportItem2HsCode' => '62099010',
-            'exportItem2Origin' => 'US',
+            'exportItem2Origin' => 'USA',
         ];
     }
 

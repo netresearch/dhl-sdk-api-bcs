@@ -190,7 +190,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $this->data['shipmentDetails']['product'] = $productCode;
-        $this->data['shipmentDetails']['date'] = $shipmentDate->format('Y-m-d');
+        $this->data['shipmentDetails']['date'] = $shipmentDate->format('c');
         $this->data['shipmentDetails']['shipmentReference'] = $shipmentReference;
         $this->data['shipmentDetails']['returnReference'] = $returnReference;
         $this->data['shipmentDetails']['costCentre'] = $costCentre;

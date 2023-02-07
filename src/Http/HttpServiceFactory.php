@@ -13,6 +13,7 @@ use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\Paket\Bcs\Http\ClientPlugin\OrderErrorPlugin;
+use Dhl\Sdk\Paket\Bcs\Http\ClientPlugin\RequestValidatorPlugin;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\DeleteShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\ValidateShipmentResponseMapper;
@@ -42,10 +43,22 @@ class HttpServiceFactory implements ServiceFactoryInterface
      */
     private $userAgent;
 
+    /**
+     * @var bool
+     */
+    private $schemaValidation = true;
+
     public function __construct(ClientInterface $httpClient, string $userAgent = '')
     {
         $this->httpClient = $httpClient;
         $this->userAgent = $userAgent;
+    }
+
+    public static function withSchemaValidationDisabled(ClientInterface $httpClient, string $userAgent = ''): self
+    {
+        $factory = new self($httpClient, $userAgent);
+        $factory->schemaValidation = false;
+        return $factory;
     }
 
     private function getUserAgent(): string
@@ -85,8 +98,9 @@ class HttpServiceFactory implements ServiceFactoryInterface
                 new HeaderDefaultsPlugin($headers),
                 new AuthenticationPlugin($userAuth),
                 new ContentLengthPlugin(),
+                new RequestValidatorPlugin($logger, $this->schemaValidation),
                 new LoggerPlugin($logger, new FullHttpMessageFormatter(null)),
-                new OrderErrorPlugin($logger)
+                new OrderErrorPlugin($logger),
             ]
         );
 

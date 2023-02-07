@@ -54,7 +54,9 @@ final class OrderErrorPlugin implements Plugin
 
     /**
      * @param string[]|int[] $itemStatus
-     * @param string[][] $itemMessages
+     * @param array{
+     *            array{'property'?: string, 'validationState': string, 'validationMessage': string}
+     *        }|array{} $itemMessages
      * @return string
      */
     private function createValidationErrorMessage(array $itemStatus, array $itemMessages): string
@@ -83,7 +85,7 @@ final class OrderErrorPlugin implements Plugin
                     return sprintf(
                         '%s (%s): %s',
                         $itemMessage['validationState'],
-                        $itemMessage['property'] ?? '',
+                        $itemMessage['property'],
                         $itemMessage['validationMessage']
                     );
                 }

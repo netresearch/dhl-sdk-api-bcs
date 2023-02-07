@@ -38,7 +38,7 @@ class RequestTypeExpectation
             foreach ($shipmentOrderData as $key => $expectedValue) {
                 $path = ArrayPath::get($key);
                 if ($key === 'shipDate') {
-                    $expectedValue = $expectedValue->format('Y-m-d');
+                    $expectedValue = $expectedValue->format('c');
                 }
                 Assert::assertEquals($expectedValue, self::getDataByPath($path, $shipmentOrder));
             }
@@ -59,7 +59,7 @@ class RequestTypeExpectation
                 $expectedValue = is_bool($expectedValue) ? intval($expectedValue) : $expectedValue;
                 $path = XPath::get($key);
                 if ($key === 'shipDate') {
-                    $expectedValue = $expectedValue->format('Y-m-d');
+                    $expectedValue = $expectedValue->format('c');
                 }
                 Assert::assertEquals((string) $expectedValue, (string) $shipmentOrder->xpath($path)[0]);
             }
