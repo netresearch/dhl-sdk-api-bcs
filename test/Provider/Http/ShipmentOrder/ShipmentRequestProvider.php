@@ -54,7 +54,7 @@ class ShipmentRequestProvider
     }
 
     /**
-     * one valid request, others invalid (multiple validation warnings).
+     * one valid request, others invalid (validation warning).
      *
      * @return \JsonSerializable[]
      * @throws RequestValidatorException
@@ -83,14 +83,56 @@ class ShipmentRequestProvider
      * @throws RequestValidatorException
      * @throws \Exception
      */
+    public static function createSingleShipmentWarning(): array
+    {
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+
+        return array_map(
+            function (AbstractRequestData $requestData) use ($requestBuilder) {
+                // set shipper address with wrong street number, recipient address with wrong zip code
+                $replace = ['shipperStreetNumber' => '4711', 'recipientPostalCode' => '04229'];
+                return $requestData->createShipmentOrder($requestBuilder, $replace);
+            },
+            [new Domestic()]
+        );
+    }
+
+    /**
+     * wrong address.
+     *
+     * @return \JsonSerializable[]
+     * @throws RequestValidatorException
+     * @throws \Exception
+     */
+    public static function createMultiShipmentWarning(): array
+    {
+        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+
+        return array_map(
+            function (AbstractRequestData $requestData) use ($requestBuilder) {
+                // set shipper address with wrong street number, recipient address with wrong zip code
+                $replace = ['shipperStreetNumber' => '4711', 'recipientPostalCode' => '04229'];
+                return $requestData->createShipmentOrder($requestBuilder, $replace);
+            },
+            [new Domestic(), new DomesticWithReturn()]
+        );
+    }
+
+    /**
+     * Syntactical error, no address validation involved.
+     *
+     * @return \JsonSerializable[]
+     * @throws RequestValidatorException
+     * @throws \Exception
+     */
     public static function createSingleShipmentError(): array
     {
         $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
         return array_map(
             function (AbstractRequestData $requestData) use ($requestBuilder) {
-                // set recipient address with wrong zip code
-                $replace = ['recipientPostalCode' => '04229'];
+                // set wrong country code format
+                $replace = ['shipperCountry' => 'DE', 'recipientCountry' => 'DE', 'returnCountry' => 'DE'];
                 return $requestData->createShipmentOrder($requestBuilder, $replace);
             },
             [new Domestic()]
@@ -106,17 +148,15 @@ class ShipmentRequestProvider
      */
     public static function createMultiShipmentError(): array
     {
-        $shipmentOrders = [];
-
         $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
 
-        foreach ([new Domestic(), new DomesticWithReturn()] as $requestData) {
-            /** @var AbstractRequestData $requestData */
-            // set ISO-2 country format
-            $replace = ['shipperCountry' => 'DE', 'recipientCountry' => 'DE', 'returnCountry' => 'DE'];
-            $shipmentOrders[] = $requestData->createShipmentOrder($requestBuilder, $replace);
-        }
-
-        return $shipmentOrders;
+        return array_map(
+            function (AbstractRequestData $requestData) use ($requestBuilder) {
+                // set wrong country code format
+                $replace = ['shipperCountry' => 'DE', 'recipientCountry' => 'DE', 'returnCountry' => 'DE'];
+                return $requestData->createShipmentOrder($requestBuilder, $replace);
+            },
+            [new Domestic(), new DomesticWithReturn()]
+        );
     }
 }

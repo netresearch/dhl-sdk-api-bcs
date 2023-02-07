@@ -31,7 +31,6 @@ class CancelShipmentTest extends TestCase
         return CancelShipmentTestProvider::cancelShipmentsSuccess();
     }
 
-
     /**
      * @return mixed[]
      */
@@ -66,6 +65,9 @@ class CancelShipmentTest extends TestCase
         array $shipmentNumbers,
         string $responseBody
     ): void {
+        $statusCode = count($shipmentNumbers) > 1 ? 207 : 200;
+        $reasonPhrase = count($shipmentNumbers) > 1 ? 'Multi-status' : 'OK';
+
         $httpClient = new Client();
         $logger = new TestLogger();
 
@@ -73,10 +75,8 @@ class CancelShipmentTest extends TestCase
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         $shipmentResponse = $responseFactory
-            ->createResponse(
-                count($shipmentNumbers) > 1 ? 207 : 200,
-                count($shipmentNumbers) > 1 ? 'Multi-status' : 'OK'
-            )
+            ->createResponse($statusCode, $reasonPhrase)
+            ->withHeader('Content-Type', 'application/json')
             ->withBody($streamFactory->createStream($responseBody));
 
         $httpClient->setDefaultResponse($shipmentResponse);
@@ -118,6 +118,9 @@ class CancelShipmentTest extends TestCase
         array $shipmentNumbers,
         string $responseBody
     ): void {
+        $statusCode = 207;
+        $reasonPhrase = 'Multi-status';
+
         $httpClient = new Client();
         $logger = new TestLogger();
 
@@ -125,7 +128,8 @@ class CancelShipmentTest extends TestCase
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         $shipmentResponse = $responseFactory
-            ->createResponse(207, 'Multi-status')
+            ->createResponse($statusCode, $reasonPhrase)
+            ->withHeader('Content-Type', 'application/json')
             ->withBody($streamFactory->createStream($responseBody));
 
         $httpClient->setDefaultResponse($shipmentResponse);
@@ -135,15 +139,12 @@ class CancelShipmentTest extends TestCase
 
         $result = $service->cancelShipments($shipmentNumbers);
 
-
         OrderServiceTestExpectation::assertSomeShipmentsCancelled(
             $httpClient->getLastRequest()->getUri()->getQuery(),
             $responseBody,
             $result
         );
 
-        // todo(nr): assert cancellation errors are logged.
-        // CommunicationExpectation::assertErrorsLogged(
         CommunicationExpectation::assertCommunicationLogged(
             $httpClient->getLastRequest()->getUri()->getQuery(),
             $responseBody,
@@ -169,13 +170,11 @@ class CancelShipmentTest extends TestCase
         array $shipmentNumbers,
         string $responseBody
     ): void {
-        if (count($shipmentNumbers) > 1) {
-            $this->markTestIncomplete('assert detailed service exception being thrown when all shipments fail');
-        }
+        $statusCode = count($shipmentNumbers) > 1 ? 207 : 400;
+        $reasonPhrase = count($shipmentNumbers) > 1 ? 'Multi-status' : 'Bad Request';
 
-        // @todo(nr): assert detailed service exception being thrown
-        $this->expectException(ServiceException::class);
-        $this->expectExceptionCode(400);
+        $this->expectException(DetailedServiceException::class);
+        $this->expectExceptionCode($statusCode);
 
         $httpClient = new Client();
         $logger = new TestLogger();
@@ -184,10 +183,8 @@ class CancelShipmentTest extends TestCase
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         $shipmentResponse = $responseFactory
-            ->createResponse(
-                count($shipmentNumbers) > 1 ? 207 : 400,
-                count($shipmentNumbers) > 1 ? 'Multi-status' : 'Bad Request'
-            )
+            ->createResponse($statusCode, $reasonPhrase)
+            ->withHeader('Content-Type', 'application/json')
             ->withBody($streamFactory->createStream($responseBody));
 
         $httpClient->setDefaultResponse($shipmentResponse);
@@ -199,7 +196,7 @@ class CancelShipmentTest extends TestCase
             $service->cancelShipments($shipmentNumbers);
         } catch (DetailedServiceException $exception) {
             CommunicationExpectation::assertErrorsLogged(
-                $httpClient->getLastRequest()->getUri()->getQuery(),
+                (string) $statusCode,
                 $responseBody,
                 $logger
             );

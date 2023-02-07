@@ -63,36 +63,41 @@ class ValidateShipmentTestProvider
 
     /**
      * Provide request and response for the test case
-     * - shipment(s) sent to the API, all shipments valid, weak validation error occurred.
+     * - shipment(s) sent to the API, all shipments have issues, weak or hard validation error occurred (no difference).
      *
      * @return mixed[]
      * @throws RequestValidatorException
      */
     public static function validateShipmentsWarning(): array
     {
-        $response = __DIR__ . '/../../_files/validateshipment/multiShipmentValidationWarning.json';
+        $singleFail = __DIR__ . '/../../_files/validateshipment/singleShipmentValidationWarning.json';
+        $multiFail = __DIR__ . '/../../_files/validateshipment/multiShipmentValidationWarning.json';
 
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
-        $labelRequest = ShipmentRequestProvider::createMultiShipmentPartialSuccess();
-        $labelResponse = \file_get_contents($response);
+        $singleFailRequest = ShipmentRequestProvider::createSingleShipmentWarning();
+        $singleFailResponse = \file_get_contents($singleFail);
+
+        $multiFailRequest = ShipmentRequestProvider::createMultiShipmentWarning();
+        $multiFailResponse = \file_get_contents($multiFail);
 
         return [
-            'multi label partial success' => [$authStorage, $labelRequest, $labelResponse],
+            'single label warning' => [$authStorage, $singleFailRequest, $singleFailResponse],
+            'multi label warning' => [$authStorage, $multiFailRequest, $multiFailResponse],
         ];
     }
 
     /**
      * Provide request and response for the test case
-     * - shipment(s) sent to the API, all shipments invalid, hard validation error occurred.
+     * - shipment(s) sent to the API, all shipments invalid, error occurred.
      *
      * @return mixed[]
      * @throws RequestValidatorException
      */
     public static function validateShipmentsError(): array
     {
-        $singleResponse = __DIR__ . '/../../_files/validateshipment/singleShipmentError.json';
-        $multiResponse = __DIR__ . '/../../_files/validateshipment/multiShipmentError.json';
+        $singleResponse = __DIR__ . '/../../_files/validateshipment/singleShipmentSchemaError.json';
+        $multiResponse = __DIR__ . '/../../_files/validateshipment/multiShipmentSchemaError.json';
 
         $authStorage = AuthenticationStorageProvider::authSuccess();
 
@@ -103,8 +108,8 @@ class ValidateShipmentTestProvider
         $multiLabelResponse = \file_get_contents($multiResponse);
 
         return [
-            'single label validation error' => [$authStorage, $singleLabelRequest, $singleLabelResponse],
-            'multi label validation error' => [$authStorage, $multiLabelRequest, $multiLabelResponse],
+            'single label schema error' => [$authStorage, $singleLabelRequest, $singleLabelResponse],
+            'multi label schema error' => [$authStorage, $multiLabelRequest, $multiLabelResponse],
         ];
     }
 }

@@ -1,23 +1,13 @@
 {
   "status": {
-    "title": "Multi-Status",
-    "status": 207,
-    "detail": "1 of 2 shipments validated OK. Details included."
+    "title": "Bad Request",
+    "status": 400,
+    "detail": "1 detailed item status included"
   },
   "items": [
     {
-      "sequenceNumber": 1,
       "sstatus": {
-        "title": "ok",
-        "status": 200,
-        "detail": "The Webservice call ran successfully."
-      },
-      "validationMessages": []
-    },
-    {
-      "sequenceNumber": 2,
-      "sstatus": {
-        "title": "Within the shipment there was at least one weak validation error.",
+        "title": "Bad Request",
         "status": 400
       },
       "validationMessages": [

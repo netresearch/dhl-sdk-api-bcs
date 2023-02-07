@@ -1,0 +1,33 @@
+{
+  "status": {
+    "title": "ok",
+    "status": 200,
+    "detail": "1 detailed item status included"
+  },
+  "items": [
+    {
+      "shipmentNo": "0034043333301010000010005",
+      "sstatus": {
+        "title": "ok",
+        "status": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The street entered could not be found.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}

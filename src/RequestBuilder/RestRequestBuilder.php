@@ -104,6 +104,7 @@ class RestRequestBuilder
                 $this->data['recipient']['postfiliale']['countryCode']
             );
             $consignee->setPostNumber($this->data['recipient']['postfiliale']['postNumber']);
+            $consignee->setEmail($this->data['recipient']['address']['email'] ?? '');
         } elseif (isset($this->data['recipient']['address'])) {
             $addressData = $this->data['recipient']['address'];
             $consignee = new ContactAddress(
@@ -163,13 +164,24 @@ class RestRequestBuilder
             $services->setPreferredDay($this->data['services']['preferredDay'] ?? null);
             $services->setVisualCheckOfAge($this->data['services']['visualCheckOfAge'] ?? null);
             $services->setNamedPersonOnly($this->data['services']['namedPersonOnly'] ?? null);
-            $services->setEndorsement($this->data['services']['endorsement'] ?? null);
             $services->setNoNeighbourDelivery($this->data['services']['noNeighbourDelivery'] ?? null);
             $services->setIndividualSenderRequirement($this->data['services']['individualSenderRequirement'] ?? null);
+            $services->setPackagingReturn($this->data['services']['packagingReturn'] ?? null);
             $services->setParcelOutletRouting($this->data['services']['parcelOutletRouting']['details'] ?? null);
             $services->setPremium($this->data['services']['premium'] ?? null);
             $services->setBulkyGoods($this->data['services']['bulkyGoods'] ?? null);
             $services->setPostalDeliveryDutyPaid($this->data['services']['pddp'] ?? null);
+
+            switch ($this->data['services']['endorsement'] ?? false) {
+                case ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE:
+                    $services->setEndorsement('RETURN');
+                    break;
+                case ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_ABANDONMENT:
+                    $services->setEndorsement('ABANDON');
+                    break;
+                default:
+                    $services->setEndorsement(null);
+            }
 
             if (isset($this->data['recipient']['notification'])) {
                 $shippingConfirmation = new ShippingConfirmation($this->data['recipient']['notification']);
@@ -180,8 +192,8 @@ class RestRequestBuilder
                 $cod = new CashOnDelivery(new MonetaryValue('EUR', $this->data['services']['cod']['codAmount']));
                 if (isset($this->data['shipper']['bankData'])) {
                     $bankAccount = new BankAccount(
-                        $this->data['shipper']['bankData']['owner'],
-                        $this->data['shipper']['bankData']['iban']
+                        $this->data['shipper']['bankData']['owner'] ?? '',
+                        $this->data['shipper']['bankData']['iban'] ?? ''
                     );
                     $bankAccount->setBankName($this->data['shipper']['bankData']['bankName'] ?? null);
                     $bankAccount->setBic($this->data['shipper']['bankData']['bic']);
@@ -230,7 +242,6 @@ class RestRequestBuilder
 
                 $return = new DhlRetoure($this->data['shipper']['returnBillingNumber'], $returnAddress);
                 $return->setRefNo($this->data['shipmentDetails']['returnReference'] ?? null);
-                $services->setPackagingReturn(true);
                 $services->setDhlRetoure($return);
             }
 

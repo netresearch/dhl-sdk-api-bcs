@@ -8,12 +8,17 @@ declare(strict_types=1);
 
 namespace Dhl\Sdk\Paket\Bcs\Test\Expectation;
 
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use PHPUnit\Framework\Assert;
 
 class OrderServiceTestExpectation
 {
-    private static function sortResult(array $result): array
+    /**
+     * @param ValidationResultInterface[] $result
+     * @return ValidationResultInterface[][]
+     */
+    private static function sortValidationResult(array $result): array
     {
         return array_reduce(
             $result,
@@ -39,7 +44,7 @@ class OrderServiceTestExpectation
         $request = \json_decode($requestJson, true);
         $response = \json_decode($responseJson, true);
 
-        $actual = self::sortResult($result);
+        $actual = self::sortValidationResult($result);
 
         // assert that all sequence numbers of the request JSON are available in the SDK response
         $expected = array_keys($request['shipments']);
@@ -134,5 +139,56 @@ class OrderServiceTestExpectation
         // assert that shipments were cancelled but not all of them
         Assert::assertNotEmpty($result);
         Assert::assertLessThan(count($requested), count($result));
+    }
+
+    /**
+     * @param string $requestJson Serialized request value to be asserted
+     * @param string $responseJson Pre-recorded, expected value
+     * @param ShipmentInterface[] $result Deserialized return value to be asserted
+     */
+    public static function assertShipmentsBooked(string $requestJson, string $responseJson, array $result): void
+    {
+        $request = \json_decode($requestJson, true);
+        $response = \json_decode($responseJson, true);
+
+        // assert that SDK request was serialized to expected number of JSON shipment objects
+        Assert::assertCount(
+            count($response['items']),
+            $request['shipments'],
+            'Request does not contain the expected number of shipments.'
+        );
+
+        // assert that SDK response contains all successfully created shipments
+        $labels = array_reduce(
+            $result,
+            function (array $carry, ShipmentInterface $shipment) {
+                $carry[$shipment->getSequenceNumber()] = $shipment->getLabels();
+                return $carry;
+            },
+            []
+        );
+
+        foreach ($response['items'] as $index => $responseItem) {
+            if ($responseItem['sstatus']['status'] === 200) {
+                // assert that successful API response items were mapped to SDK response items
+                Assert::assertArrayHasKey($index, $labels);
+
+                // assert that each SDK item contains all the label types included in the API item
+                $responseLabels = array_filter(
+                    [
+                        $responseItem['label']['b64'] ?? '',
+                        $responseItem['returnLabel']['b64'] ?? '',
+                        $responseItem['codLabel']['b64'] ?? ''
+                    ]
+                );
+                Assert::assertEmpty(
+                    array_diff($responseLabels, $labels[$index]),
+                    "Returned labels are not mapped to result for $index."
+                );
+            } else {
+                // assert that failed response items were not mapped to SDK responses
+                Assert::assertArrayNotHasKey($index, $labels);
+            }
+        }
     }
 }

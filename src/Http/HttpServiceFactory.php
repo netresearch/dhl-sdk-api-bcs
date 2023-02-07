@@ -73,7 +73,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
         $userAuth = new BasicAuth($authStorage->getUser(), $authStorage->getSignature());
 
         $headers = [
-            'Accept' => 'application/json',
+            'Accept' => 'application/json, application/problem+json',
             'Content-Type' => 'application/json',
             'User-Agent' => $this->getUserAgent(),
             'dhl-api-key' => $authStorage->getApplicationToken(),
@@ -86,7 +86,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
                 new AuthenticationPlugin($userAuth),
                 new ContentLengthPlugin(),
                 new LoggerPlugin($logger, new FullHttpMessageFormatter(null)),
-                new OrderErrorPlugin()
+                new OrderErrorPlugin($logger)
             ]
         );
 

@@ -52,6 +52,11 @@ class PostOffice implements ConsigneeInterface, \JsonSerializable
      */
     private $postNumber;
 
+    /**
+     * @var string|null
+     */
+    private $email;
+
     public function __construct(string $name, int $retailID, string $postalCode, string $city, string $country)
     {
         $this->name = $name;
@@ -61,12 +66,14 @@ class PostOffice implements ConsigneeInterface, \JsonSerializable
         $this->country = $country;
     }
 
-    /**
-     * @param string|null $postNumber
-     */
     public function setPostNumber(?string $postNumber): void
     {
         $this->postNumber = $postNumber;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
     }
 
     /**

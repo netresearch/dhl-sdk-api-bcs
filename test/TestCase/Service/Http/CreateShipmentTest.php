@@ -14,15 +14,16 @@ use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\OrderServiceTestExpectation;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\ValidateShipmentTestProvider;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\CreateShipmentTestProvider;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 
-class ValidateShipmentTest extends TestCase
+class CreateShipmentTest extends TestCase
 {
     /**
      * @return mixed[]
@@ -30,7 +31,7 @@ class ValidateShipmentTest extends TestCase
      */
     public function successDataProvider(): array
     {
-        return ValidateShipmentTestProvider::validateShipmentsSuccess();
+        return CreateShipmentTestProvider::createShipmentsSuccess();
     }
 
     /**
@@ -39,7 +40,7 @@ class ValidateShipmentTest extends TestCase
      */
     public function partialSuccessDataProvider(): array
     {
-        return ValidateShipmentTestProvider::validateShipmentsPartialSuccess();
+        return CreateShipmentTestProvider::createShipmentsPartialSuccess();
     }
 
     /**
@@ -48,7 +49,16 @@ class ValidateShipmentTest extends TestCase
      */
     public function validationWarningDataProvider(): array
     {
-        return ValidateShipmentTestProvider::validateShipmentsWarning();
+        return CreateShipmentTestProvider::createShipmentsValidationWarning();
+    }
+
+    /**
+     * @return mixed[]
+     * @throws RequestValidatorException
+     */
+    public function validationErrorDataProvider(): array
+    {
+        return CreateShipmentTestProvider::createShipmentsValidationError();
     }
 
     /**
@@ -57,7 +67,7 @@ class ValidateShipmentTest extends TestCase
      */
     public function schemaErrorDataProvider(): array
     {
-        return ValidateShipmentTestProvider::validateShipmentsError();
+        return CreateShipmentTestProvider::createShipmentsError();
     }
 
     /**
@@ -73,7 +83,7 @@ class ValidateShipmentTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsSuccess(
+    public function createShipmentsSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseBody
@@ -97,12 +107,12 @@ class ValidateShipmentTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders, new OrderConfiguration(true, false));
 
         $lastRequest = $httpClient->getLastRequest();
         $requestBody = (string) $lastRequest->getBody();
 
-        OrderServiceTestExpectation::assertValidationResponse(
+        OrderServiceTestExpectation::assertShipmentsBooked(
             $requestBody,
             $responseBody,
             $result
@@ -117,7 +127,7 @@ class ValidateShipmentTest extends TestCase
     }
 
     /**
-     * Test shipment partial success case (some requests valid, some have issues).
+     * Test shipment partial success case (some requests valid, some have issues, must encode).
      *
      * @test
      * @dataProvider partialSuccessDataProvider
@@ -129,7 +139,7 @@ class ValidateShipmentTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsPartialSuccess(
+    public function createShipmentsPartialSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseBody
@@ -153,12 +163,12 @@ class ValidateShipmentTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders, new OrderConfiguration(true));
 
         $lastRequest = $httpClient->getLastRequest();
         $requestBody = (string) $lastRequest->getBody();
 
-        OrderServiceTestExpectation::assertValidationResponse(
+        OrderServiceTestExpectation::assertShipmentsBooked(
             $requestBody,
             $responseBody,
             $result
@@ -173,7 +183,7 @@ class ValidateShipmentTest extends TestCase
     }
 
     /**
-     * Test shipment validation failure case (warnings on all requests, exception thrown).
+     * Test shipment success case (all requests have issues with WEAK warning severity).
      *
      * @test
      * @dataProvider validationWarningDataProvider
@@ -185,7 +195,62 @@ class ValidateShipmentTest extends TestCase
      * @throws AuthenticationException
      * @throws ServiceException
      */
-    public function validateShipmentsWarning(
+    public function createShipmentsValidationWarning(
+        AuthenticationStorageInterface $authStorage,
+        array $shipmentOrders,
+        string $responseBody
+    ): void {
+        $statusCode = count($shipmentOrders) > 1 ? 207 : 200;
+        $reasonPhrase = count($shipmentOrders) > 1 ? 'Multi-status' : 'OK';
+
+        $httpClient = new Client();
+        $logger = new TestLogger();
+
+        $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+
+        $labelResponse = $responseFactory
+            ->createResponse($statusCode, $reasonPhrase)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody($streamFactory->createStream($responseBody));
+
+        $httpClient->setDefaultResponse($labelResponse);
+
+        $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+
+        $result = $service->createShipments($shipmentOrders);
+
+        $lastRequest = $httpClient->getLastRequest();
+        $requestBody = (string) $lastRequest->getBody();
+
+        OrderServiceTestExpectation::assertShipmentsBooked(
+            $requestBody,
+            $responseBody,
+            $result
+        );
+
+        // no "warning" severity for REST APIs
+        CommunicationExpectation::assertCommunicationLogged(
+            $requestBody,
+            $responseBody,
+            $logger
+        );
+    }
+
+    /**
+     * Test shipment error case (all requests have issues with HARD warning severity).
+     *
+     * @test
+     * @dataProvider validationErrorDataProvider
+     *
+     * @param AuthenticationStorageInterface $authStorage
+     * @param \JsonSerializable[] $shipmentOrders
+     * @param string $responseBody
+     *
+     * @throws ServiceException
+     */
+    public function createShipmentsValidationError(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseBody
@@ -213,7 +278,7 @@ class ValidateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders);
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();
@@ -240,7 +305,7 @@ class ValidateShipmentTest extends TestCase
      *
      * @throws ServiceException
      */
-    public function validateShipmentsFailure(
+    public function createShipmentsFailure(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseBody
@@ -268,7 +333,7 @@ class ValidateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders);
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();

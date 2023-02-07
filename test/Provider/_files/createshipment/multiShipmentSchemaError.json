@@ -6,11 +6,11 @@
   },
   "items": [
     {
-      "propertyPath": "shipments[0].consignee.country",
+      "propertyPath": "shipments[0].shipper.country",
       "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
     },
     {
-      "propertyPath": "shipments[0].shipper.country",
+      "propertyPath": "shipments[1].consignee.country",
       "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
     },
     {
@@ -18,7 +18,7 @@
       "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
     },
     {
-      "propertyPath": "shipments[1].consignee.country",
+      "propertyPath": "shipments[0].consignee.country",
       "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
     },
     {

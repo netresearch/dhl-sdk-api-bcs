@@ -13,8 +13,13 @@
       },
       "validationMessages": [
         {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
           "property": "consignee",
-          "validationMessage": "The street entered could not be found.",
+          "validationMessage": "The city entered does not match the postcode. The shipment is not codeable.",
           "validationState": "Warning"
         }
       ]

@@ -10,6 +10,8 @@ namespace Dhl\Sdk\Paket\Bcs\Service;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationErrorHttpException;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedErrorHttpException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\CreateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\DeleteShipmentResponseMapper;
@@ -104,6 +106,38 @@ class OrderService implements ShipmentServiceInterface
         return new ShipmentOrderRequest($shipmentOrders);
     }
 
+    /**
+     * @param string[] $requestParams
+     * @param OrderConfigurationInterface|null $configuration
+     * @return string
+     */
+    private function getQuery(array $requestParams, OrderConfigurationInterface $configuration = null): string
+    {
+        if ($configuration instanceof OrderConfigurationInterface) {
+            if ($configuration->mustEncode()) {
+                $requestParams['mustEncode'] = 'true';
+            }
+
+            if ($configuration->isCombinedPrinting() !== null) {
+                $requestParams['combine'] = $configuration->isCombinedPrinting() ? 'true' : 'false';
+            }
+
+            if ($configuration->getDocFormat() === OrderConfigurationInterface::DOC_FORMAT_ZPL2) {
+                $requestParams['docFormat'] = 'ZPL2';
+            }
+
+            if ($configuration->getPrintFormat()) {
+                $requestParams['printFormat'] = $configuration->getPrintFormat();
+            }
+
+            if ($configuration->getPrintFormatReturn()) {
+                $requestParams['retourePrintFormat'] = $configuration->getPrintFormatReturn();
+            }
+        }
+
+        return http_build_query($requestParams);
+    }
+
     public function getVersion(): string
     {
         try {
@@ -122,15 +156,16 @@ class OrderService implements ShipmentServiceInterface
 
     public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        $requestParams[] = 'validate=true';
-        if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
-            $requestParams[] = 'mustEncode=true';
-        }
-
-        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
+        $query = $this->getQuery(['validate' => 'true'], $configuration);
+        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, $query);
 
         try {
-            $payload = $this->serializer->encode($this->getShipmentOrderRequest($shipmentOrders));
+            $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
+            if ($configuration instanceof OrderConfigurationInterface) {
+                $shipmentOrderRequest->setProfile($configuration->getProfile());
+            }
+
+            $payload = $this->serializer->encode($shipmentOrderRequest);
             $stream = $this->streamFactory->createStream($payload);
 
             $httpRequest = $this->requestFactory->createRequest('POST', $uri)->withBody($stream);
@@ -140,6 +175,10 @@ class OrderService implements ShipmentServiceInterface
             $responseObject = $this->serializer->decode($responseJson);
 
             return $this->validateShipmentResponseMapper->map($responseObject);
+        } catch (AuthenticationErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }
@@ -147,15 +186,19 @@ class OrderService implements ShipmentServiceInterface
 
     public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        $requestParams = [];
-        if ($configuration instanceof OrderConfigurationInterface && $configuration->mustEncode()) {
-            $requestParams['mustEncode'] = 'true';
+        $query = $this->getQuery([], $configuration);
+        $uri = sprintf('%s/%s', $this->baseUrl, self::OPERATION_ORDERS);
+        if (!empty($query)) {
+            $uri = "$uri?$query";
         }
 
-        $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
-
         try {
-            $payload = $this->serializer->encode($this->getShipmentOrderRequest($shipmentOrders));
+            $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
+            if ($configuration instanceof OrderConfigurationInterface) {
+                $shipmentOrderRequest->setProfile($configuration->getProfile());
+            }
+
+            $payload = $this->serializer->encode($shipmentOrderRequest);
             $stream = $this->streamFactory->createStream($payload);
 
             $httpRequest = $this->requestFactory->createRequest('POST', $uri)->withBody($stream);
@@ -165,6 +208,10 @@ class OrderService implements ShipmentServiceInterface
             $responseObject = $this->serializer->decode($responseJson);
 
             return $this->createShipmentResponseMapper->map($responseObject);
+        } catch (AuthenticationErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }
@@ -194,6 +241,10 @@ class OrderService implements ShipmentServiceInterface
             $responseObject = $this->serializer->decode($responseJson);
 
             return $this->deleteShipmentResponseMapper->map($responseObject);
+        } catch (AuthenticationErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorHttpException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (\Throwable $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         }

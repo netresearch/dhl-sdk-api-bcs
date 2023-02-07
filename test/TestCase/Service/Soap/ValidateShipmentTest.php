@@ -10,12 +10,10 @@ namespace Dhl\Sdk\Paket\Bcs\Test\TestCase\Service\Soap;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
-use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
@@ -58,27 +56,9 @@ class ValidateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function partialSuccessDataProvider(): array
-    {
-        return ValidateShipmentTestProvider::validateShipmentsPartialSuccess();
-    }
-
-    /**
-     * @return mixed[]
-     * @throws RequestValidatorException
-     */
     public function validationWarningDataProvider(): array
     {
         return ValidateShipmentTestProvider::validateShipmentsWarning();
-    }
-
-    /**
-     * @return mixed[]
-     * @throws RequestValidatorException
-     */
-    public function validationErrorDataProvider(): array
-    {
-        return ValidateShipmentTestProvider::validateShipmentsError();
     }
 
     /**
@@ -149,58 +129,6 @@ class ValidateShipmentTest extends TestCase
     }
 
     /**
-     * Test shipment partial success case (some requests valid).
-     *
-     * @test
-     * @dataProvider partialSuccessDataProvider
-     *
-     * @param string $wsdl
-     * @param AuthenticationStorageInterface $authStorage
-     * @param ShipmentOrderType[] $shipmentOrders
-     * @param string $responseXml
-     *
-     * @throws AuthenticationException
-     * @throws ServiceException
-     */
-    public function validateShipmentsPartialSuccess(
-        string $wsdl,
-        AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $responseXml
-    ): void {
-        self::markTestIncomplete('Web service does not validate wrong addresses properly.');
-
-        $logger = new TestLogger();
-        $configuration = new OrderConfiguration(true);
-
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
-        $soapClient->expects(self::once())
-            ->method('__doRequest')
-            ->willReturn($responseXml);
-
-        $serviceFactory = new SoapServiceFactory($soapClient);
-        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-        $result = $service->validateShipments($shipmentOrders, $configuration);
-
-        // assert that shipments were created but not all of them
-        Expectation::assertSomeShipmentsValid(
-            $soapClient->__getLastRequest(),
-            $soapClient->__getLastResponse(),
-            $result
-        );
-        // assert hard validation errors are logged.
-        CommunicationExpectation::assertErrorsLogged(
-            $soapClient->__getLastRequest(),
-            $soapClient->__getLastResponse(),
-            $logger
-        );
-    }
-
-    /**
      * Test shipment success case (all requests valid, warnings exist).
      *
      * @test
@@ -246,60 +174,6 @@ class ValidateShipmentTest extends TestCase
             $soapClient->__getLastResponse(),
             $logger
         );
-    }
-
-    /**
-     * Test shipment validation failure case (all requests invalid, client exception thrown).
-     *
-     * @test
-     * @dataProvider validationErrorDataProvider
-     *
-     * @param string $wsdl
-     * @param AuthenticationStorageInterface $authStorage
-     * @param ShipmentOrderType[] $shipmentOrders
-     * @param string $responseXml
-     *
-     * @throws ServiceException
-     */
-    public function validateShipmentsValidationError(
-        string $wsdl,
-        AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $responseXml
-    ): void {
-        self::markTestIncomplete('Web service does not validate wrong addresses properly.');
-
-        $this->expectException(DetailedServiceException::class);
-        $this->expectExceptionCode(1101);
-        $this->expectExceptionMessage('Hard validation error occured.');
-
-        $logger = new TestLogger();
-        $configuration = new OrderConfiguration(true);
-
-        $clientOptions = $this->getSoapClientOptions($authStorage);
-
-        /** @var \SoapClient|MockObject $soapClient */
-        $soapClient = $this->getMockFromWsdl($wsdl, SoapClientFake::class, '', ['__doRequest'], true, $clientOptions);
-
-        $soapClient->expects(self::once())
-            ->method('__doRequest')
-            ->willReturn($responseXml);
-
-        $serviceFactory = new SoapServiceFactory($soapClient);
-        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
-
-        try {
-            $service->validateShipments($shipmentOrders, $configuration);
-        } catch (DetailedServiceException $exception) {
-            // assert hard validation errors are logged.
-            CommunicationExpectation::assertErrorsLogged(
-                $soapClient->__getLastRequest(),
-                $soapClient->__getLastResponse(),
-                $logger
-            );
-
-            throw $exception;
-        }
     }
 
     /**

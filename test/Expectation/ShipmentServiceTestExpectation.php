@@ -96,19 +96,19 @@ class ShipmentServiceTestExpectation
         $response = $response->xpath('/soap:Envelope/soap:Body/bcs:CreateShipmentOrderResponse')[0];
 
         // assert that all sequence numbers of the request are available in the response
-        $expected = $request->xpath('./ShipmentOrder/sequenceNumber');
+        $requested = $request->xpath('./ShipmentOrder/sequenceNumber');
         $actual = array_map(function (ShipmentInterface $shipment) {
             return $shipment->getSequenceNumber();
         }, $result);
-        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+        Assert::assertEmpty(array_diff($requested, $actual), 'Sequence numbers of the response do not match.');
 
-        // assert that all labels are included in the response
+        // assert that all labels from the XML response are included in the SDK response
         foreach ($result as $shipment) {
             $sn = $shipment->getSequenceNumber();
             $labelData = $response->xpath("./CreationState[sequenceNumber=$sn]/LabelData")[0];
-            $expected = $labelData->xpath("./*[substring(name(), string-length(name()) - 3) = 'Data']");
-            $actual = array_filter($shipment->getLabels());
-            Assert::assertEmpty(array_diff($expected, $actual), "Returned labels are not mapped to result for $sn.");
+            $apiLabels = $labelData->xpath("./*[substring(name(), string-length(name()) - 3) = 'Data']");
+            $sdkLabels = array_filter($shipment->getLabels());
+            Assert::assertEmpty(array_diff($apiLabels, $sdkLabels), "Label data is not mapped to result for $sn.");
         }
     }
 
@@ -131,18 +131,18 @@ class ShipmentServiceTestExpectation
         $response = $response->xpath('/soap:Envelope/soap:Body/bcs:CreateShipmentOrderResponse')[0];
 
         // assert that all sequence numbers of the request are available in the response
-        $expected = $request->xpath('./ShipmentOrder/sequenceNumber');
+        $requested = $request->xpath('./ShipmentOrder/sequenceNumber');
         $actual = $response->xpath('./CreationState/sequenceNumber');
-        Assert::assertEmpty(array_diff($expected, $actual), 'Sequence numbers of the response do not match.');
+        Assert::assertEmpty(array_diff($requested, $actual), 'Sequence numbers of the response do not match.');
 
         // assert that success and error status are contained in the response
         $labels = $response->xpath("./CreationState/LabelData[./Status/statusCode = '0']");
         $errors = $response->xpath("./CreationState/LabelData[./Status/statusCode != '0']");
-        Assert::assertCount(count($expected), array_merge($labels, $errors));
+        Assert::assertCount(count($requested), array_merge($labels, $errors));
 
         // assert that shipments were created but not all of them
         Assert::assertNotEmpty($result);
-        Assert::assertLessThan(count($expected), count($result));
+        Assert::assertLessThan(count($requested), count($result));
     }
 
     /**

@@ -2,14 +2,19 @@
   "status": {
     "title": "Multi-Status",
     "status": 207,
-    "detail": "0 of 2 shipments validated OK. Details included."
+    "detail": "2 of 2 shipments successfully created."
   },
   "items": [
     {
-      "sequenceNumber": 1,
+      "shipmentNo": "0034043333301010000010005",
       "sstatus": {
-        "title": "Within the shipment there was at least one weak validation error.",
-        "status": 400
+        "title": "ok",
+        "status": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
       },
       "validationMessages": [
         {
@@ -25,10 +30,15 @@
       ]
     },
     {
-      "sequenceNumber": 2,
+      "shipmentNo": "0034043333301010000010006",
       "sstatus": {
-        "title": "Within the shipment there was at least one weak validation error.",
-        "status": 400
+        "title": "ok",
+        "status": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-1",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
       },
       "validationMessages": [
         {

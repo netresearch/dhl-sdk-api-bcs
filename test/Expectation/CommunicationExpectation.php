@@ -14,7 +14,9 @@ use Psr\Log\Test\TestLogger;
 class CommunicationExpectation
 {
     /**
-     * Mock client does not send headers, only check for request body being logged.
+     * Assert that messages are logged with info severity.
+     *
+     * - SOAP mock client does not send headers, only check for request body being logged.
      *
      * @param string $requestBody
      * @param string $responseBody
@@ -30,7 +32,10 @@ class CommunicationExpectation
     }
 
     /**
-     * Mock client does not send headers, only check for request body being logged.
+     * Assert that messages are logged with error severity.
+     *
+     * - SOAP mock client does not send headers, only check for request body being logged.
+     * - REST client never logs warning severity.
      *
      * @param string $requestBody
      * @param string $responseBody
@@ -46,9 +51,10 @@ class CommunicationExpectation
     }
 
     /**
-     * Mock client does not send headers, only check for request body being logged.
+     * Assert that messages are logged with error severity.
      *
-     * @fixme(nr): logger plugin formats response. 1:1 comparison is not possible.
+     * - SOAP mock client does not send headers, only check for request body being logged.
+     * - REST client logs all requests with info severity.
      *
      * @param string $requestBody
      * @param string $responseBody
@@ -59,7 +65,10 @@ class CommunicationExpectation
         string $responseBody,
         TestLogger $logger
     ): void {
-        Assert::assertTrue($logger->hasErrorThatContains($requestBody), 'Error messages do not contain request.');
-        Assert::assertTrue($logger->hasErrorThatContains($responseBody), 'Error messages do not contain response.');
+        $isRequestLogged = $logger->hasErrorThatContains($requestBody) || $logger->hasInfoThatContains($requestBody);
+        $isResponseLogged = $logger->hasErrorThatContains($responseBody);
+
+        Assert::assertTrue($isRequestLogged, 'Logged messages do not contain request.');
+        Assert::assertTrue($isResponseLogged, 'Logged messages do not contain response.');
     }
 }

@@ -2,13 +2,12 @@
   "status": {
     "title": "Multi-Status",
     "status": 207,
-    "detail": "0 of 2 shipments validated OK. Details included."
+    "detail": "0 of 2 shipments successfully created."
   },
   "items": [
     {
-      "sequenceNumber": 1,
       "sstatus": {
-        "title": "Within the shipment there was at least one weak validation error.",
+        "title": "Bad Request",
         "status": 400
       },
       "validationMessages": [
@@ -25,9 +24,8 @@
       ]
     },
     {
-      "sequenceNumber": 2,
       "sstatus": {
-        "title": "Within the shipment there was at least one weak validation error.",
+        "title": "Bad Request",
         "status": 400
       },
       "validationMessages": [

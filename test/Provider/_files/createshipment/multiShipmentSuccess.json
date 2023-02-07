@@ -1,0 +1,38 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "status": 207,
+    "detail": "2 of 2 shipments successfully created."
+  },
+  "items": [
+    {
+      "shipmentNo": "0034043333301010000010002",
+      "sstatus": {
+        "title": "ok",
+        "status": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
+      }
+    },
+    {
+      "shipmentNo": "0034043333301010000010003",
+      "sstatus": {
+        "title": "ok",
+        "status": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-1",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
+      },
+      "returnLabel": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-2",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "status": {
+    "title": "Bad Request",
+    "status": 400,
+    "detail": "Your request contained technical errors as listed below."
+  },
+  "items": [
+    {
+      "propertyPath": "shipments[1].consignee.country",
+      "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
+    },
+    {
+      "propertyPath": "shipments[1].shipper.country",
+      "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
+    },
+    {
+      "propertyPath": "shipments[0].shipper.country",
+      "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
+    },
+    {
+      "propertyPath": "shipments[1].services.dhlRetoure.returnAddress.country",
+      "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
+    },
+    {
+      "propertyPath": "shipments[0].consignee.country",
+      "message": "Parameter country must be a valid country code consisting of three characters according to ISO 3166-1 alpha-3."
+    }
+  ]
+}
