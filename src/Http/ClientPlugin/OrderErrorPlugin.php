@@ -178,7 +178,7 @@ final class OrderErrorPlugin implements Plugin
                 }
             } else {
                 $responseJson = (string)$response->getBody();
-                $responseData = \json_decode($responseJson, true);
+                $responseData = \json_decode($responseJson, true) ?: [];
                 $errorMessage = $this->createErrorMessage($responseData, $response->getReasonPhrase());
 
                 if ($statusCode === 401 || $statusCode === 403) {
