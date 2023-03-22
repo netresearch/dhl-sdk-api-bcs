@@ -63,7 +63,7 @@ final class OrderErrorPlugin implements Plugin
     {
         $message = '';
 
-        if ($itemStatus['status'] === 200) {
+        if ($itemStatus['statusCode'] === 200) {
             return $message;
         }
 
@@ -100,7 +100,7 @@ final class OrderErrorPlugin implements Plugin
      * Try to extract the error message from the response. If not possible, return default message.
      *
      * @param array{
-     *     'status': array{'title': string, 'status': int, 'detail': string},
+     *     'status': array{'title': string, 'statusCode': int, 'detail': string},
      *     'items': array{
      *                  array{
      *                      'propertyPath': string,
@@ -110,7 +110,7 @@ final class OrderErrorPlugin implements Plugin
      *                  array{
      *                      'sequenceNumber'?: int,
      *                      'shipmentNo'?: string,
-     *                      'sstatus': array{'title': string, 'status': int, 'detail'?: string},
+     *                      'sstatus': array{'title': string, 'statusCode': int, 'detail'?: string},
      *                      'validationMessages'?: string[][]
      *                 }
      *             }
@@ -155,7 +155,7 @@ final class OrderErrorPlugin implements Plugin
         sort($messages);
 
         $responseStatus = $responseData['status'];
-        array_unshift($messages, sprintf('Error %s: %s', $responseStatus['status'], $responseStatus['detail']));
+        array_unshift($messages, sprintf('Error %s: %s', $responseStatus['statusCode'], $responseStatus['detail']));
 
         return implode("\n", $messages);
     }
@@ -193,7 +193,7 @@ final class OrderErrorPlugin implements Plugin
                     $itemStatus = array_unique(
                         array_map(
                             function (array $responseItem) {
-                                return $responseItem['sstatus']['status'];
+                                return $responseItem['sstatus']['statusCode'];
                             },
                             $responseData['items']
                         )

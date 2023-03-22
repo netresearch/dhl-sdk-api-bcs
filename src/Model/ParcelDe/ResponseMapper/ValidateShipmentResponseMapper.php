@@ -44,7 +44,7 @@ class ValidateShipmentResponseMapper
                 $message = $item->getStatus()->getDetail() ?? $item->getStatus()->getTitle();
             }
 
-            $results[] = new ValidationResult((string) $index, ($item->getStatus()->getStatus() === 200), $message);
+            $results[] = new ValidationResult((string) $index, ($item->getStatus()->getStatusCode() === 200), $message);
         }
 
         return $results;

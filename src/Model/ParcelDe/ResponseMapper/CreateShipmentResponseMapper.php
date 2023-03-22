@@ -26,7 +26,7 @@ class CreateShipmentResponseMapper
         $results = [];
 
         foreach ($response->getItems() as $index => $item) {
-            if ($item->getStatus()->getStatus() !== 200) {
+            if ($item->getStatus()->getStatusCode() !== 200) {
                 // validation error occurred that did not lead to an exception. no label was created.
                 continue;
             }

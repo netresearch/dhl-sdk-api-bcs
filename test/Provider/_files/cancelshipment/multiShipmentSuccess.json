@@ -1,22 +1,22 @@
 {
   "status": {
     "title": "Multi-Status",
-    "status": 207,
+    "statusCode": 207,
     "detail": "2 of 2 shipments successfully canceled."
   },
   "items": [
     {
       "shipmentNo": "0034043333301010000010002",
       "sstatus": {
-        "title": "ok",
-        "status": 200
+        "title": "OK",
+        "statusCode": 200
       }
     },
     {
       "shipmentNo": "0034043333301010000010003",
       "sstatus": {
-        "title": "ok",
-        "status": 200
+        "title": "OK",
+        "statusCode": 200
       }
     }
   ]

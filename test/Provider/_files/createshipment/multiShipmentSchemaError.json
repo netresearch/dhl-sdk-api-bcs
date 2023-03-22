@@ -1,7 +1,7 @@
 {
   "status": {
     "title": "Bad Request",
-    "status": 400,
+    "statusCode": 400,
     "detail": "Your request contained technical errors as listed below."
   },
   "items": [

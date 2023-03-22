@@ -1,15 +1,15 @@
 {
   "status": {
-    "title": "ok",
-    "status": 200,
+    "title": "OK",
+    "statusCode": 200,
     "detail": "1 of 1 shipment successfully canceled."
   },
   "items": [
     {
       "shipmentNo": "0034043333301010000010001",
       "sstatus": {
-        "title": "ok",
-        "status": 200
+        "title": "OK",
+        "statusCode": 200
       }
     }
   ]

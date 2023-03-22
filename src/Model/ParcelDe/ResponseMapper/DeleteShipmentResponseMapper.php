@@ -28,7 +28,7 @@ class DeleteShipmentResponseMapper
             array_filter(
                 $response->getItems(),
                 function (Item $responseItem) {
-                    return ($responseItem->getStatus()->getStatus() === 200);
+                    return ($responseItem->getStatus()->getStatusCode() === 200);
                 }
             )
         );

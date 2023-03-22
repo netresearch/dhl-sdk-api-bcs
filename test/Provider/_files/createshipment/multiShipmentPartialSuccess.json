@@ -1,15 +1,15 @@
 {
   "status": {
     "title": "Multi-Status",
-    "status": 207,
+    "statusCode": 207,
     "detail": "1 of 2 shipments successfully created."
   },
   "items": [
     {
       "shipmentNo": "0034043333301010000010004",
       "sstatus": {
-        "title": "ok",
-        "status": 200
+        "title": "OK",
+        "statusCode": 200
       },
       "label": {
         "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",
@@ -20,7 +20,7 @@
     {
       "sstatus": {
         "title": "Bad Request",
-        "status": 400
+        "statusCode": 400
       },
       "validationMessages": [
         {

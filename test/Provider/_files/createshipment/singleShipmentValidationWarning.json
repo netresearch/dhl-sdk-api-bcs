@@ -1,15 +1,15 @@
 {
   "status": {
-    "title": "ok",
-    "status": 200,
-    "detail": "1 detailed item status included"
+    "title": "OK",
+    "statusCode": 200,
+    "detail": "1 of 1 shipment successfully created."
   },
   "items": [
     {
       "shipmentNo": "0034043333301010000010005",
       "sstatus": {
-        "title": "ok",
-        "status": 200
+        "title": "OK",
+        "statusCode": 200
       },
       "label": {
         "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",

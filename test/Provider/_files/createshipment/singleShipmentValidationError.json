@@ -1,14 +1,14 @@
 {
   "status": {
     "title": "Bad Request",
-    "status": 400,
-    "detail": "1 detailed item status included"
+    "statusCode": 400,
+    "detail": "0 of 1 shipment successfully created."
   },
   "items": [
     {
       "sstatus": {
         "title": "Bad Request",
-        "status": 400
+        "statusCode": 400
       },
       "validationMessages": [
         {

@@ -1,14 +1,14 @@
 {
   "status": {
     "title": "Multi-Status",
-    "status": 207,
+    "statusCode": 207,
     "detail": "0 of 2 shipments successfully created."
   },
   "items": [
     {
       "sstatus": {
         "title": "Bad Request",
-        "status": 400
+        "statusCode": 400
       },
       "validationMessages": [
         {
@@ -26,7 +26,7 @@
     {
       "sstatus": {
         "title": "Bad Request",
-        "status": 400
+        "statusCode": 400
       },
       "validationMessages": [
         {

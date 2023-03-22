@@ -18,7 +18,12 @@ class Status
     /**
      * @var int
      */
-    private $status;
+    private $statusCode;
+
+    /**
+     * @var string|null
+     */
+    private $instance;
 
     /**
      * @var string|null
@@ -36,9 +41,17 @@ class Status
     /**
      * @return int
      */
-    public function getStatus(): int
+    public function getStatusCode(): int
     {
-        return $this->status;
+        return $this->statusCode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInstance(): ?string
+    {
+        return $this->instance;
     }
 
     /**

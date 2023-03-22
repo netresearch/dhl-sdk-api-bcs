@@ -62,7 +62,7 @@ class OrderServiceTestExpectation
 
         // assert that the response status was properly mapped to the response object.
         foreach ($response['items'] as $index => $item) {
-            if ($item['sstatus']['status'] === 200) {
+            if ($item['sstatus']['statusCode'] === 200) {
                 Assert::assertTrue(in_array($index, $actual['valid']));
             } else {
                 Assert::assertTrue(in_array($index, $actual['invalid']));
@@ -113,7 +113,7 @@ class OrderServiceTestExpectation
         $returned = array_reduce(
             $response['items'],
             function (array $carry, array $responseItem) {
-                if ($responseItem['sstatus']['status'] === 200) {
+                if ($responseItem['sstatus']['statusCode'] === 200) {
                     $carry['succeeded'][] = $responseItem['shipmentNo'];
                 } else {
                     $carry['failed'][] = $responseItem['shipmentNo'];
@@ -169,7 +169,7 @@ class OrderServiceTestExpectation
         );
 
         foreach ($response['items'] as $index => $responseItem) {
-            if ($responseItem['sstatus']['status'] === 200) {
+            if ($responseItem['sstatus']['statusCode'] === 200) {
                 // assert that successful API response items were mapped to SDK response items
                 Assert::assertArrayHasKey($index, $labels);
 
