@@ -98,7 +98,6 @@ class DomesticWithServices extends AbstractRequestData
             'noNeighbourDelivery' => true,
             'namedPersonOnly' => true,
             'returnReceipt' => true,
-            'premium' => true,
             'bulkyGoods' => true,
 //                'identLastName' => 'Smith',
 //                'identFirstName' => 'Sam',
@@ -219,9 +218,6 @@ class DomesticWithServices extends AbstractRequestData
         }
         if (!empty($data['returnReceipt'])) {
             $builder->setReturnReceipt();
-        }
-        if (!empty($data['premium'])) {
-            $builder->setPremium();
         }
         if (!empty($data['bulkyGoods'])) {
             $builder->setBulkyGoods();

@@ -139,11 +139,13 @@ class XPath
     public const XPATH_SERVICE_SENDER_REQUIREMENT = './Shipment/ShipmentDetails/Service/IndividualSenderRequirement/' .
     '@details';
     public const XPATH_SERVICE_AGECHECK = './Shipment/ShipmentDetails/Service/VisualCheckOfAge/@type';
+    public const XPATH_SERVICE_ECONOMY = './Shipment/ShipmentDetails/Service/Economy/@active';
+    public const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
+    public const XPATH_SERVICE_CDP = './Shipment/ShipmentDetails/Service/CDP/@active';
     public const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
     public const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
     public const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
     public const XPATH_SERVICE_PDDP = './Shipment/ShipmentDetails/Service/PDDP/@active';
-    public const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
     public const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
     public const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
     public const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/givenName';
@@ -286,11 +288,13 @@ class XPath
             'preferredNeighbour' => self::XPATH_SERVICE_PREFERRED_NEIGHBOUR,
             'senderRequirement' => self::XPATH_SERVICE_SENDER_REQUIREMENT,
             'visualCheckOfAge' => self::XPATH_SERVICE_AGECHECK,
+            'economy' => self::XPATH_SERVICE_ECONOMY,
+            'premium' => self::XPATH_SERVICE_PREMIUM,
+            'cdp' => self::XPATH_SERVICE_CDP,
             'noNeighbourDelivery' => self::XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY,
             'namedPersonOnly' => self::XPATH_SERVICE_NAMES_PERSON_ONLY,
             'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,
             'postalDeliveryDutyPaid' => self::XPATH_SERVICE_PDDP,
-            'premium' => self::XPATH_SERVICE_PREMIUM,
             'bulkyGoods' => self::XPATH_SERVICE_BULKY_GOODS,
             'identLastName' => self::XPATH_SERVICE_IDENT_LASTNAME,
             'identFirstName' => self::XPATH_SERVICE_IDENT_FIRSTNAME,

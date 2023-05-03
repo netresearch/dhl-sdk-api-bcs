@@ -111,9 +111,29 @@ class ShipmentService
     /**
      * Premium for fast and safe delivery of international shipments.
      *
+     * Mutual exclusive with Economy and CDP services.
+     *
      * @var ServiceConfiguration|null $Premium
      */
     protected $Premium = null;
+
+    /**
+     * Economy for standard delivery of international shipments.
+     *
+     * Mutual exclusive with Premium and CDP services.
+     *
+     * @var Economy|null $Economy
+     */
+    protected $Economy = null;
+
+    /**
+     * Deliver to "Closest Drop Point" (CDP).
+     *
+     * Mutual exclusive with Premium and Economy services.
+     *
+     * @var CDP|null $CDP
+     */
+    protected $CDP = null;
 
     /**
      * Service Cash on delivery.
@@ -297,6 +317,26 @@ class ShipmentService
     public function setPremium(ServiceConfiguration $premium = null): self
     {
         $this->Premium = $premium;
+        return $this;
+    }
+
+    /**
+     * @param Economy|null $economy
+     * @return ShipmentService
+     */
+    public function setEconomy(Economy $economy = null): self
+    {
+        $this->Economy = $economy;
+        return $this;
+    }
+
+    /**
+     * @param CDP|null $cdp
+     * @return ShipmentService
+     */
+    public function setCDP(CDP $cdp = null): self
+    {
+        $this->CDP = $cdp;
         return $this;
     }
 

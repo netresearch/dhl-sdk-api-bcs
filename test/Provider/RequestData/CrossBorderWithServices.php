@@ -37,6 +37,7 @@ class CrossBorderWithServices extends AbstractRequestData
 
             'postalDeliveryDutyPaid' => true,
             'premium' => true,
+            'closestDropPoint' => false,
             'bulkyGoods' => true,
 
             'exportType' => 'OTHER',
@@ -100,7 +101,11 @@ class CrossBorderWithServices extends AbstractRequestData
         }
 
         if (!empty($data['premium'])) {
-            $builder->setPremium();
+            $builder->setDeliveryType(ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM);
+        }
+
+        if (!empty($data['closestDropPoint'])) {
+            $builder->setDeliveryType(ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP);
         }
 
         if (!empty($data['bulkyGoods'])) {

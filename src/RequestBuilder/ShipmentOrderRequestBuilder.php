@@ -382,9 +382,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setPremium(): ShipmentOrderRequestBuilderInterface
+    public function setDeliveryType(string $deliveryType): ShipmentOrderRequestBuilderInterface
     {
-        $this->data['services']['premium'] = true;
+        $this->data['services']['deliveryType'] = $deliveryType;
 
         return $this;
     }

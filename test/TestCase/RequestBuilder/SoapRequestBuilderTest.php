@@ -198,4 +198,21 @@ class SoapRequestBuilderTest extends TestCase
         $requestData = new CrossBorderWithServices();
         $requestData->createShipmentOrder($builder);
     }
+
+    /**
+     * Assert that request builder throws exception if CDP service is attempted to be booked via SOAP API.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnCDPService()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $regEx = str_replace('%s', '[\w\s]+', ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED);
+        $this->expectExceptionMessageMatches("~$regEx~");
+
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestData = new CrossBorderWithServices();
+        $requestData->createShipmentOrder($builder, ['premium' => false, 'closestDropPoint' => true]);
+    }
 }

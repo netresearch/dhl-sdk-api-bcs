@@ -183,6 +183,18 @@ class RestRequestBuilder
                     $services->setEndorsement(null);
             }
 
+            switch ($this->data['services']['deliveryType'] ?? false) {
+                case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY:
+                    $services->setPremium(false);
+                    break;
+                case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM:
+                    $services->setPremium(true);
+                    break;
+                case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP:
+                    $services->setClosestDropPoint(true);
+                    break;
+            }
+
             if (isset($this->data['recipient']['notification'])) {
                 $shippingConfirmation = new ShippingConfirmation($this->data['recipient']['notification']);
                 $services->setShippingConfirmation($shippingConfirmation);

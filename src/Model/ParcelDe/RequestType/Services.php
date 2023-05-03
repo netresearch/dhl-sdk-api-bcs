@@ -102,6 +102,19 @@ class Services implements \JsonSerializable
     private $premium;
 
     /**
+     * Closest Drop-Point Delivery
+     *
+     * Delivery to the drop-point closest to the address of the recipient of the
+     * shipment. For this kind of delivery either the phone number and/or the
+     * e-mail address of the receiver is mandatory. For shipments using DHL Paket
+     * International it is recommended that you choose one of the three delivery types:
+     * Economy, Premium, CDP. Otherwise, the current default for the receiver country will be picked.
+     *
+     * @var bool|null
+     */
+    private $closestDropPoint;
+
+    /**
      * Sperrgut.
      *
      * @var bool|null
@@ -220,6 +233,11 @@ class Services implements \JsonSerializable
     public function setPremium(?bool $premium): void
     {
         $this->premium = $premium;
+    }
+
+    public function setClosestDropPoint(?bool $closestDropPoint): void
+    {
+        $this->closestDropPoint = $closestDropPoint;
     }
 
     public function setBulkyGoods(?bool $bulkyGoods): void

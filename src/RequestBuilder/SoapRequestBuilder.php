@@ -259,7 +259,24 @@ class SoapRequestBuilder
                 $services->setReturnReceipt($config);
             }
 
-            if (isset($this->data['services']['premium'])) {
+            if (isset($this->data['services']['deliveryType'])) {
+                switch ($this->data['services']['deliveryType']) {
+                    case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM:
+                        $config = new ServiceConfiguration(true);
+                        $services->setPremium($config);
+                        break;
+                    case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY:
+                        $config = new ServiceConfiguration(false);
+                        $services->setPremium($config);
+                        break;
+                    case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP:
+                        $message = sprintf(
+                            ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED,
+                            'Closest Droppoint'
+                        );
+                        throw new RequestValidatorException($message);
+                }
+
                 $config = new ServiceConfiguration(true);
                 $services->setPremium($config);
             }

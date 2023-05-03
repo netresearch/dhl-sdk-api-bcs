@@ -24,6 +24,10 @@ interface ShipmentOrderRequestBuilderInterface
     public const AGE_TYPE_16 = 'A16';
     public const AGE_TYPE_18 = 'A18';
 
+    public const DELIVERY_TYPE_ECONOMY = 'ECONOMY';
+    public const DELIVERY_TYPE_PREMIUM = 'PREMIUM';
+    public const DELIVERY_TYPE_CDP = 'CDP';
+
     public const EXPORT_TYPE_OTHER = 'OTHER';
     public const EXPORT_TYPE_PRESENT = 'PRESENT';
     public const EXPORT_TYPE_COMMERCIAL_SAMPLE = 'COMMERCIAL_SAMPLE';
@@ -459,11 +463,17 @@ interface ShipmentOrderRequestBuilderInterface
     public function setReturnReceipt(): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Book "Premium" service.
+     * Choose a delivery type.
+     *
+     * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY
+     * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM
+     * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP
+     *
+     * @param string $deliveryType
      *
      * @return ShipmentOrderRequestBuilderInterface
      */
-    public function setPremium(): ShipmentOrderRequestBuilderInterface;
+    public function setDeliveryType(string $deliveryType): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Indicate shipment containing bulky goods.

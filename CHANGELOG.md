@@ -10,12 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Connect to DHL REST API.
+- Choose a delivery type service (_Premium_, _Economy_, _CDP_).
 - Configure shipment order parameters such as paper size (compare PR [#2](https://github.com/netresearch/dhl-sdk-api-bcs/pull/2)).
 
 ### Changed
 
-- Connect to DHL Business Customer Shipping API version 3.3.2 (previously 3.1.2).
 - Update documentation of possible request builder arguments, expose via constants.
+- Premium service is now booked via `ShipmentOrderRequestBuilderInterface::setDeliveryType`.
 - The method `ShipmentOrderRequestBuilderInterface::setPrintOnlyIfCodeable` per order item
   was removed. Set the `mustEncode` flag via `OrderConfigurationInterface` for the entire
   order instead.
@@ -23,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Argument `$addFee` is no longer supported in `ShipmentOrderRequestBuilderInterface::setCodAmount`. 
-- Services `PreferredTime`, `ShipmentHandling`, `GoGreen`, `Perishables`, `Personally` can no longer
+- Services _PreferredTime_, _ShipmentHandling_, _GoGreen_, _Perishables_, _Personally_ can no longer
   be booked.
 
 ## 1.3.0

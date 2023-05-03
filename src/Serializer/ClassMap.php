@@ -13,8 +13,10 @@ use Dhl\Sdk\Paket\Bcs\Model\Bcs\Common\Version;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\CreateShipmentOrderResponse;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\BankType;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\CDP;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\CommunicationType;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\CountryType;
+use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\Economy;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ExportDocPosition;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\ExportDocumentType;
 use Dhl\Sdk\Paket\Bcs\Model\Bcs\CreateShipment\RequestType\Ident;
@@ -104,6 +106,8 @@ class ClassMap
             'ServiceconfigurationIC' => ServiceConfigurationIC::class,
             'Ident' => Ident::class,
             'ServiceconfigurationDetailsOptional' => ServiceConfigurationDetailsOptional::class,
+            'Economy' => Economy::class,
+            'CDP' => CDP::class,
             'ShipmentNotificationType' => ShipmentNotificationType::class,
             'BankType' => BankType::class,
             'ShipperType' => ShipperType::class,

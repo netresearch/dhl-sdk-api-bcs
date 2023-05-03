@@ -150,6 +150,7 @@ class ArrayPath
     public const PATH_SERVICE_RETURN_RECEIPT = ''; // N/A
     public const PATH_SERVICE_PDDP = 'services/postalDeliveryDutyPaid';
     public const PATH_SERVICE_PREMIUM = 'services/premium';
+    public const PATH_SERVICE_CDP = 'services/closestDropPoint';
     public const PATH_SERVICE_BULKY_GOODS = 'services/bulkyGoods';
     public const PATH_SERVICE_IDENT_LASTNAME = 'services/identCheck/lastName';
     public const PATH_SERVICE_IDENT_FIRSTNAME = 'services/identCheck/firstName';
@@ -302,6 +303,7 @@ class ArrayPath
             'returnReceipt' => self::PATH_SERVICE_RETURN_RECEIPT,
             'postalDeliveryDutyPaid' => self::PATH_SERVICE_PDDP,
             'premium' => self::PATH_SERVICE_PREMIUM,
+            'closestDropPoint' => self::PATH_SERVICE_CDP,
             'bulkyGoods' => self::PATH_SERVICE_BULKY_GOODS,
             'identLastName' => self::PATH_SERVICE_IDENT_LASTNAME,
             'identFirstName' => self::PATH_SERVICE_IDENT_FIRSTNAME,
