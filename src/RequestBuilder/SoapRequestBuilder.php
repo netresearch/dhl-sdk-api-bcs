@@ -180,6 +180,14 @@ class SoapRequestBuilder
         $shipmentDetails->setCostCentre($this->data['shipmentDetails']['costCentre']);
 
         if (isset($this->data['services'])) {
+            if (isset($this->data['services']['pddp'])) {
+                $message = sprintf(
+                    ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED,
+                    'Postal Delivery Duty Paid'
+                );
+                throw new RequestValidatorException($message);
+            }
+
             $services = new ShipmentService();
             if (isset($this->data['services']['dayOfDelivery'])) {
                 $config = new ServiceConfigurationDateOfDelivery(true, $this->data['services']['dayOfDelivery']);

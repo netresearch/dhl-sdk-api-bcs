@@ -109,7 +109,7 @@ class Services implements \JsonSerializable
     private $bulkyGoods;
 
     /**
-     * PDDP: Deutsche Post and sender handle import duties instead of consignee.
+     * PDDP: Deutsche Post and sender handle import duties instead of consignee. Duties are paid by the shipper.
      *
      * @var bool|null
      */

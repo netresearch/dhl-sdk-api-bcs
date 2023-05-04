@@ -148,6 +148,7 @@ class ArrayPath
     public const PATH_SERVICE_NO_NEIGHBOUR_DELIVERY = 'services/noNeighbourDelivery';
     public const PATH_SERVICE_NAMES_PERSON_ONLY = 'services/namedPersonOnly';
     public const PATH_SERVICE_RETURN_RECEIPT = ''; // N/A
+    public const PATH_SERVICE_PDDP = 'services/postalDeliveryDutyPaid';
     public const PATH_SERVICE_PREMIUM = 'services/premium';
     public const PATH_SERVICE_BULKY_GOODS = 'services/bulkyGoods';
     public const PATH_SERVICE_IDENT_LASTNAME = 'services/identCheck/lastName';
@@ -299,6 +300,7 @@ class ArrayPath
             'noNeighbourDelivery' => self::PATH_SERVICE_NO_NEIGHBOUR_DELIVERY,
             'namedPersonOnly' => self::PATH_SERVICE_NAMES_PERSON_ONLY,
             'returnReceipt' => self::PATH_SERVICE_RETURN_RECEIPT,
+            'postalDeliveryDutyPaid' => self::PATH_SERVICE_PDDP,
             'premium' => self::PATH_SERVICE_PREMIUM,
             'bulkyGoods' => self::PATH_SERVICE_BULKY_GOODS,
             'identLastName' => self::PATH_SERVICE_IDENT_LASTNAME,

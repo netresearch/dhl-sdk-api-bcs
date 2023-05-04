@@ -40,6 +40,7 @@ interface ShipmentOrderRequestBuilderInterface
     public const MSG_MISSING_SHIPPER = 'No sender included with shipment order.';
     public const MSG_MISSING_RECIPIENT = 'No recipient included with shipment order.';
     public const MSG_MISSING_CONTACT = 'Either recipient email or post number must be set for Postfiliale delivery.';
+    public const MSG_SERVICE_UNSUPPORTED = 'The service "%s" is not supported.';
 
     /**
      * @param string $sequenceNumber
@@ -497,6 +498,13 @@ interface ShipmentOrderRequestBuilderInterface
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface;
+
+    /**
+     * Book the Postal Delivery Duty Paid (PDDP) service.
+     *
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setDeliveryDutyPaid(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set customs details for international shipments.

@@ -413,6 +413,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
+    public function setDeliveryDutyPaid(): ShipmentOrderRequestBuilderInterface
+    {
+        $this->data['services']['pddp'] = true;
+
+        return $this;
+    }
+
     public function setCustomsDetails(
         string $exportType,
         string $placeOfCommital,

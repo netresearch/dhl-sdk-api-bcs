@@ -16,7 +16,7 @@ use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\AbstractRequestData;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorder;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\DomesticWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Locker;
@@ -57,7 +57,7 @@ class RestRequestBuilderTest extends TestCase
     {
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
-        $requestData = [new CrossBorder(), new DomesticWithServices(), new Locker(), new PostOffice()];
+        $requestData = [new CrossBorderWithServices(), new DomesticWithServices(), new Locker(), new PostOffice()];
 
         // response does not matter really, just to make it not fail
         $responseBody = \file_get_contents($response);
@@ -188,7 +188,7 @@ class RestRequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
 
-        $builder = new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $builder->setShipperAccount('33333333330101');
         $builder->setRecipientAddress('John Doe', 'DEU', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
         $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
@@ -207,7 +207,7 @@ class RestRequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
 
-        $builder = new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $builder->setShipperAccount('33333333330101');
         $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
@@ -226,7 +226,7 @@ class RestRequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
 
-        $builder = new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $builder->setShipperAccount('33333333330101');
         $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $builder->setPostfiliale('Jane Doe', '502', 'DEU', '53113', 'Bonn');

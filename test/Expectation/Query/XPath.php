@@ -142,6 +142,7 @@ class XPath
     public const XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY = './Shipment/ShipmentDetails/Service/NoNeighbourDelivery/@active';
     public const XPATH_SERVICE_NAMES_PERSON_ONLY = './Shipment/ShipmentDetails/Service/NamedPersonOnly/@active';
     public const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
+    public const XPATH_SERVICE_PDDP = './Shipment/ShipmentDetails/Service/PDDP/@active';
     public const XPATH_SERVICE_PREMIUM = './Shipment/ShipmentDetails/Service/Premium/@active';
     public const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
     public const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
@@ -288,6 +289,7 @@ class XPath
             'noNeighbourDelivery' => self::XPATH_SERVICE_NO_NEIGHBOUR_DELIVERY,
             'namedPersonOnly' => self::XPATH_SERVICE_NAMES_PERSON_ONLY,
             'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,
+            'postalDeliveryDutyPaid' => self::XPATH_SERVICE_PDDP,
             'premium' => self::XPATH_SERVICE_PREMIUM,
             'bulkyGoods' => self::XPATH_SERVICE_BULKY_GOODS,
             'identLastName' => self::XPATH_SERVICE_IDENT_LASTNAME,

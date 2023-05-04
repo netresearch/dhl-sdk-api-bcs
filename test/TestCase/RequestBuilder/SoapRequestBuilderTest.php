@@ -10,6 +10,7 @@ namespace Dhl\Sdk\Paket\Bcs\Test\TestCase\RequestBuilder;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Serializer\ClassMap;
@@ -17,6 +18,7 @@ use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\AbstractRequestData;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorder;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\DomesticWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Locker;
@@ -178,5 +180,22 @@ class SoapRequestBuilderTest extends TestCase
         // validate response
         $requestXml = $soapClient->__getLastRequest();
         Expectation::assertXmlContentsAvailable($requestValues, $requestXml);
+    }
+
+    /**
+     * Assert that request builder throws exception if PDDP service is attempted to be booked via SOAP API.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnPDDPService()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $regEx = str_replace('%s', '[\w\s]+', ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED);
+        $this->expectExceptionMessageMatches("~$regEx~");
+
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestData = new CrossBorderWithServices();
+        $requestData->createShipmentOrder($builder);
     }
 }
