@@ -295,7 +295,12 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
-        $this->data['services']['preferredDay'] = $cetDate;
+        try {
+            $date = new \DateTimeImmutable($cetDate, new \DateTimeZone('Europe/Berlin'));
+            $this->data['services']['preferredDay'] = $date->format('c');
+        } catch (\Exception $e) {
+            $this->data['services']['preferredDay'] = $cetDate;
+        }
 
         return $this;
     }
