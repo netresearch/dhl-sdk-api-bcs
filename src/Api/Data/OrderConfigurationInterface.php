@@ -30,6 +30,8 @@ interface OrderConfigurationInterface
     public const PRINT_FORMAT_910_300_410 = '910-300-410';
     public const PRINT_FORMAT_100X70 = '100x70mm';
 
+    public const DEFAULT_PROFILE = 'STANDARD_GRUPPENPROFIL';
+
     /**
      * Decide whether to create orders with validation warnings or not.
      *
@@ -84,7 +86,7 @@ interface OrderConfigurationInterface
     /**
      * Limit the available billing numbers to given profile.
      *
-     * @return string|null
+     * @return string
      */
-    public function getProfile(): ?string;
+    public function getProfile(): string;
 }

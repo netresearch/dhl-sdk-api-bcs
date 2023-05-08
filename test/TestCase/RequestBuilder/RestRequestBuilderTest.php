@@ -14,6 +14,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\AbstractRequestData;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorderWithServices;
@@ -40,7 +41,6 @@ class RestRequestBuilderTest extends TestCase
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
         $requestData = [new Domestic()];
-
         // response does not matter really, just to make it not fail
         $responseBody = \file_get_contents($response);
 
@@ -110,7 +110,7 @@ class RestRequestBuilderTest extends TestCase
         }
 
         // send shipment orders to service
-        $service->createShipments($shipmentOrders);
+        $service->createShipments($shipmentOrders, new OrderConfiguration());
 
         // validate response
         $lastRequest = $httpClient->getLastRequest();
@@ -162,7 +162,7 @@ class RestRequestBuilderTest extends TestCase
         }
 
         // send shipment orders to service
-        $service->createShipments($shipmentOrders);
+        $service->createShipments($shipmentOrders, new OrderConfiguration());
 
         // validate response, unset values that are not supported at the REST API
         $lastRequest = $httpClient->getLastRequest();

@@ -14,6 +14,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\ValidateShipmentTestProvider;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
@@ -79,7 +80,7 @@ class SchemaValidatorTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $service->validateShipments($shipmentOrders);
+        $service->validateShipments($shipmentOrders, new OrderConfiguration());
 
         $lastRequest = $httpClient->getLastRequest();
         self::assertInstanceOf(RequestInterface::class, $lastRequest); // request should be sent
@@ -111,7 +112,7 @@ class SchemaValidatorTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->validateShipments($shipmentOrders, new OrderConfiguration());
         } catch (ServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             self::assertFalse($lastRequest); // no request should be sent

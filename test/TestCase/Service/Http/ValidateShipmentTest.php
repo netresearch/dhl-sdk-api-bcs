@@ -14,6 +14,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\OrderServiceTestExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\ValidateShipmentTestProvider;
@@ -97,7 +98,7 @@ class ValidateShipmentTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->validateShipments($shipmentOrders, new OrderConfiguration());
 
         $lastRequest = $httpClient->getLastRequest();
         $requestBody = (string) $lastRequest->getBody();
@@ -153,7 +154,7 @@ class ValidateShipmentTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $result = $service->validateShipments($shipmentOrders);
+        $result = $service->validateShipments($shipmentOrders, new OrderConfiguration());
 
         $lastRequest = $httpClient->getLastRequest();
         $requestBody = (string) $lastRequest->getBody();
@@ -213,7 +214,7 @@ class ValidateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->validateShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();
@@ -253,7 +254,7 @@ class ValidateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->validateShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             // assert that no request was made
             $lastRequest = $httpClient->getLastRequest();
@@ -303,7 +304,7 @@ class ValidateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->validateShipments($shipmentOrders);
+            $service->validateShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();

@@ -157,8 +157,10 @@ class ShipmentService implements ShipmentServiceInterface
         }
     }
 
-    public function cancelShipments(array $shipmentNumbers): array
-    {
+    public function cancelShipments(
+        array $shipmentNumbers,
+        string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
+    ): array {
         try {
             $version = new Version('3', '3');
             $version->setBuild('2');

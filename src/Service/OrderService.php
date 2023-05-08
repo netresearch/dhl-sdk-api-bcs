@@ -218,8 +218,10 @@ class OrderService implements ShipmentServiceInterface
         }
     }
 
-    public function cancelShipments(array $shipmentNumbers): array
-    {
+    public function cancelShipments(
+        array $shipmentNumbers,
+        string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
+    ): array {
         $shipmentNumbers = array_filter($shipmentNumbers);
         if (empty($shipmentNumbers)) {
             return [];
@@ -231,6 +233,7 @@ class OrderService implements ShipmentServiceInterface
             },
             $shipmentNumbers
         );
+        array_unshift($requestParams, "profile=$profile");
 
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, implode('&', $requestParams));
 

@@ -65,6 +65,7 @@ interface ShipmentServiceInterface
      * Note that cancellation is only possible before the end-of-the-day manifest.
      *
      * @param string[] $shipmentNumbers
+     * @param string $profile
      *
      * @return string[]
      *
@@ -72,5 +73,8 @@ interface ShipmentServiceInterface
      * @throws DetailedServiceException
      * @throws ServiceException
      */
-    public function cancelShipments(array $shipmentNumbers): array;
+    public function cancelShipments(
+        array $shipmentNumbers,
+        string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
+    ): array;
 }

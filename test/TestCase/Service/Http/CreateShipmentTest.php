@@ -219,7 +219,7 @@ class CreateShipmentTest extends TestCase
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
-        $result = $service->createShipments($shipmentOrders);
+        $result = $service->createShipments($shipmentOrders, new OrderConfiguration());
 
         $lastRequest = $httpClient->getLastRequest();
         $requestBody = (string) $lastRequest->getBody();
@@ -278,7 +278,7 @@ class CreateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->createShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();
@@ -318,7 +318,7 @@ class CreateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->createShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             // assert that no request was made
             $lastRequest = $httpClient->getLastRequest();
@@ -369,7 +369,7 @@ class CreateShipmentTest extends TestCase
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
 
         try {
-            $service->createShipments($shipmentOrders);
+            $service->createShipments($shipmentOrders, new OrderConfiguration());
         } catch (DetailedServiceException $exception) {
             $lastRequest = $httpClient->getLastRequest();
             $requestBody = (string) $lastRequest->getBody();

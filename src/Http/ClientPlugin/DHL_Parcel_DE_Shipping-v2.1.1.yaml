@@ -1128,6 +1128,7 @@ components:
             - name1
             - city
             - postalCode
+            - poBoxID
         type: object
         properties:
           name1:

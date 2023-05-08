@@ -83,8 +83,8 @@ class OrderConfiguration implements OrderConfigurationInterface
         return $this->printFormatReturn;
     }
 
-    public function getProfile(): ?string
+    public function getProfile(): string
     {
-        return $this->profile;
+        return $this->profile ?: OrderConfigurationInterface::DEFAULT_PROFILE;
     }
 }
