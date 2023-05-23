@@ -22,15 +22,24 @@ class PostOffice extends AbstractRequestData
             'productCode' => 'V01PAK',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
 
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
             'shipperStreetNumber' => '11d',
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
+
+            'recipientName' => 'John Doe',
+            'recipientCountryCode' => 'DEU',
+            'recipientPostalCode' => '53113',
+            'recipientCity' => 'Bonn',
+            'recipientStreet' => 'Charles-de-Gaulle-Straße',
+            'recipientStreetNumber' => '20',
+            'recipientEmail' => 'doe@example.org',
+
             'postfilialRecipientName' => 'Jane Doe',
             'postfilialNumber' => '502',
-            'postfilialPostNumber' => '12345678',
+            'postfilialPostNumber' => '', // recipient contact via email
             'postfilialPostalCode' => '53113',
             'postfilialCity' => 'Bonn',
             'postfilialCountry' => 'Deutschland',
@@ -44,15 +53,26 @@ class PostOffice extends AbstractRequestData
     {
         $builder->setSequenceNumber($data['sequenceNumber']);
         $builder->setShipperAccount($data['billingNumber']);
-//        $builder->setShipperReference($data['shipperReference']);
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
             $data['shipperStreetNumber']
+        );
+
+        $builder->setRecipientAddress(
+            $data['recipientName'],
+            $data['recipientCountryCode'],
+            $data['recipientPostalCode'],
+            $data['recipientCity'],
+            $data['recipientStreet'],
+            $data['recipientStreetNumber'],
+            null,
+            null,
+            $data['recipientEmail']
         );
 
         $builder->setPostfiliale(

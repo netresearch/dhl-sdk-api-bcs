@@ -21,14 +21,14 @@ class DomesticWithReturn extends AbstractRequestData
             'billingNumber' => '33333333330102',
             'returnBillingNumber' => '33333333330701',
 
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
             'shipperStreetNumber' => '11d',
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
 
-            'recipientCountry' => 'DEU',
+            'recipientCountryCode' => 'DEU',
             'recipientPostalCode' => '53113',
             'recipientCity' => 'Bonn',
             'recipientStreet' => 'Charles-de-Gaulle-Straße',
@@ -36,7 +36,7 @@ class DomesticWithReturn extends AbstractRequestData
             'recipientName' => 'John Doe',
 
             'returnCompany' => 'Returns Center',
-            'returnCountry' => 'DEU',
+            'returnCountryCode' => 'DEU',
             'returnPostalCode' => '22419',
             'returnCity' => 'Hamburg',
             'returnStreet' => 'Essener Straße',
@@ -55,7 +55,7 @@ class DomesticWithReturn extends AbstractRequestData
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
@@ -64,7 +64,7 @@ class DomesticWithReturn extends AbstractRequestData
 
         $builder->setRecipientAddress(
             $data['recipientName'],
-            $data['recipientCountry'],
+            $data['recipientCountryCode'],
             $data['recipientPostalCode'],
             $data['recipientCity'],
             $data['recipientStreet'],
@@ -73,7 +73,7 @@ class DomesticWithReturn extends AbstractRequestData
 
         $builder->setReturnAddress(
             $data['returnCompany'],
-            $data['returnCountry'],
+            $data['returnCountryCode'],
             $data['returnPostalCode'],
             $data['returnCity'],
             $data['returnStreet'],

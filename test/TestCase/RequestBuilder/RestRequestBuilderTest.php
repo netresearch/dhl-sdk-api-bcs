@@ -164,15 +164,24 @@ class RestRequestBuilderTest extends TestCase
         // send shipment orders to service
         $service->createShipments($shipmentOrders, new OrderConfiguration());
 
-        // validate response, unset values that are not supported at the REST API
-        $lastRequest = $httpClient->getLastRequest();
-        $requestBody = (string) $lastRequest->getBody();
-
+        // unset values that are not supported at the REST API
         unset($requestValues[1]['returnReceipt']);
         unset($requestValues[2]['packstationState']);
         unset($requestValues[2]['packstationCountry']);
         unset($requestValues[3]['postfilialState']);
         unset($requestValues[3]['postfilialCountry']);
+
+        // unset address data that are not transmitted with delivery location (post office) shipments
+        unset($requestValues[3]['recipientName']);
+        unset($requestValues[3]['recipientCountryCode']);
+        unset($requestValues[3]['recipientPostalCode']);
+        unset($requestValues[3]['recipientCity']);
+        unset($requestValues[3]['recipientStreet']);
+        unset($requestValues[3]['recipientStreetNumber']);
+
+        // validate response
+        $lastRequest = $httpClient->getLastRequest();
+        $requestBody = (string) $lastRequest->getBody();
 
         Expectation::assertJsonContentsAvailable($requestValues, $requestBody);
     }

@@ -132,7 +132,7 @@ class ShipmentRequestProvider
         return array_map(
             function (AbstractRequestData $requestData) use ($requestBuilder) {
                 // set wrong country code format
-                $replace = ['shipperCountry' => 'DE', 'recipientCountry' => 'DE', 'returnCountry' => 'DE'];
+                $replace = ['shipperCountryCode' => 'DE', 'recipientCountryCode' => 'DE', 'returnCountryCode' => 'DE'];
                 return $requestData->createShipmentOrder($requestBuilder, $replace);
             },
             [new Domestic()]
@@ -153,7 +153,7 @@ class ShipmentRequestProvider
         return array_map(
             function (AbstractRequestData $requestData) use ($requestBuilder) {
                 // set wrong country code format
-                $replace = ['shipperCountry' => 'DE', 'recipientCountry' => 'DE', 'returnCountry' => 'DE'];
+                $replace = ['shipperCountryCode' => 'DE', 'recipientCountryCode' => 'DE', 'returnCountryCode' => 'DE'];
                 return $requestData->createShipmentOrder($requestBuilder, $replace);
             },
             [new Domestic(), new DomesticWithReturn()]

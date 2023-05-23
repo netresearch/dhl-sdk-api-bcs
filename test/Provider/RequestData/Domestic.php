@@ -19,13 +19,13 @@ class Domestic extends AbstractRequestData
         return [
             'sequenceNumber' => $this->getSequenceNumber(),
             'billingNumber' => '33333333330101',
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
             'shipperStreetNumber' => '11d',
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
-            'recipientCountry' => 'DEU',
+            'recipientCountryCode' => 'DEU',
             'recipientPostalCode' => '53113',
             'recipientCity' => 'Bonn',
             'recipientStreet' => 'Charles-de-Gaulle-Straße',
@@ -44,7 +44,7 @@ class Domestic extends AbstractRequestData
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
@@ -53,7 +53,7 @@ class Domestic extends AbstractRequestData
 
         $builder->setRecipientAddress(
             $data['recipientName'],
-            $data['recipientCountry'],
+            $data['recipientCountryCode'],
             $data['recipientPostalCode'],
             $data['recipientCity'],
             $data['recipientStreet'],

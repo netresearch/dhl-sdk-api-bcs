@@ -72,7 +72,7 @@ interface ShipmentOrderRequestBuilderInterface
      * @see setShipperReference
      *
      * @param string $company
-     * @param string $country
+     * @param string $countryCode
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
@@ -89,7 +89,7 @@ interface ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAddress(
         string $company,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -135,7 +135,7 @@ interface ShipmentOrderRequestBuilderInterface
      * Return address will be discarded if no return billing number is given.
      *
      * @param string $company
-     * @param string $country
+     * @param string $countryCode
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
@@ -152,7 +152,7 @@ interface ShipmentOrderRequestBuilderInterface
      */
     public function setReturnAddress(
         string $company,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -171,7 +171,7 @@ interface ShipmentOrderRequestBuilderInterface
      * Set consignee address for a shipment (required).
      *
      * @param string $name
-     * @param string $country
+     * @param string $countryCode
      * @param string $postalCode
      * @param string $city
      * @param string $streetName
@@ -188,7 +188,7 @@ interface ShipmentOrderRequestBuilderInterface
      */
     public function setRecipientAddress(
         string $name,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -308,6 +308,8 @@ interface ShipmentOrderRequestBuilderInterface
      * Choose Postfiliale delivery.
      *
      * Post number of the receiver may be omitted.
+     *
+     * @todo(nr): add email argument once SOAP API support gets dropped.
      *
      * @param string $recipientName
      * @param string $postfilialNumber

@@ -26,7 +26,7 @@ class DomesticWithServices extends AbstractRequestData
             'returnReference' => 'Return Shipment Reference',
             'costCentre' => 'Cost Centre XY',
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
@@ -49,7 +49,7 @@ class DomesticWithServices extends AbstractRequestData
             'shipperBankNote2' => 'Bank Note 2',
 
             'returnCompany' => 'Returns Center',
-            'returnCountry' => 'DEU',
+            'returnCountryCode' => 'DEU',
             'returnPostalCode' => '22419',
             'returnCity' => 'Hamburg',
             'returnStreet' => 'Essener Straße',
@@ -65,7 +65,7 @@ class DomesticWithServices extends AbstractRequestData
             'returnAddressAddition2' => 'add more return',
 
             'recipientName' => 'Jane Doe',
-            'recipientCountry' => 'DEU',
+            'recipientCountryCode' => 'DEU',
             'recipientPostalCode' => '53113',
             'recipientCity' => 'Bonn',
             'recipientStreet' => 'Sträßchensweg',
@@ -117,7 +117,7 @@ class DomesticWithServices extends AbstractRequestData
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
@@ -149,7 +149,7 @@ class DomesticWithServices extends AbstractRequestData
 
         $builder->setReturnAddress(
             $data['returnCompany'],
-            $data['returnCountry'],
+            $data['returnCountryCode'],
             $data['returnPostalCode'],
             $data['returnCity'],
             $data['returnStreet'],
@@ -184,7 +184,7 @@ class DomesticWithServices extends AbstractRequestData
 
         $builder->setRecipientAddress(
             $data['recipientName'],
-            $data['recipientCountry'],
+            $data['recipientCountryCode'],
             $data['recipientPostalCode'],
             $data['recipientCity'],
             $data['recipientStreet'],

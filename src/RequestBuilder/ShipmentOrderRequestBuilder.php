@@ -48,7 +48,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setShipperAddress(
         string $company,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -63,7 +63,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['address']['company'] = $company;
-        $this->data['shipper']['address']['country'] = $country;
+        $this->data['shipper']['address']['countryCode'] = $countryCode;
         $this->data['shipper']['address']['postalCode'] = $postalCode;
         $this->data['shipper']['address']['city'] = $city;
         $this->data['shipper']['address']['streetName'] = $streetName;
@@ -100,7 +100,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setReturnAddress(
         string $company,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -115,7 +115,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['return']['address']['company'] = $company;
-        $this->data['return']['address']['country'] = $country;
+        $this->data['return']['address']['countryCode'] = $countryCode;
         $this->data['return']['address']['postalCode'] = $postalCode;
         $this->data['return']['address']['city'] = $city;
         $this->data['return']['address']['streetName'] = $streetName;
@@ -134,7 +134,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setRecipientAddress(
         string $name,
-        string $country,
+        string $countryCode,
         string $postalCode,
         string $city,
         string $streetName,
@@ -149,7 +149,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['address']['name'] = $name;
-        $this->data['recipient']['address']['country'] = $country;
+        $this->data['recipient']['address']['countryCode'] = $countryCode;
         $this->data['recipient']['address']['postalCode'] = $postalCode;
         $this->data['recipient']['address']['city'] = $city;
         $this->data['recipient']['address']['streetName'] = $streetName;

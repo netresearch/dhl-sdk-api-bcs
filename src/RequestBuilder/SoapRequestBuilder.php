@@ -70,7 +70,7 @@ class SoapRequestBuilder
         }
 
         if (isset($this->data['shipper']['address'])) {
-            $shipperCountry = new CountryType($this->data['shipper']['address']['country']);
+            $shipperCountry = new CountryType($this->data['shipper']['address']['countryCode']);
 
             $shipperName = new NameType($this->data['shipper']['address']['company']);
             $shipperName->setName2($this->data['shipper']['address']['name']);
@@ -139,7 +139,7 @@ class SoapRequestBuilder
             $postfiliale->setOrigin($postfilialeCountry);
             $receiver->setPostfiliale($postfiliale);
         } elseif (isset($this->data['recipient']['address'])) {
-            $receiverCountry = new CountryType($this->data['recipient']['address']['country']);
+            $receiverCountry = new CountryType($this->data['recipient']['address']['countryCode']);
             $receiverAddress = new ReceiverNativeAddressType(
                 $this->data['recipient']['address']['streetName'],
                 $this->data['recipient']['address']['streetNumber'],
@@ -341,7 +341,7 @@ class SoapRequestBuilder
 
         if (isset($this->data['return']['address'], $this->data['shipper']['returnBillingNumber'])) {
             // only add return receiver if account number was provided
-            $returnCountry = new CountryType($this->data['return']['address']['country']);
+            $returnCountry = new CountryType($this->data['return']['address']['countryCode']);
 
             $returnName = new NameType($this->data['return']['address']['company']);
             $returnName->setName2($this->data['return']['address']['name']);

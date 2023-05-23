@@ -177,6 +177,14 @@ class SoapRequestBuilderTest extends TestCase
         // send shipment orders to service
         $service->createShipments($shipmentOrders);
 
+        // unset address data that are not transmitted with delivery location (post office) shipments
+        unset($requestValues[3]['recipientName']);
+        unset($requestValues[3]['recipientCountryCode']);
+        unset($requestValues[3]['recipientPostalCode']);
+        unset($requestValues[3]['recipientCity']);
+        unset($requestValues[3]['recipientStreet']);
+        unset($requestValues[3]['recipientStreetNumber']);
+
         // validate response
         $requestXml = $soapClient->__getLastRequest();
         Expectation::assertXmlContentsAvailable($requestValues, $requestXml);

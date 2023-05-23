@@ -63,7 +63,7 @@ class RestRequestBuilder
                 $addressData['streetName'],
                 $addressData['postalCode'],
                 $addressData['city'],
-                $addressData['country']
+                $addressData['countryCode']
             );
             $shipper->setAddressHouse($addressData['streetNumber']);
             $shipper->setName2($addressData['name']);
@@ -112,7 +112,7 @@ class RestRequestBuilder
                 $addressData['streetName'],
                 $addressData['postalCode'],
                 $addressData['city'],
-                $addressData['country']
+                $addressData['countryCode']
             );
             $consignee->setAddressHouse($addressData['streetNumber']);
             $consignee->setName2($addressData['company']);
@@ -239,7 +239,7 @@ class RestRequestBuilder
                     $addressData['streetName'],
                     $addressData['postalCode'],
                     $addressData['city'],
-                    $addressData['country']
+                    $addressData['countryCode']
                 );
                 $returnAddress->setName2($addressData['name']);
                 $returnAddress->setName3($addressData['nameAddition']);

@@ -22,12 +22,12 @@ class CrossBorder extends AbstractRequestData
             'productCode' => 'V53PAK',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
             'shipperStreetNumber' => '11d',
-            'recipientCountry' => 'USA',
+            'recipientCountryCode' => 'USA',
             'recipientPostalCode' => '89109',
             'recipientCity' => 'Las Vegas',
             'recipientStreet' => 'S Las Vegas Blvd',
@@ -66,7 +66,7 @@ class CrossBorder extends AbstractRequestData
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
@@ -75,7 +75,7 @@ class CrossBorder extends AbstractRequestData
 
         $builder->setRecipientAddress(
             $data['recipientName'],
-            $data['recipientCountry'],
+            $data['recipientCountryCode'],
             $data['recipientPostalCode'],
             $data['recipientCity'],
             $data['recipientStreet'],

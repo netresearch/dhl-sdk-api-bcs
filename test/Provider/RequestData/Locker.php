@@ -22,7 +22,7 @@ class Locker extends AbstractRequestData
             'productCode' => 'V01PAK',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
 //            'shipperReference' => 'Shipper Reference #123',
-            'shipperCountry' => 'DEU',
+            'shipperCountryCode' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',
             'shipperStreet' => 'Nonnenstraße',
@@ -48,7 +48,7 @@ class Locker extends AbstractRequestData
 
         $builder->setShipperAddress(
             $data['shipperCompany'],
-            $data['shipperCountry'],
+            $data['shipperCountryCode'],
             $data['shipperPostalCode'],
             $data['shipperCity'],
             $data['shipperStreet'],
