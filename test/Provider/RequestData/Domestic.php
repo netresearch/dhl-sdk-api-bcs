@@ -32,7 +32,7 @@ class Domestic extends AbstractRequestData
             'recipientStreetNumber' => '20',
             'recipientName' => 'John Doe',
             'productCode' => 'V01PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'packageWeight' => 2.4,
         ];
     }

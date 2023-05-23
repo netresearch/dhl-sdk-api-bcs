@@ -20,7 +20,7 @@ class CrossBorderWithServices extends AbstractRequestData
             'sequenceNumber' => $this->getSequenceNumber(),
             'billingNumber' => '33333333330101',
             'productCode' => 'V53PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
             'shipperCountry' => 'DEU',
             'shipperPostalCode' => '04229',

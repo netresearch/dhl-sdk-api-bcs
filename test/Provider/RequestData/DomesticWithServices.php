@@ -21,7 +21,7 @@ class DomesticWithServices extends AbstractRequestData
             'billingNumber' => '33333333330101',
             'returnBillingNumber' => '33333333330701',
             'productCode' => 'V01PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'customerReference' => 'Customer Reference',
             'returnReference' => 'Return Shipment Reference',
             'costCentre' => 'Cost Centre XY',
@@ -90,7 +90,7 @@ class DomesticWithServices extends AbstractRequestData
             'packageWidth' => 20,
             'packageHeight' => 15,
 
-            'preferredDay' => date('c', time() + 60 * 60 * 24 * 4),
+            'preferredDay' => date('Y-m-d', time() + 60 * 60 * 24 * 4),
             'preferredLocation' => 'Mailbox',
             'preferredNeighbour' => 'Mr. Smith',
             'senderRequirement' => 'Do not kick.',

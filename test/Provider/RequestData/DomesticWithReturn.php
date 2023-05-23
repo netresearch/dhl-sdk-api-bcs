@@ -43,7 +43,7 @@ class DomesticWithReturn extends AbstractRequestData
             'returnStreetNumber' => '89',
 
             'productCode' => 'V01PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'packageWeight' => 2.4,
         ];
     }

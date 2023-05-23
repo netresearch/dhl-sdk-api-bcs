@@ -19,8 +19,8 @@ class Locker extends AbstractRequestData
         return [
             'sequenceNumber' => $this->getSequenceNumber(),
             'billingNumber' => '33333333330101',
-            'productCode' => 'V53PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
+            'productCode' => 'V01PAK',
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
 //            'shipperReference' => 'Shipper Reference #123',
             'shipperCountry' => 'DEU',
             'shipperPostalCode' => '04229',

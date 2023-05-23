@@ -19,9 +19,9 @@ class PostOffice extends AbstractRequestData
         return [
             'sequenceNumber' => $this->getSequenceNumber(),
             'billingNumber' => '33333333330101',
-            'productCode' => 'V53PAK',
-            'shipDate' => new \DateTime(date('c', $tsShip)),
-//            'shipperReference' => 'Shipper Reference #123',
+            'productCode' => 'V01PAK',
+            'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
+
             'shipperCountry' => 'DEU',
             'shipperPostalCode' => '04229',
             'shipperCity' => 'Leipzig',

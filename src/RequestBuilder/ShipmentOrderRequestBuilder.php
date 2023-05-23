@@ -190,7 +190,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         }
 
         $this->data['shipmentDetails']['product'] = $productCode;
-        $this->data['shipmentDetails']['date'] = $shipmentDate->format('c');
+        $this->data['shipmentDetails']['date'] = $shipmentDate->format('Y-m-d');
         $this->data['shipmentDetails']['shipmentReference'] = $shipmentReference;
         $this->data['shipmentDetails']['returnReference'] = $returnReference;
         $this->data['shipmentDetails']['costCentre'] = $costCentre;
@@ -295,12 +295,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface
     {
-        try {
-            $date = new \DateTimeImmutable($cetDate, new \DateTimeZone('Europe/Berlin'));
-            $this->data['services']['preferredDay'] = $date->format('c');
-        } catch (\Exception $e) {
-            $this->data['services']['preferredDay'] = $cetDate;
-        }
+        $this->data['services']['preferredDay'] = $cetDate;
 
         return $this;
     }
