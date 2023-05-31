@@ -530,11 +530,18 @@ interface ShipmentOrderRequestBuilderInterface
     public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Book the Postal Delivery Duty Paid (PDDP) service.
+     * Book the "Postal Delivery Duty Paid" (PDDP) service.
      *
      * @return ShipmentOrderRequestBuilderInterface
      */
     public function setDeliveryDutyPaid(): ShipmentOrderRequestBuilderInterface;
+
+    /**
+     * Book the "Signed For By Recipient" service.
+     *
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setSignedForByRecipient(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set customs details for international shipments.
@@ -577,7 +584,7 @@ interface ShipmentOrderRequestBuilderInterface
         bool $electronicExportNotification = null,
         string $sendersCustomsReference = null,
         string $addresseesCustomsReference = null
-    );
+    ): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Add a package item's customs details (optional).

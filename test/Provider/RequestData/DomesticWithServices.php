@@ -99,6 +99,7 @@ class DomesticWithServices extends AbstractRequestData
             'namedPersonOnly' => true,
             'returnReceipt' => true,
             'bulkyGoods' => true,
+            'signedForByRecipient' => true,
 //                'identLastName' => 'Smith',
 //                'identFirstName' => 'Sam',
 //                'identDob' => '1970-01-01',
@@ -221,6 +222,9 @@ class DomesticWithServices extends AbstractRequestData
         }
         if (!empty($data['bulkyGoods'])) {
             $builder->setBulkyGoods();
+        }
+        if (!empty($data['signedForByRecipient'])) {
+            $builder->setSignedForByRecipient();
         }
 //        $builder->setIdentCheck(
 //            $data['identLastName'],

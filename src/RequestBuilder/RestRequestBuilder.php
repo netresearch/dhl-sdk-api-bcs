@@ -179,6 +179,7 @@ class RestRequestBuilder
             $services->setNoNeighbourDelivery($this->data['services']['noNeighbourDelivery'] ?? null);
             $services->setIndividualSenderRequirement($this->data['services']['individualSenderRequirement'] ?? null);
             $services->setPackagingReturn($this->data['services']['packagingReturn'] ?? null);
+            $services->setSignedForByRecipient($this->data['services']['signedForByRecipient'] ?? null);
             $services->setParcelOutletRouting($this->data['services']['parcelOutletRouting']['details'] ?? null);
             $services->setPremium($this->data['services']['premium'] ?? null);
             $services->setBulkyGoods($this->data['services']['bulkyGoods'] ?? null);

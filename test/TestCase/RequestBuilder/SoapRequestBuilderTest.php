@@ -171,12 +171,15 @@ class SoapRequestBuilderTest extends TestCase
 
         foreach ($requestData as $sequenceNumber => $data) {
             $data->setSequenceNumber((string) $sequenceNumber);
-            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder);
+            $shipmentOrders[] = $data->createShipmentOrder($requestBuilder, ['signedForByRecipient' => false]);
             $requestValues[] = $data->get();
         }
 
         // send shipment orders to service
         $service->createShipments($shipmentOrders);
+
+        // unset service that is not supported (and not booked) at the SOAP API.
+        unset($requestValues[1]['signedForByRecipient']);
 
         // unset address data that are not transmitted with delivery location (post office) shipments
         unset($requestValues[3]['recipientName']);
@@ -239,6 +242,23 @@ class SoapRequestBuilderTest extends TestCase
 
         $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $requestData = new POBox();
+        $requestData->createShipmentOrder($builder);
+    }
+
+    /**
+     * Assert that request builder throws exception if signature service is attempted to be booked via SOAP API.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnSignedForByRecipientService()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $regEx = str_replace('%s', '[\w\s]+', ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED);
+        $this->expectExceptionMessageMatches("~$regEx~");
+
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestData = new DomesticWithServices();
         $requestData->createShipmentOrder($builder);
     }
 }

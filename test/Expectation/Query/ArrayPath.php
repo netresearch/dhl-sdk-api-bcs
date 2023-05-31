@@ -159,6 +159,7 @@ class ArrayPath
     public const PATH_SERVICE_PREMIUM = 'services/premium';
     public const PATH_SERVICE_CDP = 'services/closestDropPoint';
     public const PATH_SERVICE_BULKY_GOODS = 'services/bulkyGoods';
+    public const PATH_SERVICE_SIGNED_BY_RECIPIENT = 'services/signedForByRecipient';
     public const PATH_SERVICE_IDENT_LASTNAME = 'services/identCheck/lastName';
     public const PATH_SERVICE_IDENT_FIRSTNAME = 'services/identCheck/firstName';
     public const PATH_SERVICE_IDENT_DOB = 'services/identCheck/dateOfBirth';
@@ -319,6 +320,7 @@ class ArrayPath
             'premium' => self::PATH_SERVICE_PREMIUM,
             'closestDropPoint' => self::PATH_SERVICE_CDP,
             'bulkyGoods' => self::PATH_SERVICE_BULKY_GOODS,
+            'signedForByRecipient' => self::PATH_SERVICE_SIGNED_BY_RECIPIENT,
             'identLastName' => self::PATH_SERVICE_IDENT_LASTNAME,
             'identFirstName' => self::PATH_SERVICE_IDENT_FIRSTNAME,
             'identDob' => self::PATH_SERVICE_IDENT_DOB,

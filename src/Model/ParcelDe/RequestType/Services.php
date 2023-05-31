@@ -129,11 +129,18 @@ class Services implements \JsonSerializable
     private $postalDeliveryDutyPaid;
 
     /**
-     * Requires also DHL Retoure to be set
+     * Service for package return. Requires also DHL Retoure to be set.
      *
      * @var bool|null
      */
     private $packagingReturn;
+
+    /**
+     * Delivery must be signed for by the recipient and not by DHL staff
+     *
+     * @var bool|null
+     */
+    private $signedForByRecipient;
 
     /**
      * An email notification to the recipient that the shipment is closed (manifested).
@@ -253,6 +260,11 @@ class Services implements \JsonSerializable
     public function setPackagingReturn(?bool $packagingReturn): void
     {
         $this->packagingReturn = $packagingReturn;
+    }
+
+    public function setSignedForByRecipient(?bool $signedForByRecipient): void
+    {
+        $this->signedForByRecipient = $signedForByRecipient;
     }
 
     /**

@@ -147,6 +147,7 @@ class XPath
     public const XPATH_SERVICE_RETURN_RECEIPT = './Shipment/ShipmentDetails/Service/ReturnReceipt/@active';
     public const XPATH_SERVICE_PDDP = './Shipment/ShipmentDetails/Service/PDDP/@active';
     public const XPATH_SERVICE_BULKY_GOODS = './Shipment/ShipmentDetails/Service/BulkyGoods/@active';
+    public const XPATH_SERVICE_SIGNED_BY_RECIPIENT = './Shipment/ShipmentDetails/Service/SignedForByRecipient/@active';
     public const XPATH_SERVICE_IDENT_LASTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/surname';
     public const XPATH_SERVICE_IDENT_FIRSTNAME = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/givenName';
     public const XPATH_SERVICE_IDENT_DOB = './Shipment/ShipmentDetails/Service/IdentCheck/Ident/dateOfBirth';
@@ -296,6 +297,7 @@ class XPath
             'returnReceipt' => self::XPATH_SERVICE_RETURN_RECEIPT,
             'postalDeliveryDutyPaid' => self::XPATH_SERVICE_PDDP,
             'bulkyGoods' => self::XPATH_SERVICE_BULKY_GOODS,
+            'signedForByRecipient' => self::XPATH_SERVICE_SIGNED_BY_RECIPIENT,
             'identLastName' => self::XPATH_SERVICE_IDENT_LASTNAME,
             'identFirstName' => self::XPATH_SERVICE_IDENT_FIRSTNAME,
             'identDob' => self::XPATH_SERVICE_IDENT_DOB,

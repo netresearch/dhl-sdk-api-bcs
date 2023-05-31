@@ -194,6 +194,14 @@ class SoapRequestBuilder
                 throw new RequestValidatorException($message);
             }
 
+            if (isset($this->data['services']['signedForByRecipient'])) {
+                $message = sprintf(
+                    ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED,
+                    'Signed for by recipient'
+                );
+                throw new RequestValidatorException($message);
+            }
+
             $services = new ShipmentService();
             if (isset($this->data['services']['dayOfDelivery'])) {
                 $config = new ServiceConfigurationDateOfDelivery(true, $this->data['services']['dayOfDelivery']);

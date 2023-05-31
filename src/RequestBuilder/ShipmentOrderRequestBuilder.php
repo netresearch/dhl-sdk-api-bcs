@@ -436,6 +436,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
+    public function setSignedForByRecipient(): ShipmentOrderRequestBuilderInterface
+    {
+        $this->data['services']['signedForByRecipient'] = true;
+
+        return $this;
+    }
+
     public function setCustomsDetails(
         string $exportType,
         string $placeOfCommital,

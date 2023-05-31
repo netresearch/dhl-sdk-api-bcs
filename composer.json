@@ -34,7 +34,6 @@
     "require-dev": {
         "ext-simplexml": "*",
         "nyholm/psr7": "^1.0.0",
-        "php-http/curl-client": "^2.1.0",
         "php-http/mock-client": "^1.5.0",
         "phpunit/phpunit": "^8.0.0 || ^9.0.0",
         "phpstan/phpstan": "^1.5.0",
@@ -53,6 +52,11 @@
     "extra": {
         "branch-alias": {
             "dev-DHLGW-1275": "3.0.0.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
         }
     }
 }
