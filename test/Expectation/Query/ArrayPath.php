@@ -105,6 +105,13 @@ class ArrayPath
     public const PATH_POSTFILIALE_COUNTRY_CODE = 'consignee/country';
     public const PATH_POSTFILIALE_STATE = ''; // N/A
 
+    public const PATH_POBOX_NAME = 'consignee/name1';
+    public const PATH_POBOX_NUMBER = 'consignee/poBoxID';
+    public const PATH_POBOX_POSTAL_CODE = 'consignee/postalCode';
+    public const PATH_POBOX_CITY = 'consignee/city';
+    public const PATH_POBOX_COUNTRY = ''; // N/A
+    public const PATH_POBOX_COUNTRY_CODE = 'consignee/country';
+
     public const PATH_WEIGHT = 'details/weight/value';
     public const PATH_INSURED_VALUE = 'services/additionalInsurance/value';
     public const PATH_COD_AMOUNT = 'services/cashOnDelivery/amount/value';
@@ -257,6 +264,13 @@ class ArrayPath
             'postfilialCountry' => self::PATH_POSTFILIALE_COUNTRY,
             'postfilialCountryCode' => self::PATH_POSTFILIALE_COUNTRY_CODE,
             'postfilialState' => self::PATH_POSTFILIALE_STATE,
+
+            'poBoxRecipientName' => self::PATH_POBOX_NAME,
+            'poBoxNumber' => self::PATH_POBOX_NUMBER,
+            'poBoxPostalCode' => self::PATH_POBOX_POSTAL_CODE,
+            'poBoxCity' => self::PATH_POBOX_CITY,
+            'poBoxCountry' => self::PATH_POBOX_COUNTRY,
+            'poBoxCountryCode' => self::PATH_POBOX_COUNTRY_CODE,
 
             'packageWeight' => self::PATH_WEIGHT,
             'packageValue' => self::PATH_INSURED_VALUE,

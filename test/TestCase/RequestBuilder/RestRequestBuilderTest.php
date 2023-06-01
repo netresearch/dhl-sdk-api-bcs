@@ -16,13 +16,14 @@ use Dhl\Sdk\Paket\Bcs\Http\HttpServiceFactory;
 use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation as Expectation;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Credentials\AuthenticationStorageProvider;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\AbstractRequestData;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\DomesticWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Locker;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\POBox;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\PostOffice;
-use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Credentials\AuthenticationStorageProvider;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
 use PHPUnit\Framework\TestCase;
@@ -57,7 +58,13 @@ class RestRequestBuilderTest extends TestCase
     {
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
-        $requestData = [new CrossBorderWithServices(), new DomesticWithServices(), new Locker(), new PostOffice()];
+        $requestData = [
+            new CrossBorderWithServices(),
+            new DomesticWithServices(),
+            new Locker(),
+            new PostOffice(),
+            new POBox(),
+        ];
 
         // response does not matter really, just to make it not fail
         $responseBody = \file_get_contents($response);
@@ -171,13 +178,19 @@ class RestRequestBuilderTest extends TestCase
         unset($requestValues[3]['postfilialState']);
         unset($requestValues[3]['postfilialCountry']);
 
-        // unset address data that are not transmitted with delivery location (post office) shipments
+        // unset address data that are not transmitted with delivery location (post office / po box) shipments
         unset($requestValues[3]['recipientName']);
         unset($requestValues[3]['recipientCountryCode']);
         unset($requestValues[3]['recipientPostalCode']);
         unset($requestValues[3]['recipientCity']);
         unset($requestValues[3]['recipientStreet']);
         unset($requestValues[3]['recipientStreetNumber']);
+        unset($requestValues[4]['recipientName']);
+        unset($requestValues[4]['recipientCountryCode']);
+        unset($requestValues[4]['recipientPostalCode']);
+        unset($requestValues[4]['recipientCity']);
+        unset($requestValues[4]['recipientStreet']);
+        unset($requestValues[4]['recipientStreetNumber']);
 
         // validate response
         $lastRequest = $httpClient->getLastRequest();

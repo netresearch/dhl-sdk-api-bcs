@@ -15,19 +15,9 @@ class ShippingConfirmation implements \JsonSerializable
      */
     private $email;
 
-    /**
-     * @var string|null
-     */
-    private $templateRef;
-
     public function __construct(string $email)
     {
         $this->email = $email;
-    }
-
-    public function setTemplateRef(?string $templateRef): void
-    {
-        $this->templateRef = $templateRef;
     }
 
     /**

@@ -22,6 +22,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\DomesticWithServices;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\Locker;
+use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\POBox;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\RequestData\PostOffice;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Credentials\AuthenticationStorageProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
@@ -222,5 +223,22 @@ class SoapRequestBuilderTest extends TestCase
         $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
         $requestData = new CrossBorderWithServices();
         $requestData->createShipmentOrder($builder, ['premium' => false, 'closestDropPoint' => true]);
+    }
+
+    /**
+     * Assert that request builder throws exception if P.O. Box delivery is attempted to be booked via SOAP API.
+     *
+     * @test
+     * @throws RequestValidatorException
+     */
+    public function validationExceptionOnPoBoxConsignee()
+    {
+        $this->expectException(RequestValidatorException::class);
+        $regEx = str_replace('%s', '[\w\s]+', ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED);
+        $this->expectExceptionMessageMatches("~$regEx~");
+
+        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestData = new POBox();
+        $requestData->createShipmentOrder($builder);
     }
 }

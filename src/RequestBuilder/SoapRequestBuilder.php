@@ -138,6 +138,12 @@ class SoapRequestBuilder
             $postfiliale->setPostNumber($this->data['recipient']['postfiliale']['postNumber']);
             $postfiliale->setOrigin($postfilialeCountry);
             $receiver->setPostfiliale($postfiliale);
+        } elseif (isset($this->data['recipient']['pobox'])) {
+            $message = sprintf(
+                ShipmentOrderRequestBuilderInterface::MSG_SERVICE_UNSUPPORTED,
+                'PO Box Delivery'
+            );
+            throw new RequestValidatorException($message);
         } elseif (isset($this->data['recipient']['address'])) {
             $receiverCountry = new CountryType($this->data['recipient']['address']['countryCode']);
             $receiverAddress = new ReceiverNativeAddressType(

@@ -333,6 +333,24 @@ interface ShipmentOrderRequestBuilderInterface
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
+     * Choose P.O. Box (Postfach) delivery
+     *
+     * @param string $recipientName
+     * @param string $poBoxNumber 6-digit numeric value, no whitespace
+     * @param string $countryCode
+     * @param string $postalCode
+     * @param string $city
+     * @return ShipmentOrderRequestBuilderInterface
+     */
+    public function setPOBox(
+        string $recipientName,
+        string $poBoxNumber,
+        string $countryCode,
+        string $postalCode,
+        string $city
+    ): ShipmentOrderRequestBuilderInterface;
+
+    /**
      * Set reference to the shipper data configured in business customer portal (optional).
      *
      * If not given, set address details.

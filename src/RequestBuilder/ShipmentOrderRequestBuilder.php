@@ -272,6 +272,22 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
+    public function setPOBox(
+        string $recipientName,
+        string $poBoxNumber,
+        string $countryCode,
+        string $postalCode,
+        string $city
+    ): ShipmentOrderRequestBuilderInterface {
+        $this->data['recipient']['address']['name'] = $recipientName;
+        $this->data['recipient']['pobox']['number'] = $poBoxNumber;
+        $this->data['recipient']['pobox']['countryCode'] = $countryCode;
+        $this->data['recipient']['pobox']['postalCode'] = $postalCode;
+        $this->data['recipient']['pobox']['city'] = $city;
+
+        return $this;
+    }
+
     public function setShipperReference(string $reference): ShipmentOrderRequestBuilderInterface
     {
         $this->data['shipper']['reference'] = $reference;

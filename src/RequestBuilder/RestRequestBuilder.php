@@ -21,6 +21,7 @@ use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Dimension;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\IdentCheck;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Locker;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\MonetaryValue;
+use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\POBox;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\PostOffice;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\ReturnAddress;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\RequestType\Services;
@@ -105,6 +106,17 @@ class RestRequestBuilder
             );
             $consignee->setPostNumber($this->data['recipient']['postfiliale']['postNumber']);
             $consignee->setEmail($this->data['recipient']['address']['email'] ?? '');
+        } elseif (isset($this->data['recipient']['pobox'])) {
+            $consignee = new POBox(
+                $this->data['recipient']['address']['name'],
+                (int) $this->data['recipient']['pobox']['number'],
+                $this->data['recipient']['pobox']['postalCode'],
+                $this->data['recipient']['pobox']['city'],
+                $this->data['recipient']['pobox']['countryCode']
+            );
+            $consignee->setEmail($this->data['recipient']['address']['email'] ?? '');
+            $consignee->setName2($this->data['recipient']['address']['company'] ?? '');
+            $consignee->setName3($this->data['recipient']['address']['nameAddition'] ?? '');
         } elseif (isset($this->data['recipient']['address'])) {
             $addressData = $this->data['recipient']['address'];
             $consignee = new ContactAddress(
