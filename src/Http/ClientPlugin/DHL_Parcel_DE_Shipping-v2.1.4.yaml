@@ -3,7 +3,7 @@ info:
   title: Parcel DE Shipping API (Post & Parcel Germany)
   description: >
     Note: This is the specification of the DPDHL Group Parcel DE Shipping API for Post & Parcel Germany. This REST web service allows business customers to create shipping labels on demand.
-  version: 2.1.3
+  version: 2.1.4
 servers:
   - url: https://api-eu.dhl.com/parcel/de/shipping/v2
     description: Productive Server
@@ -1243,7 +1243,10 @@ components:
           description: 'Date the shipment is transferred to DHL. The shipment date can be the current date or a date up to a few days in the future. It must not be in the past. Iso format required: yyyy-mm-dd. On the shipment date the shipment will be automatically closed at your end of day closing time.'
           format: date
         shipper:
-          $ref: '#/components/schemas/Shipper'
+          description: Shipper information, including contact information and address. Alternatively, a predefined shipper reference can be used.
+          oneOf:
+              - $ref: '#/components/schemas/Shipper'
+              - $ref: '#/components/schemas/ShipperReference'
         consignee:
           $ref: '#/components/schemas/Consignee'
         details:
@@ -1283,7 +1286,7 @@ components:
       description: Complex request structure used to create, update, and validate shipment data. Note that most elements are part of the array of shipment items.
     Shipper:
       type: object
-      description: Shipper information, including contact information, address. Alternatively, a predefined shipper reference can be used.
+      description: Shipper information, including contact information and address.
       required:
         - addressStreet
         - city
@@ -1348,12 +1351,17 @@ components:
           type: string
           description: Optional contact email address of the shipper
           example: mustermann@example.com
+    ShipperReference:
+      type: object
+      description: Contains a reference to the Shipper data configured in GKP(GeschÃ¤ftskundenportal - Business Costumer Portal). Can be used instead of a detailed shipper address. The shipper reference can be used to print a company logo which is configured in GKP onto the label.
+      required:
+        - shipperRef
+      properties:
         shipperRef:
           maxLength: 50
           minLength: 0
           type: string
-          description: > 
-            Contains a reference to the Shipper data configured in GKP(GeschÃ¤ftskundenportal - Business Costumer Portal). Can be used instead of a detailed shipper address. The shipper reference can be used to print a company logo which is configured in GKP onto the label.
+          description: Reference string to the shipper data configured in GKP(GeschÃ¤ftskundenportal - Business Costumer Portal).
     ShippingConfirmation:
       required:
         - email

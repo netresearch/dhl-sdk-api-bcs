@@ -21,13 +21,7 @@ class Locker extends AbstractRequestData
             'billingNumber' => '33333333330101',
             'productCode' => 'V01PAK',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
-//            'shipperReference' => 'Shipper Reference #123',
-            'shipperCountryCode' => 'DEU',
-            'shipperPostalCode' => '04229',
-            'shipperCity' => 'Leipzig',
-            'shipperStreet' => 'Nonnenstraße',
-            'shipperStreetNumber' => '11d',
-            'shipperCompany' => 'Netresearch GmbH & Co.KG',
+            'shipperReference' => 'ShipperWithLogo',
             'packstationNumber' => '139',
             'packstationPostalCode' => '53113',
             'packstationCity' => 'Bonn',
@@ -44,16 +38,7 @@ class Locker extends AbstractRequestData
     {
         $builder->setSequenceNumber($data['sequenceNumber']);
         $builder->setShipperAccount($data['billingNumber']);
-//        $builder->setShipperReference($data['shipperReference']);
-
-        $builder->setShipperAddress(
-            $data['shipperCompany'],
-            $data['shipperCountryCode'],
-            $data['shipperPostalCode'],
-            $data['shipperCity'],
-            $data['shipperStreet'],
-            $data['shipperStreetNumber']
-        );
+        $builder->setShipperReference($data['shipperReference']);
 
         $builder->setPackstation(
             $data['packstationRecipientName'],

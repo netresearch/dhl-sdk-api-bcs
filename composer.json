@@ -18,7 +18,7 @@
         "php": "^7.2.0 || ^8.0.0",
         "ext-json": "*",
         "ext-soap": "*",
-        "league/openapi-psr7-validator": "^0.16.0",
+        "league/openapi-psr7-validator": "^0.21.0",
         "netresearch/jsonmapper": "^4.0.0",
         "php-http/discovery": "^1.10.0",
         "php-http/httplug": "^2.2.0",
