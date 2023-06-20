@@ -49,11 +49,6 @@
             "Dhl\\Sdk\\Paket\\Bcs\\Test\\": "test/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-DHLGW-1275": "3.0.0.x-dev"
-        }
-    },
     "config": {
         "allow-plugins": {
             "php-http/discovery": false

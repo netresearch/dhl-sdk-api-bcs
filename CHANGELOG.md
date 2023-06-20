@@ -5,19 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.0
 
 ### Added
 
-- Connect to DHL REST API.
-- Choose a delivery type service (_Premium_, _Economy_, _CDP_).
 - Configure shipment order parameters such as paper size (compare PR [#2](https://github.com/netresearch/dhl-sdk-api-bcs/pull/2)).
+- Connect to DHL Parcel DE Shipping REST API with additional features:
+  - Book _Signed for by recipient_ (Empfängerunterschrift) service
+  - Book shipments with P.O. Box destination address
+  - Book _Postal Delivery Duty Paid_ (PDDP) service
+  - Choose a delivery type service (_Premium_, _Economy_, _CDP_)
 
 ### Changed
 
 - Update documentation of possible request builder arguments, expose via constants.
 - Premium service is now booked via `ShipmentOrderRequestBuilderInterface::setDeliveryType`.
-- The method `ShipmentOrderRequestBuilderInterface::setPrintOnlyIfCodeable` per order item
+- The method `ShipmentOrderRequestBuilderInterface::setPrintOnlyIfCodeable` per shipment item
   was removed. Set the `mustEncode` flag via `OrderConfigurationInterface` for the entire
   order instead.
 

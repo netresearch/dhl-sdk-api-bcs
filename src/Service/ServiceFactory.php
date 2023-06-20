@@ -78,7 +78,7 @@ class ServiceFactory implements ServiceFactoryInterface
         LoggerInterface $logger,
         bool $sandboxMode = false
     ): ShipmentServiceInterface {
-        // fixme(nr): update to 3.3.2 once it becomes publicly available
+        // the last publicly available WSDL version is 3.1.2, later features can only be booked via REST API
         $wsdl = sprintf(
             '%s/%s/%s',
             'https://cig.dhl.de/cig-wsdls/com/dpdhl/wsdl/geschaeftskundenversand-api',
