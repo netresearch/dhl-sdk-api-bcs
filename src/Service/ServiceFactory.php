@@ -59,7 +59,12 @@ class ServiceFactory implements ServiceFactoryInterface
             throw ServiceExceptionFactory::createServiceException($exception);
         }
 
-        $httpServiceFactory = new HttpServiceFactory($httpClient, $this->userAgent);
+        if ($sandboxMode) {
+            $httpServiceFactory = new HttpServiceFactory($httpClient, $this->userAgent);
+        } else {
+            $httpServiceFactory = HttpServiceFactory::withSchemaValidationDisabled($httpClient, $this->userAgent);
+        }
+
         return $httpServiceFactory->createShipmentService($authStorage, $logger, $sandboxMode);
     }
 
