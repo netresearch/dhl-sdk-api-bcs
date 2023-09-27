@@ -3,7 +3,7 @@ info:
   title: Parcel DE Shipping API (Post & Parcel Germany)
   description: >
     Note: This is the specification of the DPDHL Group Parcel DE Shipping API for Post & Parcel Germany. This REST web service allows business customers to create shipping labels on demand.
-  version: 2.1.4
+  version: 2.1.6
 servers:
   - url: https://api-eu.dhl.com/parcel/de/shipping/v2
     description: Productive Server
@@ -1024,6 +1024,16 @@ components:
           minLength: 0
           type: string
           description: Optional. Will appear on CN23.
+        shipperCustomsRef:
+          description: "Optional. The customs reference is used by customs authorities to identify economics operators an/or other persons involved. With the given reference, granted authorizations and/or relevant processes in customs clearance an/or taxation can be taken into account. Aka Zoll-Nummer or EORI-Number but dependent on destination."
+          type: string
+          maxLength: 35
+          example: "DE73282932000074"
+        consigneeCustomsRef:
+          description: "Optional. The customs reference is used by customs authorities to identify economics operators an/or other persons involved. With the given reference, granted authorizations and/or relevant processes in customs clearance an/or taxation can be taken into account. Aka Zoll-Nummer or EORI-Number but dependent on destination."
+          type: string
+          maxLength: 35
+          example: "GB73282932000074" 
         items:
           maxItems: 30
           minItems: 1
@@ -1369,8 +1379,8 @@ components:
       properties:
         email:
           type: string
-          description: Email address(es) of the recipient of the confirmation.
-      description: An email notification to the recipient that is sent at the time the shipment is closed. It can be send to multiple emails. This service is about to be deprecated. Please use DHL Parcel Notification instead. To use the DHL Parcel Notification you enter the e-mail address of the consignee in the section of the consignee. The notification will be sent automatically.
+          description: THIS SERVICE IS DEPRECATED! USE DHL PARCEL NOTIFICATION INSTEAD! To use the DHL Parcel Notification you enter the e-mail address of the consignee in the section of the consignee. The notification will be sent automatically.
+      description: THIS SERVICE IS DEPRECATED! USE DHL PARCEL NOTIFICATION INSTEAD! To use the DHL Parcel Notification you enter the e-mail address of the consignee in the section of the consignee. The notification will be sent automatically.
     VAS:
       type: object
       properties:
@@ -1464,6 +1474,7 @@ components:
           maxLength: 35
           minLength: 0
           type: string
+          description: Reference to bank account details. Account references are maintained in customer settings in Post & DHL business customer portal under Ship -> Settings -> Cash on delivery. Please note, that the default account reference is used if the provided account reference does not exist in your customer settings!
         transferNote1:
           maxLength: 35
           minLength: 0

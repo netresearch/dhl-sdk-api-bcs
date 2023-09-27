@@ -82,6 +82,28 @@ class Customs implements \JsonSerializable
     private $officeOfOrigin;
 
     /**
+     * The customs reference is used by customs authorities to identify
+     * economics operators an/or other persons involved. With the given
+     * reference, granted authorizations and/or relevant processes in
+     * customs clearance an/or taxation can be taken into account.
+     * Aka Zoll-Nummer or EORI-Number but dependent on destination.
+     *
+     * @var string|null
+     */
+    private $shipperCustomsRef;
+
+    /**
+     * The customs reference is used by customs authorities to identify
+     * economics operators an/or other persons involved. With the given
+     * reference, granted authorizations and/or relevant processes in
+     * customs clearance an/or taxation can be taken into account.
+     * Aka Zoll-Nummer or EORI-Number but dependent on destination.
+     *
+     * @var string|null
+     */
+    private $consigneeCustomsRef;
+
+    /**
      * @var bool|null
      */
     private $hasElectronicExportNotification;
@@ -133,6 +155,16 @@ class Customs implements \JsonSerializable
     public function setOfficeOfOrigin(?string $officeOfOrigin): void
     {
         $this->officeOfOrigin = $officeOfOrigin;
+    }
+
+    public function setShipperCustomsRef(?string $shipperCustomsRef): void
+    {
+        $this->shipperCustomsRef = $shipperCustomsRef;
+    }
+
+    public function setConsigneeCustomsRef(?string $consigneeCustomsRef): void
+    {
+        $this->consigneeCustomsRef = $consigneeCustomsRef;
     }
 
     public function setHasElectronicExportNotification(?bool $hasElectronicExportNotification): void

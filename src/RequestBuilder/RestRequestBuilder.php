@@ -297,6 +297,8 @@ class RestRequestBuilder
             $customs->setPermitNo($customsDetails['permitNumber']);
             $customs->setAttestationNo($customsDetails['attestationNumber']);
             $customs->setOfficeOfOrigin($customsDetails['placeOfCommital']);
+            $customs->setShipperCustomsRef($customsDetails['sendersCustomsReference']);
+            $customs->setConsigneeCustomsRef($customsDetails['addresseesCustomsReference']);
             $customs->setHasElectronicExportNotification($customsDetails['electronicExportNotification'] ?? null);
 
             $shipment->setCustoms($customs);
