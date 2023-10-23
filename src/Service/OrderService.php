@@ -19,6 +19,7 @@ use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\DeleteShipmentResponseMapper
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ResponseMapper\ValidateShipmentResponseMapper;
 use Dhl\Sdk\Paket\Bcs\Model\ParcelDe\ShipmentOrderRequest;
 use Dhl\Sdk\Paket\Bcs\Serializer\JsonSerializer;
+use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\OrderConfiguration;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -109,31 +110,29 @@ class OrderService implements ShipmentServiceInterface
 
     /**
      * @param string[] $requestParams
-     * @param OrderConfigurationInterface|null $configuration
+     * @param OrderConfigurationInterface $configuration
      * @return string
      */
-    private function getQuery(array $requestParams, OrderConfigurationInterface $configuration = null): string
+    private function getQuery(array $requestParams, OrderConfigurationInterface $configuration): string
     {
-        if ($configuration instanceof OrderConfigurationInterface) {
-            if ($configuration->mustEncode()) {
-                $requestParams['mustEncode'] = 'true';
-            }
+        if ($configuration->mustEncode()) {
+            $requestParams['mustEncode'] = 'true';
+        }
 
-            if ($configuration->isCombinedPrinting() !== null) {
-                $requestParams['combine'] = $configuration->isCombinedPrinting() ? 'true' : 'false';
-            }
+        if ($configuration->isCombinedPrinting() !== null) {
+            $requestParams['combine'] = $configuration->isCombinedPrinting() ? 'true' : 'false';
+        }
 
-            if ($configuration->getDocFormat() === OrderConfigurationInterface::DOC_FORMAT_ZPL2) {
-                $requestParams['docFormat'] = 'ZPL2';
-            }
+        if ($configuration->getDocFormat() === OrderConfigurationInterface::DOC_FORMAT_ZPL2) {
+            $requestParams['docFormat'] = 'ZPL2';
+        }
 
-            if ($configuration->getPrintFormat()) {
-                $requestParams['printFormat'] = $configuration->getPrintFormat();
-            }
+        if ($configuration->getPrintFormat()) {
+            $requestParams['printFormat'] = $configuration->getPrintFormat();
+        }
 
-            if ($configuration->getPrintFormatReturn()) {
-                $requestParams['retourePrintFormat'] = $configuration->getPrintFormatReturn();
-            }
+        if ($configuration->getPrintFormatReturn()) {
+            $requestParams['retourePrintFormat'] = $configuration->getPrintFormatReturn();
         }
 
         return http_build_query($requestParams);
@@ -157,14 +156,16 @@ class OrderService implements ShipmentServiceInterface
 
     public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
+        if (!$configuration instanceof OrderConfigurationInterface) {
+            $configuration = new OrderConfiguration();
+        }
+
         $query = $this->getQuery(['validate' => 'true'], $configuration);
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, $query);
 
         try {
             $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
-            if ($configuration instanceof OrderConfigurationInterface) {
-                $shipmentOrderRequest->setProfile($configuration->getProfile());
-            }
+            $shipmentOrderRequest->setProfile($configuration->getProfile());
 
             $payload = $this->serializer->encode($shipmentOrderRequest);
             $stream = $this->streamFactory->createStream($payload);
@@ -187,6 +188,10 @@ class OrderService implements ShipmentServiceInterface
 
     public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
+        if (!$configuration instanceof OrderConfigurationInterface) {
+            $configuration = new OrderConfiguration();
+        }
+
         $query = $this->getQuery([], $configuration);
         $uri = sprintf('%s/%s', $this->baseUrl, self::OPERATION_ORDERS);
         if (!empty($query)) {
@@ -195,9 +200,7 @@ class OrderService implements ShipmentServiceInterface
 
         try {
             $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
-            if ($configuration instanceof OrderConfigurationInterface) {
-                $shipmentOrderRequest->setProfile($configuration->getProfile());
-            }
+            $shipmentOrderRequest->setProfile($configuration->getProfile());
 
             $payload = $this->serializer->encode($shipmentOrderRequest);
             $stream = $this->streamFactory->createStream($payload);
