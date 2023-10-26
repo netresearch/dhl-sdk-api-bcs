@@ -3,7 +3,7 @@
 The DHL Business Customer Shipping API SDK package offers an interface to the following web services:
 
 - [Geschäftskundenversand 3.1.2](https://entwickler.dhl.de/group/ep/wsapis/geschaeftskundenversand/current)
-- [DHL Parcel DE Shipping 2.1.4](https://developer.dhl.com/api-reference/parcel-de-shipping-post-parcel-germany-v2)
+- [DHL Parcel DE Shipping 2.1.6](https://developer.dhl.com/api-reference/parcel-de-shipping-post-parcel-germany-v2)
 
 ## Requirements
 
