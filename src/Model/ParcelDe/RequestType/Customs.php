@@ -109,6 +109,13 @@ class Customs implements \JsonSerializable
     private $hasElectronicExportNotification;
 
     /**
+     * Master Reference Number
+     *
+     * @var string|null
+     */
+    private $MRN;
+
+    /**
      * @param \JsonSerializable[]|CustomsItem[] $items
      * @param string $exportType
      */
@@ -170,6 +177,11 @@ class Customs implements \JsonSerializable
     public function setHasElectronicExportNotification(?bool $hasElectronicExportNotification): void
     {
         $this->hasElectronicExportNotification = $hasElectronicExportNotification;
+    }
+
+    public function setMRN(?string $MRN): void
+    {
+        $this->MRN = $MRN;
     }
 
     /**
