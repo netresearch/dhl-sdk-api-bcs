@@ -159,7 +159,7 @@ $requestBuilder->setRecipientAddress(
     $recipientStreet = 'Sträßchensweg',
     $recipientStreetNumber = '2'
 );
-$requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = '2019-09-09');
+$requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = new \DateTime());
 $requestBuilder->setPackageDetails($weightInKg = 2.4);
 
 $shipmentOrder = $requestBuilder->create();
@@ -218,7 +218,7 @@ $requestBuilder->setRecipientAddress(
     $recipientStreet = 'Sträßchensweg',
     $recipientStreetNumber = '2'
 );
-$requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = '2019-09-09');
+$requestBuilder->setShipmentDetails($productCode = 'V01PAK', $shipmentDate = new \DateTime());
 $requestBuilder->setPackageDetails($weightInKg = 2.4);
 
 $shipmentOrder = $requestBuilder->create();
