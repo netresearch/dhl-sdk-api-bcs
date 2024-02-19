@@ -164,7 +164,7 @@ class OrderService implements ShipmentServiceInterface
         $uri = sprintf('%s/%s?%s', $this->baseUrl, self::OPERATION_ORDERS, $query);
 
         try {
-            $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
+            $shipmentOrderRequest = $this->getShipmentOrderRequest(array_values($shipmentOrders));
             $shipmentOrderRequest->setProfile($configuration->getProfile());
 
             $payload = $this->serializer->encode($shipmentOrderRequest);
@@ -199,7 +199,7 @@ class OrderService implements ShipmentServiceInterface
         }
 
         try {
-            $shipmentOrderRequest = $this->getShipmentOrderRequest($shipmentOrders);
+            $shipmentOrderRequest = $this->getShipmentOrderRequest(array_values($shipmentOrders));
             $shipmentOrderRequest->setProfile($configuration->getProfile());
 
             $payload = $this->serializer->encode($shipmentOrderRequest);
