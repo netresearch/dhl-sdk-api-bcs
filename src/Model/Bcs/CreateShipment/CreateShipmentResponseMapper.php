@@ -40,7 +40,8 @@ class CreateShipmentResponseMapper
                 (string) $creationState->getLabelData()->getLabelData(),
                 (string) $creationState->getLabelData()->getReturnLabelData(),
                 (string) $creationState->getLabelData()->getExportLabelData(),
-                (string) $creationState->getLabelData()->getCodLabelData()
+                (string) $creationState->getLabelData()->getCodLabelData(),
+                (string) $creationState->getLabelData()->getLabelUrl()
             );
 
             return $shipment;

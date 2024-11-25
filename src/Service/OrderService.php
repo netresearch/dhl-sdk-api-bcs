@@ -135,6 +135,10 @@ class OrderService implements ShipmentServiceInterface
             $requestParams['retourePrintFormat'] = $configuration->getPrintFormatReturn();
         }
 
+        if ($configuration->getIncludeDocs()) {
+            $requestParams['includeDocs'] = 'URL';
+        }
+
         return http_build_query($requestParams);
     }
 

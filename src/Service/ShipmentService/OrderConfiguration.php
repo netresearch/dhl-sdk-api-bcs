@@ -42,13 +42,19 @@ class OrderConfiguration implements OrderConfigurationInterface
      */
     private $profile;
 
+    /**
+     * @var string|null
+     */
+    private $includeDocs;
+
     public function __construct(
         bool $mustEncode = null,
         bool $combinedPrinting = null,
         string $docFormat = null,
         string $printFormat = null,
         string $printFormatReturn = null,
-        string $profile = null
+        string $profile = null,
+        string $includeDocs = null
     ) {
         $this->mustEncode = $mustEncode;
         $this->combinedPrinting = $combinedPrinting;
@@ -56,6 +62,12 @@ class OrderConfiguration implements OrderConfigurationInterface
         $this->printFormat = $printFormat;
         $this->printFormatReturn = $printFormatReturn;
         $this->profile = $profile;
+        $this->includeDocs = $includeDocs;
+    }
+
+    public function getIncludeDocs(): ?string
+    {
+        return $this->includeDocs;
     }
 
     public function mustEncode(): ?bool

@@ -18,6 +18,8 @@ interface OrderConfigurationInterface
     public const DOC_FORMAT_ZPL2 = 'ZPL2';
     public const DOC_FORMAT_PDF = 'PDF';
 
+    public const INCLUDE_URL = 'URL';
+
     public const PRINT_FORMAT_A4 = 'A4';
     public const PRINT_FORMAT_910_300_600 = '910-300-600';
     public const PRINT_FORMAT_910_300_610 = '910-300-610';
@@ -89,4 +91,11 @@ interface OrderConfigurationInterface
      * @return string
      */
     public function getProfile(): string;
+
+    /**
+     * Ability to add label URL.
+     *
+     * @return string
+     */
+    public function getIncludeDocs(): ?string;
 }
