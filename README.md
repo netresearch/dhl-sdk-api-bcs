@@ -1,5 +1,12 @@
 # DHL BCS API SDK
 
+> **⚠️ DEPRECATION NOTICE**
+> 
+> This SDK is **no longer supported** and will be **archived in the near future**.
+> 
+> Please migrate to the new **DHL Parcel DE SDK** which only uses the modern REST API:
+> **https://github.com/netresearch/dhl-sdk-api-parcel-de**
+
 The DHL Business Customer Shipping API SDK package offers an interface to the following web services:
 
 - [Geschäftskundenversand 3.1.2](https://entwickler.dhl.de/group/ep/wsapis/geschaeftskundenversand/current)
