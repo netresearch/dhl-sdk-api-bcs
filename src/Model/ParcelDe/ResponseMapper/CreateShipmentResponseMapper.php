@@ -35,7 +35,7 @@ class CreateShipmentResponseMapper
                 (string) $index,
                 $item->getShipmentNo() ?? '',
                 $item->getReturnShipmentNo() ?? '',
-                $item->getLabel() instanceof Label ? (string) $item->getLabel()->getB64() : '',
+                $item->getLabel() instanceof Label ? ($item->getLabel()->getUrl() ? $item->getLabel()->getUrl() : (string) $item->getLabel()->getB64()) : '',
                 $item->getReturnLabel() instanceof Label ? (string) $item->getReturnLabel()->getB64() : '',
                 $item->getCustomsDoc() instanceof Label ? (string) $item->getCustomsDoc()->getB64() : '',
                 $item->getCodLabel() instanceof Label ? (string) $item->getCodLabel()->getB64() : ''
